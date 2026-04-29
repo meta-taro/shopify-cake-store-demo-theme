@@ -1,0 +1,34 @@
+# ============================================================
+# 行末コードを LF に統一（Windows / macOS 間の差異を吸収）
+# ============================================================
+
+* text=auto eol=lf
+
+# Liquid
+*.liquid text eol=lf
+
+# JSON
+*.json text eol=lf
+
+# CSS / Sass
+*.css text eol=lf
+*.scss text eol=lf
+
+# JavaScript
+*.js text eol=lf
+
+# Markdown
+*.md text eol=lf
+
+# バイナリ（変換しない）
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.svg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
