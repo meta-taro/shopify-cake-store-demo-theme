@@ -1,0 +1,1 @@
+# shopify-cake-store-demo-theme
