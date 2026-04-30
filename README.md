@@ -1,5 +1,13 @@
 # shopify-cake-store-demo-theme
 
+[![Shopify](https://img.shields.io/badge/Shopify-Online_Store_2.0-95BF47?logo=shopify&logoColor=white)](https://shopify.dev/docs/themes)
+[![Theme Base](https://img.shields.io/badge/Base-Rise-7AB55C?logo=shopify&logoColor=white)](https://themes.shopify.com/themes/rise)
+[![Liquid](https://img.shields.io/badge/Liquid-template-2196F3?logo=shopify&logoColor=white)](https://shopify.dev/docs/api/liquid)
+[![Node.js](https://img.shields.io/badge/Node.js-22_LTS-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Shopify CLI](https://img.shields.io/badge/Shopify_CLI-3.x-5E8E3E?logo=shopify&logoColor=white)](https://shopify.dev/docs/themes/tools/cli)
+[![Status](https://img.shields.io/badge/status-WIP-orange.svg)](#roadmap)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 Shopify Online Store 2.0 のテーマ開発を学ぶためのデモプロジェクト。架空のケーキ・スイーツEC「**Sweet Atelier**」向けに、Shopify 公式テーマ **Rise** をベースとしてカスタマイズしていく学習用テーマです。
 
 > 実在のサイト・ブランド・商品名・画像・文章は使用していません。すべてオリジナルのデモコンテンツで構築します。
