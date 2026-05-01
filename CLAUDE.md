@@ -46,11 +46,27 @@ shopify version
 
 ## Naming Conventions
 
-- セクションファイル: ケバブケース（例: `hero-banner.liquid`, `featured-products.liquid`）
-- スニペットファイル: ケバブケース（例: `product-card.liquid`, `icon-cart.liquid`）
-- CSS クラス: BEM ライク（例: `.product-card__title`, `.hero-banner--fullwidth`）
-- JavaScript: モジュール単位で `assets/` に配置（例: `product-card.js`）
-- Liquid 変数: スネークケース（例: `product_title`, `featured_collection`）
+すべてのファイル名は kebab-case。Rise / Dawn の慣習を踏襲。詳細表は README の `Conventions` セクション参照。
+
+### File prefix convention（要点）
+
+- `sections/main-*` → テンプレートのメイン領域専用（`main-product`, `main-cart-items` 等）
+- `sections/featured-*` → ホーム等の訴求枠（`featured-collection` 等）
+- `sections/cart-*` → カート関連
+- `snippets/card-*` → カード型UI部品（`card-product`, `card-collection`）
+- `snippets/icon-*` → アイコン
+- `snippets/header-*` → ヘッダー部品
+- `snippets/product-*` → 商品関連スニペット
+- `assets/component-*.css` → 再利用CSSコンポーネント
+- `assets/section-*.css` → セクション固有CSS
+- `assets/template-*.css` → テンプレート固有CSS
+
+### コード規約
+
+- CSS クラス: BEM ライク（`.product-card__title`, `.hero-banner--fullwidth`）
+- JavaScript: モジュール単位で `assets/` に配置、Vanilla JS (ES6+)
+- Liquid 変数: snake_case（`product_title`, `featured_collection`）
+- 新規セクション/スニペット作成時は上記プレフィックス慣習に従う。判断に迷う場合は機能ベース命名でOK
 
 ## Cross-Platform Notes
 

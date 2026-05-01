@@ -89,10 +89,43 @@ shopify theme dev --store {YOUR_STORE}.myshopify.com
 
 ## Conventions
 
-- **ファイル名**: kebab-case（例: `hero-banner.liquid`, `product-card.liquid`）
-- **CSS クラス**: BEM ライク（例: `.product-card__title`, `.hero-banner--fullwidth`）
-- **JavaScript**: モジュール単位で `assets/` に配置
-- **Liquid 変数**: snake_case（例: `product_title`, `featured_collection`）
+ファイル命名は Rise / Dawn の慣習を踏襲します。すべて **kebab-case**。
+
+### `sections/`
+
+| プレフィックス | 用途 | 例 |
+|---|---|---|
+| `main-*` | テンプレートのメイン領域専用セクション | `main-product`, `main-cart-items`, `main-collection-product-grid` |
+| `featured-*` | ホーム等の訴求枠 | `featured-collection`, `featured-product`, `featured-blog` |
+| `cart-*` | カート関連 | `cart-drawer`, `cart-notification-product` |
+| (機能名) | 汎用セクション | `image-banner`, `multicolumn`, `slideshow`, `header`, `footer` |
+
+### `snippets/`
+
+| プレフィックス | 用途 | 例 |
+|---|---|---|
+| `card-*` | カード型UI部品 | `card-product`, `card-collection`, `article-card` |
+| `icon-*` | アイコン | `icon-accordion` |
+| `header-*` | ヘッダー部品 | `header-mega-menu`, `header-search`, `header-drawer` |
+| `product-*` | 商品関連 | `product-media`, `product-variant-picker`, `product-thumbnail` |
+| (機能名) | 汎用スニペット | `pagination`, `price`, `meta-tags` |
+
+### `assets/`
+
+| プレフィックス | 用途 |
+|---|---|
+| `component-*.css` | 再利用 CSS コンポーネント（例: `component-card.css`, `component-cart-drawer.css`） |
+| `section-*.css` | セクション固有 CSS（例: `section-main-product.css`） |
+| `template-*.css` | テンプレート固有 CSS（例: `template-collection.css`） |
+| `icon-*.svg` | アイコン SVG |
+| (機能名).js | JavaScript モジュール（例: `cart.js`, `product-form.js`） |
+
+### コード規約
+
+- **CSS クラス**: BEM ライク（`.product-card__title`, `.hero-banner--fullwidth`）
+- **JavaScript**: モジュール単位で `assets/` に配置、Vanilla JS (ES6+)
+- **Liquid 変数**: snake_case（`product_title`, `featured_collection`）
+- **新規セクション/スニペット作成時**: 上記プレフィックス慣習に従う。判断に迷う場合は機能ベース命名でOK
 
 ## Cross-Platform Notes
 
@@ -112,6 +145,19 @@ shopify theme dev --store {YOUR_STORE}.myshopify.com
 ## Credits
 
 このテーマは Shopify 公式の **[Rise theme](https://themes.shopify.com/themes/rise)** をベースとして派生したものです。元テーマの著作権・ライセンスは Shopify Inc. に帰属します。本リポジトリで公開しているカスタマイズ部分は学習用の派生物であり、Rise theme の利用規約に従って使用してください。
+
+### Baseline 情報
+
+| 項目 | 値 |
+|---|---|
+| Theme name | Rise |
+| Theme version | **15.4.1** |
+| Author | Shopify |
+| Pull date | 2026-04-30 |
+| Baseline commit | [`b10336b`](https://github.com/meta-taro/shopify-cake-store-demo-theme/commit/b10336b) |
+| Source | 開発ストアにプリインストールされていた live theme を `shopify theme pull` で取得 |
+
+> Rise 本体が更新された場合は、新規ブランチで `shopify theme pull --new-store` 後、`b10336b` との diff を取って手動マージ判断する想定。
 
 ## License
 
