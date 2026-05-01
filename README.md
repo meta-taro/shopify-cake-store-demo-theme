@@ -73,6 +73,7 @@ shopify theme dev --store {YOUR_STORE}.myshopify.com
 | `shopify theme pull` | ストア → ローカルへ取得 |
 | `shopify theme list` | ストアにあるテーマ一覧 |
 | `shopify theme check` | テーマのリンター実行 |
+| `npm run screenshot:baseline` | ローカル dev サーバーから Phase 比較用スクリーンショット取得（[詳細](./docs/screenshots/README.md)） |
 
 ## Directory Structure
 

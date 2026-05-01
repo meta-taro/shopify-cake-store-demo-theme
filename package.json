@@ -1,0 +1,13 @@
+{
+  "name": "shopify-cake-store-demo-theme",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Tooling for the Sweet Atelier Demo Shopify theme (screenshot capture, etc.)",
+  "type": "module",
+  "scripts": {
+    "screenshot:baseline": "node scripts/capture-screenshots.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}
