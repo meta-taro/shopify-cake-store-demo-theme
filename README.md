@@ -159,7 +159,7 @@ shopify theme dev --store {YOUR_STORE}.myshopify.com
 
 > Rise 本体が更新された場合は、新規ブランチで `shopify theme pull --new-store` 後、`b10336b` との diff を取って手動マージ判断する想定。
 
-baseline 時点での `shopify theme check` 結果（自分のカスタマイズと Rise 由来の offense を切り分けるための基準値）は [`docs/theme-check-baseline.md`](./docs/theme-check-baseline.md) に記録。
+baseline 時点での `shopify theme check` 結果（自分のカスタマイズと Rise 由来の offense を切り分けるための基準値）は [`docs/theme-check-baseline.md`](./docs/theme-check-baseline.md) に記録。公開前の手動QAチェックリストは [`docs/qa-checklist.md`](./docs/qa-checklist.md)（Phase 完了ごとに育てる Living checklist）。
 
 ## License
 
