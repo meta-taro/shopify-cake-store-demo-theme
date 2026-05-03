@@ -35,6 +35,21 @@ Rise 15.4.1（baseline commit [`b10336b`](https://github.com/meta-taro/shopify-c
 | `sections/main-search.liquid` | 274 | `UnusedAssign` | `product_settings` 未使用 | Rise の取り残し |
 | `snippets/quick-order-product-row.liquid` | 1 | `OrphanedSnippet` | どこからも参照されない | Rise の B2B 用スニペット。本プロジェクトでは未使用 |
 
+## Phase 1 完了時 (2026-05-03)
+
+```
+168 files inspected with 11 total offenses found across 8 files.
+2 errors.
+9 warnings.
+```
+
+- 検査ファイル数: 168（baseline: 166、+2 は `package.json` / `scripts/capture-screenshots.mjs` の追加分）
+- offense 合計: 11（baseline と同じ顔ぶれ）
+- baseline からの増減: ±0
+- 新規追加分（自分起因）: なし
+
+→ Phase 1 はストア設定・商品/コレクション登録・ロケール調整中心で、Liquid/CSS/JS の改変はゼロ。差分が出ないのが期待通り。
+
 ## 運用ルール
 
 - **Phase 完了ごと**に `shopify theme check` を再実行し、件数を比較する
