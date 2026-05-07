@@ -1,0 +1,106 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "info_grid": {
+      "type": "multicolumn",
+      "settings": {
+        "title": "お届けについて",
+        "heading_size": "h2",
+        "image_width": "full",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "button_label": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 28,
+        "padding_bottom": 28
+      },
+      "blocks": {
+        "col_area": {
+          "type": "column",
+          "settings": {
+            "title": "配送エリア",
+            "text": "<p>全国(沖縄・離島含む)へヤマト運輸クール便でお届けいたします。一部離島では追加日数を頂戴する場合がございます。</p>"
+          }
+        },
+        "col_fee": {
+          "type": "column",
+          "settings": {
+            "title": "送料",
+            "text": "<p>本州 ¥980 / 北海道・四国・九州 ¥1,280 / 沖縄 ¥1,800<br>商品代金 ¥10,000 以上のご注文で送料無料(沖縄を除く)</p>"
+          }
+        },
+        "col_lead": {
+          "type": "column",
+          "settings": {
+            "title": "最短お届け",
+            "text": "<p>ご注文日から最短 3 営業日後よりお届け日をご指定いただけます。お届け時間帯は午前中・14:00〜21:00 の各 2 時間枠からお選びください。</p>"
+          }
+        }
+      },
+      "block_order": ["col_area", "col_fee", "col_lead"]
+    },
+    "closed_day": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      },
+      "blocks": {
+        "heading_closed": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p>定休日について</p>",
+            "heading_size": "h2"
+          }
+        },
+        "text_closed": {
+          "type": "text",
+          "settings": {
+            "text": "<p>毎週水曜は工房の定休日のため、配送・発送業務をお休みしております。<br>水曜日にお届け希望日を設定された場合は自動でエラーとなりますので、別の曜日をお選びください。<br>ゴールデンウィーク・お盆・年末年始は別途、トップページのお知らせバーにてご案内いたします。</p>"
+          }
+        }
+      },
+      "block_order": ["heading_closed", "text_closed"]
+    },
+    "frozen_shipping": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-2",
+        "full_width": true,
+        "padding_top": 28,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "heading_frozen": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p>冷凍配送と解凍方法</p>",
+            "heading_size": "h2"
+          }
+        },
+        "text_frozen": {
+          "type": "text",
+          "settings": {
+            "text": "<p>当店のケーキはすべて冷凍状態でお届けいたします。お受け取り後すぐに冷凍庫(-18℃以下)にて保管し、お召し上がりの 6〜8 時間前に冷蔵庫へ移して自然解凍してください。<br>常温解凍はクリームのダレや風味の劣化を招くため、お控えくださいませ。<br>解凍後はお早めに(目安 24 時間以内)お召し上がりください。</p>"
+          }
+        }
+      },
+      "block_order": ["heading_frozen", "text_frozen"]
+    }
+  },
+  "order": ["main", "info_grid", "closed_day", "frozen_shipping"]
+}
