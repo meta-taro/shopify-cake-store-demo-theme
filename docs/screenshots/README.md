@@ -6,11 +6,11 @@ Phase ごとの「Before / After」比較用にストアフロントのスクリ
 
 ```
 docs/screenshots/
-├── baseline/          # Phase 0: Rise 純正のまま
+├── baseline/          # Phase 0: Rise 純正のまま (2026-05-01)
 │   ├── desktop/       # 1280x900 viewport
 │   └── mobile/        # 390x844 viewport (iPhone 14 相当)
-├── phase-1/           # Phase 1 完了時（予定）
-├── phase-2/           # Phase 2 完了時（予定）
+├── phase-1/           # Phase 1 完了時 (2026-05-03)
+├── phase-2/           # Phase 2 完了時 (2026-05-07)
 └── ...
 ```
 
@@ -20,7 +20,23 @@ docs/screenshots/
 - `02-cart-empty.png` — 空カート
 - `03-not-found.png` — 404 ページ
 
-（Phase 1 以降で商品が登録されたら `04-product.png`, `05-collection.png` 等を追加予定）
+（Phase 3 以降で商品ページの本格カスタマイズが入ったら `04-product.png`, `05-collection.png` 等を追加予定）
+
+## Phase 別の差分メモ
+
+### baseline → phase-1 (2026-05-03)
+- ロゴ「Sweet Atelier」表示、配色（オフホワイト/カカオブラウン/くすみピンク）適用
+- メインメニューが「アニバーサリー / 季節のケーキ / ギフト / 焼き菓子 / お問い合わせ」に
+- 告知バー（GW休業 / 季節のケーキ / 全国送料無料）追加
+- ストア言語 = 日本語、UI ラベル全和訳化
+
+### phase-1 → phase-2 (2026-05-07)
+- ヒーロー: マーブル背景の季節ケーキ画像 + 80% 透過テキストパネル + CTA「季節のケーキを見る」
+- 特集コレクション: 「定番のケーキ」signature 商品（4 列）
+- コレクションリスト: 5 タイル順（定番→季節→アニバーサリー→ギフト→焼き菓子）
+- キャンペーン (multicolumn): 春キャンペーン + 2+1 の 2 列横並び（モバイル縦積み）
+- ブランド紹介 (image-banner): Sweet Atelier 横長
+- レビュー10%OFFクーポン (image-banner): 横長
 
 ## 撮り方
 
