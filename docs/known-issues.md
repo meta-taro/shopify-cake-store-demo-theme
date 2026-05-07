@@ -137,7 +137,37 @@ Rise の `--color-*` 変数は `theme.liquid:63` で **コンマ区切り** (`R,
 
 ---
 
-## 7. Shopify CLI トークンの期限切れ
+## 7. `shopify theme pull` がローカル変更を上書きする
+
+### 内容
+
+`shopify theme dev` でローカル編集中の変更が、`shopify theme pull` 実行で **live テーマ（手付かず状態）に上書きされて消える**。
+
+### 理由
+
+`theme dev` はローカル → 一時プレビュー環境への片方向同期で、live テーマには書き込まない。一方 `theme pull` は **live → ローカルの強制上書き**。ローカルでしか変更していない場合、live は古い状態のままなので、pull で全部消える。
+
+### 実例
+
+Phase 3a/3b 作業中、`templates/product.json` をローカルで編集（icon-trust / collapsible_tab × 5 を追加）。`theme dev` で localhost:9292 に反映済み、しかし `theme push` していない状態で `theme pull` を実行 → live の Rise オリジナル状態でローカルが上書きされて変更が全消失。
+
+### 対応
+
+| 状況 | コマンド |
+|---|---|
+| ローカル変更を live に固定したい | `shopify theme push` |
+| 別端末や admin で編集された live を取り込みたい | `shopify theme pull` （ローカル変更がない or commit 済みであることを確認） |
+| 普段の開発 | `shopify theme dev` のみで十分。`pull` / `push` は意識的に判断 |
+
+### 予防
+
+- `theme pull` 前に **`git status` で未 commit 変更がないか確認**
+- 不安なら `git stash` してから pull
+- live を Theme Editor で誰かが編集したか怪しい時のみ `pull`
+
+---
+
+## 8. Shopify CLI トークンの期限切れ
 
 ### 内容
 
