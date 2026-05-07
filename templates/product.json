@@ -61,6 +61,58 @@
             "inventory_threshold": 10,
             "show_inventory_quantity": true
           }
+        },
+        "icon-trust": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "horizontal",
+            "icon_1": "snowflake",
+            "heading_1": "冷凍配送",
+            "icon_2": "box",
+            "heading_2": "お届け日指定",
+            "icon_3": "clipboard",
+            "heading_3": "アレルゲン記載"
+          }
+        },
+        "tab-spec": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "商品仕様",
+            "icon": "clipboard",
+            "content": "<ul><li>サイズ：3〜6号（商品により異なります）</li><li>内容量：1台</li><li>賞味期限：解凍後、お早めにお召し上がりください</li><li>保存方法：要冷凍（-18℃以下）</li><li>製造者：Sweet Atelier</li></ul>"
+          }
+        },
+        "tab-size-guide": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "サイズの目安",
+            "icon": "ruler",
+            "content": "<p>ホールサイズの目安です。ご利用人数の参考にしてください。</p><ul><li><strong>3号</strong>（直径 約 9cm）／2〜3名様</li><li><strong>4号</strong>（直径 約 12cm）／3〜4名様</li><li><strong>5号</strong>（直径 約 15cm）／5〜6名様</li><li><strong>6号</strong>（直径 約 18cm）／7〜8名様</li><li><strong>7号</strong>（直径 約 21cm）／9〜10名様</li></ul><p>※ ロールケーキ・焼き菓子・カットケーキ等は形状が異なるため「商品仕様」をご確認ください。</p>"
+          }
+        },
+        "tab-storage": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "保存方法・解凍方法",
+            "icon": "snowflake",
+            "content": "<p><strong>保存：</strong>到着後はすぐに冷凍庫（-18℃以下）で保管してください。</p><p><strong>解凍：</strong>お召し上がりになる4〜6時間前に冷蔵庫（10℃以下）に移し、ゆっくり解凍してください。直射日光・常温解凍は避けてください。</p><p>解凍後はその日のうちにお召し上がりいただくことをおすすめします。</p>"
+          }
+        },
+        "tab-shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "配送について",
+            "icon": "truck",
+            "content": "<p>全国へ冷凍便（クール便）でお届けします。送料は地域・サイズにより異なります。</p><p>ご注文確定後、最短3営業日でお届け可能です。お届け日のご指定はカート画面で承ります（一部地域・繁忙期を除く）。</p><p>店舗休業日（毎週水曜）は出荷を行いません。</p>"
+          }
+        },
+        "tab-allergen": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "アレルゲン情報",
+            "icon": "leaf",
+            "content": "<p>本商品の主な原材料は商品ページの「商品仕様」または商品説明欄をご確認ください。</p><p>製造工程上、特定原材料7品目（卵・乳・小麦・そば・落花生・えび・かに）を含む製品と同一施設で製造しています。</p><p>アレルギーをお持ちの方は、ご注文前にお問い合わせフォームよりお問い合わせください。</p>"
+          }
         }
       },
       "block_order": [
@@ -71,7 +123,13 @@
         "variant-picker",
         "quantity-selector",
         "buy_buttons",
-        "product-inventory"
+        "product-inventory",
+        "icon-trust",
+        "tab-spec",
+        "tab-size-guide",
+        "tab-storage",
+        "tab-shipping",
+        "tab-allergen"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -85,53 +143,6 @@
         "mobile_thumbnails": "show",
         "hide_variants": true,
         "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible-content": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible-row-0": {
-          "type": "collapsible_row",
-          "settings": {
-            "icon": "none",
-            "row_content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-1": {
-          "type": "collapsible_row",
-          "settings": {
-            "icon": "none",
-            "row_content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-2": {
-          "type": "collapsible_row",
-          "settings": {
-            "icon": "none",
-            "row_content": "",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible-row-0",
-        "collapsible-row-1",
-        "collapsible-row-2"
-      ],
-      "settings": {
-        "caption": "",
-        "heading_size": "h1",
-        "heading_alignment": "center",
-        "layout": "section",
-        "color_scheme": "scheme-1",
-        "container_color_scheme": "scheme-1",
-        "open_first_collapsible_row": true,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -156,7 +167,6 @@
   },
   "order": [
     "main",
-    "collapsible-content",
     "related-products"
   ]
 }
