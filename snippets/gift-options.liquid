@@ -1,0 +1,134 @@
+{% comment %}
+  Renders Sweet Atelier gift options as line item properties.
+  Skipped for gift card products (they have their own recipient form).
+
+  Accepts:
+  - section_id: {String} unique section id for input ids and JS scoping
+  - product: {Object} for gift_card? check
+{% endcomment %}
+
+{%- unless product.gift_card? -%}
+  {{ 'component-gift-options.css' | asset_url | stylesheet_tag }}
+
+  <fieldset
+    class="gift-options"
+    data-gift-options="{{ section_id }}"
+  >
+    <legend class="gift-options__legend">
+      ギフトオプション
+      <span class="gift-options__optional">（任意）</span>
+    </legend>
+
+    <div class="gift-options__field gift-options__field--checkbox">
+      <input
+        type="checkbox"
+        id="GiftNoshi-{{ section_id }}"
+        name="properties[熨斗]"
+        value="希望する"
+        class="gift-options__checkbox-input"
+        data-gift-toggle="noshi"
+      >
+      <label for="GiftNoshi-{{ section_id }}" class="gift-options__checkbox-label">
+        熨斗をお付けする
+      </label>
+    </div>
+
+    <div
+      class="gift-options__nested"
+      data-gift-nested="noshi"
+      hidden
+    >
+      <div class="gift-options__field">
+        <label class="form__label" for="GiftNoshiPurpose-{{ section_id }}">熨斗の用途</label>
+        <div class="select">
+          <select
+            id="GiftNoshiPurpose-{{ section_id }}"
+            name="properties[熨斗の用途]"
+            class="select__select"
+            disabled
+          >
+            <option value="">選択してください</option>
+            <option value="御祝">御祝</option>
+            <option value="内祝">内祝</option>
+            <option value="お誕生日">お誕生日</option>
+            <option value="お礼">お礼</option>
+            <option value="その他">その他</option>
+          </select>
+          <span class="svg-wrapper">
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </span>
+        </div>
+      </div>
+
+      <div class="gift-options__field">
+        <div class="field">
+          <input
+            type="text"
+            id="GiftNoshiName-{{ section_id }}"
+            name="properties[熨斗の名入れ]"
+            class="field__input"
+            placeholder=" "
+            maxlength="20"
+            disabled
+          >
+          <label for="GiftNoshiName-{{ section_id }}" class="field__label">
+            名入れ（任意・20字まで）
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="gift-options__field">
+      <label class="form__label" for="GiftMessage-{{ section_id }}">
+        メッセージカード（任意・100字まで）
+      </label>
+      <textarea
+        id="GiftMessage-{{ section_id }}"
+        name="properties[メッセージカード]"
+        class="gift-options__textarea text-area"
+        maxlength="100"
+        rows="3"
+        placeholder="お祝いメッセージなどをご記入ください"
+      ></textarea>
+    </div>
+
+    <div class="gift-options__field gift-options__field--checkbox">
+      <input
+        type="checkbox"
+        id="GiftWrapping-{{ section_id }}"
+        name="properties[ギフトラッピング]"
+        value="希望する"
+        class="gift-options__checkbox-input"
+      >
+      <label for="GiftWrapping-{{ section_id }}" class="gift-options__checkbox-label">
+        ギフトラッピングを付ける（無料）
+      </label>
+    </div>
+  </fieldset>
+
+  <script>
+    (function () {
+      var root = document.querySelector('[data-gift-options="{{ section_id }}"]');
+      if (!root) return;
+      var toggle = root.querySelector('[data-gift-toggle="noshi"]');
+      var nested = root.querySelector('[data-gift-nested="noshi"]');
+      if (!toggle || !nested) return;
+      var fields = nested.querySelectorAll('input, select, textarea');
+
+      function update() {
+        var on = toggle.checked;
+        nested.hidden = !on;
+        fields.forEach(function (f) {
+          f.disabled = !on;
+          if (!on) {
+            if (f.tagName === 'SELECT') f.selectedIndex = 0;
+            else f.value = '';
+          }
+        });
+      }
+
+      toggle.addEventListener('change', update);
+      update();
+    })();
+  </script>
+{%- endunless -%}
