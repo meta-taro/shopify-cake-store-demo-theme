@@ -482,6 +482,30 @@
   color: rgba(var(--color-foreground), 0.75);
 }
 
+/*
+ * Sweet Atelier tag-based badges (新商品 / 季節限定 / 人気)
+ * Rendered via snippets/card-product-extra-badge.liquid as a fallback when
+ * the product is not sold out and not on sale.
+ * Uses fixed brand hues (overrides .badge defaults) for visual differentiation.
+ */
+.badge--new {
+  background-color: #5b8c7b !important;
+  border-color: #5b8c7b !important;
+  color: #ffffff !important;
+}
+
+.badge--seasonal {
+  background-color: #d98a5a !important;
+  border-color: #d98a5a !important;
+  color: #ffffff !important;
+}
+
+.badge--popular {
+  background-color: #a64458 !important;
+  border-color: #a64458 !important;
+  color: #ffffff !important;
+}
+
 .card-information > .rating {
   margin-top: 0.4rem;
 }

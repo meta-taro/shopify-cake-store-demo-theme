@@ -1,0 +1,34 @@
+{% comment %}
+  Renders one tag-based badge (新商品 / 季節限定 / 人気) inside card__badge.
+  Shown only when the product isn't sold out and isn't on sale.
+
+  Tag priority (first match wins): popular > seasonal > new
+
+  Accepts:
+  - card_product: {Object}
+  - badge_id: {String} unique id (matches aria-labelledby in card heading link)
+{% endcomment %}
+
+{%- liquid
+  assign extra_label = ''
+  assign extra_class = ''
+  if card_product.tags contains 'popular'
+    assign extra_label = '人気'
+    assign extra_class = 'badge--popular'
+  elsif card_product.tags contains 'seasonal'
+    assign extra_label = '季節限定'
+    assign extra_class = 'badge--seasonal'
+  elsif card_product.tags contains 'new'
+    assign extra_label = '新商品'
+    assign extra_class = 'badge--new'
+  endif
+-%}
+
+{%- if extra_label != blank -%}
+  <span
+    id="{{ badge_id }}"
+    class="badge badge--bottom-left {{ extra_class }}"
+  >
+    {{- extra_label -}}
+  </span>
+{%- endif -%}

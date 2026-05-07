@@ -111,6 +111,9 @@
       {%- if product.selected_or_first_available_variant.unit_price_measurement -%}
         {% render 'unit-price', price: product.selected_or_first_available_variant.unit_price, measurement: product.selected_or_first_available_variant.unit_price_measurement %}
       {%- endif -%}
+      {%- unless placeholder -%}
+        <span class="price__tax-suffix" aria-hidden="true">税込</span>
+      {%- endunless -%}
     </div>
     {%- if show_badges -%}
       <span class="badge price__badge-sale color-{{ settings.sale_badge_color_scheme }}">

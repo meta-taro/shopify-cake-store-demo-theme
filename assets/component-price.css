@@ -79,6 +79,21 @@
   flex-wrap: wrap;
 }
 
+/*
+ * Sweet Atelier 税込 suffix
+ * Shown after the price (and unit-price) inline.
+ * Mirrors the muted treatment used in Japanese EC convention.
+ */
+.price__tax-suffix {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.05rem;
+  color: rgba(var(--color-foreground), 0.65);
+  vertical-align: baseline;
+}
+
 .price--center {
   display: initial;
   justify-content: center;

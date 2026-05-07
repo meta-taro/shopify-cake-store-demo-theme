@@ -139,6 +139,9 @@
               >
                 {{- 'products.product.on_sale' | t -}}
               </span>
+            {%- else -%}
+              {%- capture nomedia_badge_id -%}NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}{%- endcapture -%}
+              {%- render 'card-product-extra-badge', card_product: card_product, badge_id: nomedia_badge_id -%}
             {%- endif -%}
           </div>
         </div>
@@ -563,6 +566,9 @@
             >
               {{- 'products.product.on_sale' | t -}}
             </span>
+          {%- else -%}
+            {%- capture standard_badge_id -%}Badge-{{ section_id }}-{{ card_product.id }}{%- endcapture -%}
+            {%- render 'card-product-extra-badge', card_product: card_product, badge_id: standard_badge_id -%}
           {%- endif -%}
         </div>
       </div>
