@@ -60,6 +60,7 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
+        {%- render 'delivery-date-picker', section_id: section_id, product: product -%}
         {%- render 'gift-options', section_id: section_id, product: product -%}
 
         <div class="product-form__buttons">

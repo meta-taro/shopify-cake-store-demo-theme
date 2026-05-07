@@ -1,0 +1,105 @@
+{% comment %}
+  Renders Sweet Atelier delivery date picker as line item properties.
+  Skipped for gift card products (intangible).
+
+  - お届け希望日: HTML5 date input with min/max + 水曜除外 JS
+  - お届け時間帯: select (Yamato-style time slots)
+
+  Accepts:
+  - section_id: {String} unique section id
+  - product: {Object} for gift_card? check
+{% endcomment %}
+
+{%- unless product.gift_card? -%}
+  {{ 'component-delivery-date.css' | asset_url | stylesheet_tag }}
+
+  {%- liquid
+    # 最短: 今日 + 3 日（72 時間 = 259200 秒）
+    # 受注上限: 今日 + 30 日（2592000 秒）
+    assign min_date = 'now' | date: '%s' | plus: 259200 | date: '%Y-%m-%d'
+    assign max_date = 'now' | date: '%s' | plus: 2592000 | date: '%Y-%m-%d'
+  -%}
+
+  <fieldset
+    class="delivery-date"
+    data-delivery-date="{{ section_id }}"
+  >
+    <legend class="delivery-date__legend">
+      お届け日のご指定
+      <span class="delivery-date__optional">（任意）</span>
+    </legend>
+
+    <div class="delivery-date__field">
+      <label class="form__label" for="DeliveryDate-{{ section_id }}">
+        お届け希望日
+      </label>
+      <input
+        type="date"
+        id="DeliveryDate-{{ section_id }}"
+        name="properties[お届け希望日]"
+        class="delivery-date__input field__input"
+        min="{{ min_date }}"
+        max="{{ max_date }}"
+        data-delivery-date-input
+      >
+      <p class="delivery-date__note">
+        ご注文日から最短3営業日後よりお選びいただけます。<br>
+        毎週水曜（定休日）は配送を承れません。
+      </p>
+      <p class="delivery-date__warning" data-delivery-warning hidden>
+        ※ 水曜日は定休日のため配送できません。別の日をお選びください。
+      </p>
+    </div>
+
+    <div class="delivery-date__field">
+      <label class="form__label" for="DeliveryTime-{{ section_id }}">
+        お届け時間帯
+      </label>
+      <div class="select">
+        <select
+          id="DeliveryTime-{{ section_id }}"
+          name="properties[お届け時間帯]"
+          class="select__select"
+        >
+          <option value="">指定なし</option>
+          <option value="午前中">午前中</option>
+          <option value="14:00〜16:00">14:00〜16:00</option>
+          <option value="16:00〜18:00">16:00〜18:00</option>
+          <option value="18:00〜20:00">18:00〜20:00</option>
+          <option value="19:00〜21:00">19:00〜21:00</option>
+        </select>
+        <span class="svg-wrapper">
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </span>
+      </div>
+    </div>
+  </fieldset>
+
+  <script>
+    (function () {
+      var root = document.querySelector('[data-delivery-date="{{ section_id }}"]');
+      if (!root) return;
+      var input = root.querySelector('[data-delivery-date-input]');
+      var warning = root.querySelector('[data-delivery-warning]');
+      if (!input || !warning) return;
+
+      input.addEventListener('change', function () {
+        if (!input.value) {
+          warning.hidden = true;
+          return;
+        }
+        // Date string is YYYY-MM-DD; parsing as local avoids TZ surprise
+        var parts = input.value.split('-');
+        var d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+        var weekday = d.getDay(); // 0=Sun,1=Mon,...,3=Wed
+        if (weekday === 3) {
+          warning.hidden = false;
+          input.value = '';
+          input.focus();
+        } else {
+          warning.hidden = true;
+        }
+      });
+    })();
+  </script>
+{%- endunless -%}

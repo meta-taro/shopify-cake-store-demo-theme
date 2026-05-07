@@ -1,0 +1,81 @@
+/*
+ * Delivery Date Picker (line item properties)
+ * Used inside <form 'product'> via snippets/delivery-date-picker.liquid
+ *
+ * Style intentionally mirrors component-gift-options.css for visual consistency.
+ * --color-* variables are comma-separated (R,G,B) — use rgba() legacy syntax.
+ */
+
+.delivery-date {
+  margin: 1.6rem 0;
+  padding: 1.6rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  border-radius: var(--inputs-radius, 0.4rem);
+  background: rgba(var(--color-foreground), 0.03);
+}
+
+.delivery-date__legend {
+  padding: 0 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.04rem;
+  color: rgba(var(--color-foreground), 0.85);
+}
+
+.delivery-date__optional {
+  margin-left: 0.4rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.delivery-date__field {
+  margin-top: 1.2rem;
+}
+
+.delivery-date__field:first-of-type {
+  margin-top: 0.6rem;
+}
+
+.delivery-date__input {
+  width: 100%;
+  max-width: 28rem;
+  padding: 1rem 1.2rem;
+  font-family: inherit;
+  font-size: 1.4rem;
+  color: rgb(var(--color-foreground));
+  background: rgb(var(--color-background));
+  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
+  border-radius: var(--inputs-radius, 0.4rem);
+  box-sizing: border-box;
+}
+
+.delivery-date__input:focus,
+.delivery-date__input:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  outline-offset: 0.3rem;
+  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
+    0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
+}
+
+.delivery-date__note {
+  margin: 0.6rem 0 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: rgba(var(--color-foreground), 0.65);
+}
+
+.delivery-date__warning {
+  margin: 0.6rem 0 0;
+  padding: 0.6rem 0.8rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: rgb(var(--color-foreground));
+  background: rgba(var(--color-foreground), 0.08);
+  border-left: 0.3rem solid rgba(var(--color-foreground), 0.5);
+  border-radius: 0.2rem;
+}
+
+.delivery-date__warning[hidden] {
+  display: none;
+}
