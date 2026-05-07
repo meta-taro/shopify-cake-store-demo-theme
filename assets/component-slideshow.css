@@ -199,3 +199,16 @@ slideshow-component:not(.page-width) .slider-buttons {
   opacity: 0;
   transform: scale(0.8);
 }
+
+/* ===================================================================
+   Sweet Atelier custom overrides
+   =================================================================== */
+
+/* ヒーローのコンテナーを半透明（不透明度 0.8）にしてマーブル背景をうっすら透かす
+   --color-background は theme.liquid でコンマ区切り (R,G,B) で定義されているため、
+   rgb(... / a) のスラッシュ記法は使えず、rgba(R,G,B,a) のレガシー記法を使う */
+.slideshow .slideshow__text.banner__box.gradient {
+  background: rgba(var(--color-background), 0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}

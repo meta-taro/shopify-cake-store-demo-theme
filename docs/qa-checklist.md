@@ -102,8 +102,49 @@
 - ホーム: ヒーローセクションのコピー・CTA は未設定（Phase 2）
 - 決済テスト（Bogus Gateway）は Phase 3 末尾で実施予定
 
-### Phase 2: トップページカスタマイズ
-（Phase 2 完了時にここへ追記）
+### Phase 2: トップページカスタマイズ（2026-05-07 完了）
+
+ホームページをデフォルトの Rise プレースホルダーから Sweet Atelier 仕様に差し替えた範囲の確認項目。
+
+#### ヒーロー（slideshow）
+- [ ] ヒーロー画像 `01-hero-seasonal.png`（マーブル背景）が表示
+- [ ] 見出し「季節のケーキ、はじめました」が表示
+- [ ] サブ「春の素材を、ひと皿に。」が表示
+- [ ] CTA「季節のケーキを見る」→ `/collections/seasonal` 遷移
+- [ ] テキストパネルが半透明（不透明度 0.8、`rgba(var(--color-background), 0.8)`）でマーブルがうっすら透ける
+- [ ] `backdrop-filter: blur(4px)` で背景がぼかされている
+
+#### 特集コレクション（featured-collection）
+- [ ] 「定番のケーキ」見出しが表示
+- [ ] `signature` コレクションの 2 商品が 4 列レイアウトで表示
+- [ ] 「すべて見る」ボタンは現在非表示（商品数 ≤ products_to_show=4、Rise 仕様で自動制御）
+
+#### コレクションリスト（collection-list）
+- [ ] 5 タイル: **定番→季節のケーキ→アニバーサリー→ギフト→焼き菓子** の順
+- [ ] 各タイルに対応した画像 `02-06` が表示
+- [ ] タイルクリックで該当 `/collections/{handle}` に遷移
+
+#### キャンペーン（multicolumn）
+- [ ] デスクトップ：`07-campaign-spring.png` と `08-campaign-2plus1.png` が 2 列横並び
+- [ ] モバイル：自動縦積み（`columns_mobile: "1"`）
+- [ ] 焼込テキストが切れずに全文読める（`image_ratio: "adapt"` 動作）
+
+#### ブランド紹介（image-banner）
+- [ ] `10-brand-intro.png` が 3:1 で全幅表示
+- [ ] 焼込テキストが切れない（`image_height: "adapt"`）
+
+#### レビュークーポン（image-banner）
+- [ ] `09-campaign-review-coupon.png` が表示・テキスト切れなし
+
+#### レスポンシブ
+- [ ] PC（1280×900）：全セクション横並びで崩れなし
+- [ ] モバイル（390×844）：全セクション縦積みで読みやすい
+
+#### 既知の未対応（Phase 3 以降）
+- キャンペーン 2 画像（07/08）にクリック先リンク未設定（学習デモなので必要に応じて追加）
+- ブランド紹介画像（10）にもリンク未設定
+- `特集コレクション` の「すべて見る」は signature 商品数を増やせば自動表示される
+- `shopify theme check` の 2 errors / 9 warnings は Rise ベースライン由来で受け入れ済み（`memory/project_theme_check_baseline.md` 参照）
 
 ### Phase 3: 商品カード・商品詳細・カートUX
 （Phase 3 完了時にここへ追記）
