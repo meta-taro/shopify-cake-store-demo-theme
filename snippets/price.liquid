@@ -123,6 +123,9 @@
       <span class="badge price__badge-sold-out color-{{ settings.sold_out_badge_color_scheme }}">
         {{ 'products.product.sold_out' | t }}
       </span>
+
+      {%- capture price_extra_badge_id -%}PriceExtraBadge-{{ product.id }}{%- endcapture -%}
+      {%- render 'card-product-extra-badge', card_product: product, badge_id: price_extra_badge_id -%}
     {%- endif -%}
   </div>
 {% endunless %}
