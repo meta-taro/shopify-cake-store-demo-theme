@@ -61,7 +61,7 @@
         "heading_closed": {
           "type": "heading",
           "settings": {
-            "heading": "<p>定休日について</p>",
+            "heading": "定休日について",
             "heading_size": "h2"
           }
         },
@@ -88,7 +88,7 @@
         "heading_frozen": {
           "type": "heading",
           "settings": {
-            "heading": "<p>冷凍配送と解凍方法</p>",
+            "heading": "冷凍配送と解凍方法",
             "heading_size": "h2"
           }
         },
