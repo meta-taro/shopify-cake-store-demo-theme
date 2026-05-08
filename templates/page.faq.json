@@ -1,0 +1,164 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "faq_intro": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 12,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "intro_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "よくあるご質問",
+            "heading_size": "h1"
+          }
+        },
+        "intro_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>お問い合わせの前に、こちらをご確認ください。<br>解決しない場合はページ下部のお問い合わせフォームよりご連絡くださいませ。</p>"
+          }
+        }
+      },
+      "block_order": ["intro_heading", "intro_text"]
+    },
+    "faq_main": {
+      "type": "collapsible-content",
+      "settings": {
+        "caption": "",
+        "heading": "ご注文・お届けについて",
+        "heading_size": "h2",
+        "layout": "none",
+        "open_first_collapsible_row": false,
+        "container_color_scheme": "background-2",
+        "color_scheme": "background-1",
+        "padding_top": 28,
+        "padding_bottom": 28
+      },
+      "blocks": {
+        "q_cancel": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "注文確定後にキャンセル・変更はできますか?",
+            "icon": "question_mark",
+            "row_content": "<p>ご注文確定後のキャンセル・変更は、お届け希望日の 5 日前までにお問い合わせフォームよりご連絡ください。それ以降は、すでに製造工程に入っているためご対応いたしかねます。</p>"
+          }
+        },
+        "q_delivery_window": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "お届け日・時間帯はどう指定しますか?",
+            "icon": "truck",
+            "row_content": "<p>商品ページの「お届け希望日」欄でご指定ください。ご注文日から最短 3 営業日後より、30 日先までお選びいただけます。<br>時間帯は午前中・14:00〜21:00 の各 2 時間枠からお選びください。</p>"
+          }
+        },
+        "q_wednesday": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "水曜日には届けてもらえますか?",
+            "icon": "lock",
+            "row_content": "<p>毎週水曜は工房の定休日のため、配送・発送業務をお休みしております。水曜のお届けはお選びいただけませんので、別の曜日をお選びくださいませ。</p>"
+          }
+        },
+        "q_frozen": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "冷凍便で届きますか? 解凍方法を教えてください",
+            "icon": "snowflake",
+            "row_content": "<p>当店のケーキはすべてヤマト運輸クール便で冷凍配送いたします。お受け取り後、冷凍庫(-18℃以下)で保管し、お召し上がりの 6〜8 時間前に冷蔵庫へ移して自然解凍してください。<br>常温解凍はクリームのダレや風味劣化の原因となりますので、お控えください。解凍後は 24 時間以内にお召し上がりください。</p>"
+          }
+        },
+        "q_gift": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "メッセージカードや熨斗は付けられますか?",
+            "icon": "heart",
+            "row_content": "<p>商品ページの「ギフトオプション」より、メッセージカード(無料・100 字まで)、熨斗(用途・名入れ指定可)、ギフトラッピング(無料)をお選びいただけます。お祝い・内祝・お誕生日など、用途に合わせてご利用ください。</p>"
+          }
+        },
+        "q_allergen": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "アレルゲン情報はどこで確認できますか?",
+            "icon": "clipboard",
+            "row_content": "<p>各商品ページ下部の「アレルゲン情報」タブにて、特定原材料 8 品目および特定原材料に準ずるもの 20 品目の使用有無を表示しております。<br>同一の工房で乳・卵・小麦・落花生・くるみを含む製品を製造しておりますので、コンタミネーションの可能性についてはあらかじめご了承ください。</p>"
+          }
+        },
+        "q_shelf_life": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "賞味期限はどのくらいですか?",
+            "icon": "stopwatch",
+            "row_content": "<p>冷凍状態で 30 日、解凍後は 24 時間以内が目安です。商品ごとの詳しい賞味期限は商品ページの「保存方法」タブをご確認ください。</p>"
+          }
+        },
+        "q_shipping_fee": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "送料はいくらですか? 送料無料の条件はありますか?",
+            "icon": "box",
+            "row_content": "<p>本州 ¥980 / 北海道・四国・九州 ¥1,280 / 沖縄 ¥1,800 を頂戴しております。商品代金 ¥10,000 以上のご注文で送料無料(沖縄を除く)となります。<br>詳細は <a href='/pages/delivery'>お届けについて</a> ページをご覧ください。</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q_cancel",
+        "q_delivery_window",
+        "q_wednesday",
+        "q_frozen",
+        "q_gift",
+        "q_allergen",
+        "q_shelf_life",
+        "q_shipping_fee"
+      ]
+    },
+    "contact_outro": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 28,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "outro_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "解決しない場合は",
+            "heading_size": "h2"
+          }
+        },
+        "outro_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>こちらに掲載されていないご質問は、お問い合わせフォームよりお気軽にお寄せください。<br>営業時間内(平日 10:00〜17:00)に順次ご返信いたします。</p>"
+          }
+        },
+        "outro_button": {
+          "type": "button",
+          "settings": {
+            "button_label": "お問い合わせはこちら",
+            "button_link": "/pages/contact",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": ["outro_heading", "outro_text", "outro_button"]
+    }
+  },
+  "order": ["main", "faq_intro", "faq_main", "contact_outro"]
+}
