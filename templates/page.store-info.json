@@ -1,0 +1,141 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "shop_intro": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 12,
+        "padding_bottom": 12
+      },
+      "blocks": {
+        "intro_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "アトリエのご案内",
+            "heading_size": "h1"
+          }
+        },
+        "intro_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>季節の素材と毎日の手仕事から生まれるケーキを、表参道の小さなアトリエでお届けしております。<br>店頭でのお受け取り、または工房見学のご予約も承っております。</p>"
+          }
+        }
+      },
+      "block_order": ["intro_heading", "intro_text"]
+    },
+    "shop_info": {
+      "type": "multicolumn",
+      "settings": {
+        "title": "店舗情報",
+        "heading_size": "h2",
+        "image_width": "full",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "button_label": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 28,
+        "padding_bottom": 28
+      },
+      "blocks": {
+        "col_address": {
+          "type": "column",
+          "settings": {
+            "title": "所在地",
+            "text": "<p>〒150-0001<br>東京都渋谷区神宮前 1-2-3<br>アトリエビル 2F</p><p>東京メトロ 千代田線・副都心線「明治神宮前〈原宿〉」駅 出口 5 より徒歩 4 分</p>"
+          }
+        },
+        "col_hours": {
+          "type": "column",
+          "settings": {
+            "title": "営業時間",
+            "text": "<p>店舗営業<br>木金土日 11:00〜18:00<br>(月火祝 不定期営業 / 水曜定休)</p><p>電話受付<br>平日 10:00〜17:00</p>"
+          }
+        },
+        "col_contact": {
+          "type": "column",
+          "settings": {
+            "title": "ご連絡先",
+            "text": "<p>電話: 03-1234-5678<br>メール: contact@sweet-atelier.example</p><p>店頭受け取り・ご予約・ご相談は <a href='/pages/contact'>お問い合わせフォーム</a> より承っております。</p>"
+          }
+        }
+      },
+      "block_order": ["col_address", "col_hours", "col_contact"]
+    },
+    "shop_atelier": {
+      "type": "image-with-text",
+      "settings": {
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "background-2",
+        "color_scheme": "background-1",
+        "image_behavior": "none",
+        "padding_top": 28,
+        "padding_bottom": 28
+      },
+      "blocks": {
+        "atelier_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "アトリエより",
+            "heading_size": "h2"
+          }
+        },
+        "atelier_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Sweet Atelier は、季節と素材の力をそのまま映すケーキを目指して、2024 年に表参道の路地裏ではじまりました。</p><p>毎朝、果物市場で見つけたその日の素材から、その週のケーキを設計しています。手仕事で焼き上げる小さな数のため、ご予約優先のご案内となりますことをご了承くださいませ。</p><p>店内には 6 席のカウンターがあり、淹れたてのお茶とともに焼きたての一切れをお召し上がりいただけます。</p>"
+          }
+        },
+        "atelier_button": {
+          "type": "button",
+          "settings": {
+            "button_label": "お問い合わせ・ご予約",
+            "button_link": "/pages/contact",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": ["atelier_heading", "atelier_text", "atelier_button"]
+    },
+    "shop_disclaimer": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 28,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "disclaimer_text": {
+          "type": "caption",
+          "settings": {
+            "caption": "本ページは Shopify テーマ開発の学習用デモのため、店舗情報・住所・連絡先はすべて架空です。",
+            "text_style": "subtitle",
+            "text_size": "small"
+          }
+        }
+      },
+      "block_order": ["disclaimer_text"]
+    }
+  },
+  "order": ["main", "shop_intro", "shop_info", "shop_atelier", "shop_disclaimer"]
+}
