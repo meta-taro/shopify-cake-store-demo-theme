@@ -13,9 +13,22 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "link_list_qGxCGY": {
+          "type": "link_list",
+          "settings": {
+            "heading": "",
+            "menu": "footer"
+          }
+        }
+      },
+      "block_order": [
+        "link_list_qGxCGY"
+      ],
       "settings": {
         "color_scheme": "scheme-1",
         "newsletter_enable": true,
+        "newsletter_heading": "ストアからのメールを受け取る",
         "enable_follow_on_shop": true,
         "show_social": true,
         "enable_country_selector": true,
