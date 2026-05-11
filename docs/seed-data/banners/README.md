@@ -18,6 +18,7 @@ Phase 2（トップページ）で使用する**架空のダミーバナー画�
 | 08 | `08-campaign-2plus1.png` | キャンペーン縦 | 3:4 | あり | 焼き菓子 2+1「2つ選んで、もう1つはアトリエから」 |
 | 09 | `09-campaign-review-coupon.png` | キャンペーン横 | 3:1 | あり | レビュー投稿で 10% OFF クーポン |
 | 10 | `10-brand-intro.png` | ブランド紹介 横 | 3:1 | あり | Sweet Atelier ブランド紹介 |
+| 11 | `11-store-exterior.png` | 店舗外観 | 4:3 (1448×1086) | なし | 店舗情報ページ image-with-text「アトリエより」（Phase 3f-4 で admin 後付け予定だった枠） |
 
 ## 設計方針
 
