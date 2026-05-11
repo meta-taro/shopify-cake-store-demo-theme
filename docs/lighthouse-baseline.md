@@ -42,33 +42,35 @@ Phase 完了ごとに `npm run lighthouse:capture -- --label phase-N` を実行�
 
 ## phase-4 スコア（2026-05-11 計測）
 
-詳細: [`docs/lighthouse/phase-4/summary.md`](./lighthouse/phase-4/summary.md)。括弧内は phase-3 からの差分。
+詳細: [`docs/lighthouse/phase-4/summary.md`](./lighthouse/phase-4/summary.md)。括弧内は phase-3 からの差分。Phase 4 の全変更（meta/OGP・PDP a11y・補助ページ見出し・LCP 画像 fetchpriority）反映後の最終 re-capture。
 
 ### desktop
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 |---|---:|---:|---:|---:|
-| 01-home | 89 (−6) | 97 | 73 | **100 (+8)** |
-| 04-product-strawberry | 86 (+1) | **97 (+5)** | 54 | 100 |
-| 05-page-delivery | 98 (+1) | 97 | 73 | **100 (+8)** |
-| 06-page-faq | 97 (+1) | 97 | 73 | **100 (+8)** |
+| 01-home | 96 (+1) | 97 | 73 | **100 (+8)** |
+| 04-product-strawberry | 82 (−3) | **97 (+5)** | 54 | 100 |
+| 05-page-delivery | 95 (−2) | 97 | 73 | **100 (+8)** |
+| 06-page-faq | 91 (−5) | 97 | 73 | **100 (+8)** |
 
 ### mobile
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 |---|---:|---:|---:|---:|
-| 01-home | 72 (+6) | 97 | 73 | **100 (+8)** |
-| 04-product-strawberry | 61 (+4) | **97 (+5)** | 73 | 100 |
-| 05-page-delivery | 77 (±0) | 97 | 73 | **100 (+8)** |
-| 06-page-faq | 77 (−12) | 96 | 73 | **100 (+8)** |
+| 01-home | 73 (+7) | 97 | 73 | **100 (+8)** |
+| 04-product-strawberry | 62 (+5) | **97 (+5)** | **73 (+0)** | 100 |
+| 05-page-delivery | 72 (−5) | 97 | 73 | **100 (+8)** |
+| 06-page-faq | 74 (−15) | 96 | 73 | **100 (+8)** |
+
+> Performance の ± は **run 間のばらつき範囲**（dev サーバーは単一コネクション・CDN なし・未 minify のため `server-response-time` / `unminified-css` が支配的で、計測ごとに ±15 程度ぶれる）。Phase 4 で Performance を狙って下げた変更は無い。本番（CDN + HTTP/2 + minify）では大幅に改善する。a11y / SEO は Phase 4 の対象で、表のとおり実値が上がっている。
 
 ### phase-4 で動かした項目の結果
 
 - **SEO 92 → 100（home / delivery / faq）** — `layout/theme.liquid` の `<meta name="description">` フォールバック（`page_description` → `settings.brand_description`）追加で `meta-description` 指摘が解消。OGP も `snippets/meta-tags.liquid` で `settings.brand_description` / `settings.brand_image` に fallback するよう拡張済み（`og:description` / `og:image`）。
 - **PDP Accessibility 92 → 97（desktop / mobile とも）** — `color-contrast`（`.price__tax-suffix` / `.gift-options__optional` / `.delivery-date__optional` / `.delivery-date__note` を不透明度 0.6〜0.65 → 0.8）と数量入力の `aria-label` 追加で改善。残る −3 はフッターのニュースレター見出し / 入力欄が reveal-on-scroll の `opacity: 0.01` 待機状態でスナップショットされる**偽陽性**（[known-issues §9](./known-issues.md)）。実害なし。
+- **補助ページの見出しレベルを整理** — phase-3 末で `main-page` の h1（ページタイトル）と先頭セクション見出しが二重になっていた問題を直した際、`page.delivery` の info_grid multicolumn の `title` を空にしたら h1（ページタイトル）→ h3（列見出し）の**見出しレベル飛び**が発生し `heading-order` で a11y −2（delivery 97→95）になっていた。`title` を「配送について」に変更して h1→h2→h3 に修正（a11y 97 に復帰）。`page.legal` 末尾の「本ページについて」も h3→h2 に上げて h1→h3 飛びを解消（Lighthouse 計測対象外だが同様に修正）。
 - **Best Practices 73 / PDP 54 は据え置き** — 内訳が `third-party-cookies`（Shop Pay の `_shop_app_essential` cookie）/ `errors-in-console`・`inspector-issues`（`shop.app` iframe の CSP 違反）/ `deprecations`（`overflow: visible` on img/video/canvas — Dawn/Rise 共通の Chrome 将来仕様警告）で、いずれも **Shopify プラットフォーム側 or `theme dev`（http）固有でテーマからは改善不可**。known-issues に既知の制約として記録（[§10](./known-issues.md)）。
-- **Performance は run 間のばらつき範囲**（home desktop 95→89、mobile 各 ±10 程度）。`server-response-time` / `unminified-css` 等は dev サーバー固有で本番では改善する。
-- **PDP メイン商品画像に `loading="eager"` + `fetchpriority="high"`** — `snippets/product-thumbnail.liquid` を Dawn 現行版の挙動に合わせ、ギャラリー先頭（非 lazy）の画像だけ eager / high priority、それ以外は lazy / auto。Lighthouse の「`fetchpriority=high` should be applied」ヒント（LCP 画像）が解消。スコアへの寄与は次回 re-capture で確認（LCP がわずかに前倒しになる想定）。
+- **PDP メイン商品画像に `loading="eager"` + `fetchpriority="high"`** — `snippets/product-thumbnail.liquid` を Dawn 現行版の挙動に合わせ、ギャラリー先頭（非 lazy）の画像だけ eager / high priority、それ以外は lazy / auto。Lighthouse の「`fetchpriority=high` should be applied」ヒント（LCP 画像）が解消（rendered HTML で確認済み）。Performance スコア自体は dev サーバーのばらつきに埋もれて明確な差は出ていないが、本番では LCP がわずかに前倒しになる想定。`<link rel="preload">` までは入れていない（Dawn も標準では入れない）。
 
 ## 所見と Phase 4 での扱い
 
