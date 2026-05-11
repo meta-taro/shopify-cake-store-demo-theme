@@ -185,6 +185,8 @@ Phase 3 クロージング時に1件は流して以下を確認:
 
 `layout/theme.liquid` で `page_description` (admin 入力) → `settings.brand_description` の優先順で `<meta name="description">` を出力します。`brand_description` 「季節と素材を映す、小さなケーキのアトリエ。」が全ページの fallback として使われるため、admin で何も入力しなくても meta は必ず出ます。
 
+OGP / Twitter Card の `og:description` / `twitter:description`（`snippets/meta-tags.liquid`）も `page_description` → `shop.description` → `settings.brand_description` → `shop.name` の順で fallback します。admin にメタディスクリプションを入力すれば OGP も自動で揃います。
+
 ただし **ページ毎に固有文言を出した方が SEO・CTR は強くなります**（特にホーム / 補助 4 ページ / コレクション）。下記の通り入力推奨です。
 
 ### 共通手順（admin → ページ / コレクション / ホーム）
@@ -210,6 +212,7 @@ Phase 3 クロージング時に1件は流して以下を確認:
 - 商品ページ（PDP）は `product.description` が自動で `page_description` に入るため、商品説明本文を充実させれば admin での個別入力不要
 - コレクションページも `collection.description` 優先 → fallback で brand_description が出る
 - 文言は **120〜160 文字** を目安に（Google 検索結果での見切れ回避）。短すぎても長すぎても SEO 効果が落ちる
+- OGP/Twitter Card にもこの文言が反映される（`og:description` / `twitter:description`）。SNS シェア時のプレビュー文になるので、admin 入力推奨
 
 ---
 
