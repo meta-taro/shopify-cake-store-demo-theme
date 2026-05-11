@@ -30,6 +30,11 @@ const PAGES = [
   { name: "01-home", path: "/" },
   { name: "02-cart-empty", path: "/cart" },
   { name: "03-not-found", path: "/this-url-does-not-exist" },
+  { name: "04-product-strawberry", path: "/products/strawberry-shortcake" },
+  { name: "05-page-delivery", path: "/pages/delivery" },
+  { name: "06-page-faq", path: "/pages/faq" },
+  { name: "07-page-legal", path: "/pages/legal" },
+  { name: "08-page-store-info", path: "/pages/store-info" },
 ];
 
 const VIEWPORTS = [

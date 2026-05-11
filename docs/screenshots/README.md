@@ -11,16 +11,20 @@ docs/screenshots/
 │   └── mobile/        # 390x844 viewport (iPhone 14 相当)
 ├── phase-1/           # Phase 1 完了時 (2026-05-03)
 ├── phase-2/           # Phase 2 完了時 (2026-05-07)
+├── phase-3/           # Phase 3 完了時 (2026-05-11)
 └── ...
 ```
 
-各ディレクトリに以下のページを保管:
+各ディレクトリに以下のページを保管（Phase 3 以降は 8 枚 × 2 viewport）:
 
 - `01-home.png` — トップページ
 - `02-cart-empty.png` — 空カート
 - `03-not-found.png` — 404 ページ
-
-（Phase 3 以降で商品ページの本格カスタマイズが入ったら `04-product.png`, `05-collection.png` 等を追加予定）
+- `04-product-strawberry.png` — 商品詳細（苺のショートケーキ / Phase 3 機能フル装備）
+- `05-page-delivery.png` — お届けについて
+- `06-page-faq.png` — よくあるご質問
+- `07-page-legal.png` — 特定商取引法に基づく表記
+- `08-page-store-info.png` — アトリエのご案内
 
 ## Phase 別の差分メモ
 
@@ -37,6 +41,15 @@ docs/screenshots/
 - キャンペーン (multicolumn): 春キャンペーン + 2+1 の 2 列横並び（モバイル縦積み）
 - ブランド紹介 (image-banner): Sweet Atelier 横長
 - レビュー10%OFFクーポン (image-banner): 横長
+
+### phase-2 → phase-3 (2026-05-11)
+- **PDP (04-product-strawberry)**: タブ×4 / 信頼バッジ / variant ピッカー (3号/4号/5号) / お届け日ピッカー / ギフトオプション / 税込 suffix / "新商品" バッジ
+- **04 商品カード（home / collection）**: 税込 suffix + タグベースバッジ（new/seasonal/popular）
+- **05-page-delivery**: 配送エリア / 送料 / 最短お届け / 冷凍配送と解凍方法
+- **06-page-faq**: collapsible-content 8 Q&A
+- **07-page-legal**: 特定商取引法 13 項目（架空情報）
+- **08-page-store-info**: 所在地 / 営業時間 / 連絡先 + アトリエ紹介
+- **フッター**: クイックリンク 4 件追加（お届け / FAQ / 店舗情報 / 特商法）
 
 ## 撮り方
 

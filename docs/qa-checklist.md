@@ -146,13 +146,51 @@
 - `特集コレクション` の「すべて見る」は signature 商品数を増やせば自動表示される
 - `shopify theme check` の 2 errors / 9 warnings は Rise ベースライン由来で受け入れ済み（`memory/project_theme_check_baseline.md` 参照）
 
-### Phase 3: 商品カード・商品詳細・カートUX
-（Phase 3 完了時にここへ追記）
+### Phase 3: 商品詳細・カートUX・補助ページ（2026-05-11 完了）
 
-例（先取りメモ）：
-- [ ] 配送日選択：当日不可 / 翌日不可 / 週末対応の境界値
-- [ ] ギフトラッピング選択がカートに反映
-- [ ] アレルゲン表示
+#### PDP 基本拡張（3a）
+- [ ] collapsible_tab × 4-5（仕様 / サイズ・保存方法 / 配送について / アレルゲン情報）が開閉
+- [ ] 信頼バッジ 3 件（冷凍配送 / お届け日指定 / アレルゲン記載）が PDP に表示
+- [ ] 関連商品（complementary_products）ブロックが商品下部に並ぶ
+- [ ] パンくず動作確認
+
+#### バリアント・サイズ選択 UI（3b）
+- [ ] サイズ選択 variant_picker がボタン形式（3号 / 4号 / 5号 / 6号）
+- [ ] サイズ切替で価格・在庫表示が更新
+- [ ] バリアントなし商品は picker 自動非表示（`settings.hide_variants: true`）
+
+#### ギフトオプション（3c）
+- [ ] 熨斗 ON/OFF トグルで用途 select + 名入れ input の出し入れ（progressive disclosure）
+- [ ] メッセージカードに 100 文字制限が効く
+- [ ] ギフトラッピング ON/OFF
+- [ ] 「カートに追加」後、カート画面の line item の下に properties（熨斗 / 用途 / 名入れ / メッセージ / ラッピング）が表示
+- [ ] gift_card 商品では gift-options 全体が非表示
+
+#### お届け日ピッカー（3d）
+- [ ] 最短選択可能日 = 今日+3日（営業日基準）
+- [ ] 最長選択可能日 = 今日+30日
+- [ ] 水曜を選択すると入力 clear + 警告メッセージ表示
+- [ ] 時間帯 select（午前中 / 14-16 / 16-18 / 18-20 / 19-21）が選べる
+- [ ] カート画面で properties[お届け希望日] [お届け時間帯] が表示
+
+#### 商品カード強化（3e）
+- [ ] 商品カードに `popular > seasonal > new` の優先度でバッジ 1 つ表示
+- [ ] sold-out / on_sale 時はタグバッジが非表示（既存バッジ優先）
+- [ ] 商品カードの価格に「税込」suffix 表示
+- [ ] PDP の価格にも「税込」suffix + タグバッジが表示
+- [ ] 通貨フォーマット末尾の `JPY` が削除されている（admin の `money_with_currency_format` 編集後）
+
+#### 補助ページ（3f）
+- [ ] `/pages/delivery` 表示確認（送料表 / 冷凍配送 / 解凍方法）
+- [ ] `/pages/faq` 表示確認（8 Q&A 開閉動作）
+- [ ] `/pages/legal` 表示確認（13 項目 / 末尾に demo disclaimer）
+- [ ] `/pages/store-info` 表示確認（所在地 / 営業時間 / 連絡先 / アトリエ紹介）
+- [ ] フッターのクイックリンクから 4 ページに遷移できる
+
+#### 既知の未対応（Phase 4 で対応）
+- [ ] アレルゲン構造化データ（metafield ベース）は Phase 3g として未実施（任意・スキップ）
+- [ ] `image-with-text` セクション（店舗情報ページのアトリエ写真）は画像未アップロード（user 後付け）
+- [ ] レスポンシブ細部・Lighthouse 計測は Phase 4 で対応
 
 ### Phase 4: 仕上げ・公開準備
 - [ ] Lighthouse スコア取得（記録は `docs/lighthouse-baseline.md`、別途作成）
