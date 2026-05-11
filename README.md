@@ -187,7 +187,7 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [x] 3c ギフトオプション（熨斗 / メッセージカード / ラッピング、line item properties）
   - [x] 3d お届け日ピッカー（最短 3 営業日後 / 水曜定休除外 / 時間帯選択）
   - [x] 3e 商品カード強化（タグベースバッジ "新商品 / 季節限定 / 人気" + 税込表記）
-  - [x] 3f 補助ページ（お届けについて / FAQ / 特定商取引法 / 店舗情報 — 4 テンプレート + admin 手順書）
+  - [x] 3f 補助ページ（お届けについて / FAQ / 特定商取引法 / アトリエのご案内 — 4 テンプレート + admin 手順書）
   - [ ] 3g アレルゲン構造化データ（任意・スキップ）
 - [x] **Phase 4** — 仕上げ・公開準備（2026-05-11 完了）
   - [x] meta description / OGP（`page_description` → `settings.brand_description` フォールバック、`og:image` は `settings.brand_image` にフォールバック）
