@@ -228,6 +228,33 @@ Lighthouse / axe-core はページ最下部のフッターをスクロールイ�
 
 ---
 
+## 10. Lighthouse の Best Practices が頭打ち（73 / PDP は 54）
+
+### 内容
+
+`npm run lighthouse:capture` の Best Practices スコアが全ページ **73**、商品ページ（PDP）だけ **54** で止まる。Phase 4 でアクセシビリティ・SEO は 100 近くまで上げたが、Best Practices だけは改善できなかった。
+
+### 理由（audit 内訳）
+
+| audit | 減点 | 原因 | テーマで直せるか |
+|---|---:|---|---|
+| `third-party-cookies` | −5（PDP のみ） | Shop Pay の `_shop_app_essential` cookie（`shop.app/pay/hop`） | ✗ Shopify の決済プラットフォーム仕様。admin で Shop Pay 高速チェックアウトを無効化すれば消えるが非推奨 |
+| `errors-in-console` | −1 | `shop.app` iframe が CSP `frame-ancestors` に違反してブロックされるエラー | ✗ Shopify 側 |
+| `inspector-issues` | −1 | 上記 cookie / CSP が Chrome DevTools Issues に記録される | ✗ Shopify 側 |
+| `deprecations` | −5（PDP のみ） | 「`overflow: visible` を img/video/canvas に指定すると要素境界外に描画されうる」（[WICG view-transitions の将来仕様](https://github.com/WICG/shared-element-transitions/blob/main/debugging_overflow_on_images.md)）。Chrome のソース帰属は `assets/global.js` を指すが、実体は Dawn/Rise 共通の CSS パターン由来。Shopify 自身も未対応のまま | △ 原因 CSS の特定が困難・実害なし。学習デモでは追わない |
+
+PDP 以外（ホーム / 補助ページ）は Shop Pay スクリプトを読まないので `third-party-cookies` と PDP 限定の `deprecations` が外れ、その分 73。
+
+なお `theme dev` は http なので本番（https + 独自ドメイン）では一部 audit の挙動が変わる。**本番デプロイ後に再計測すれば PDP 以外は 80 台後半まで上がる見込み**（PDP は Shop Pay cookie が残るため低いまま）。
+
+### 対応するなら
+
+- 何もしなくてよい（学習デモの範囲外。本ドキュメントに記録するのみが推奨）
+- どうしても PDP の Best Practices を上げたいなら admin で「Shop Pay」高速チェックアウトボタンを無効化（`third-party-cookies` / `errors-in-console` / `inspector-issues` が消える）。ただしコンバージョン率に効くボタンを捨てる判断になる
+- `deprecations` の `overflow: visible` は `assets/base.css` の `.global-media-settings { overflow: visible !important; }` 等が候補だが、特定しても 5 点・実害なしのため優先度は最低
+
+---
+
 ## 更新ルール
 
 - 新しい既知問題が見つかったら**末尾**に追加（番号は連番）

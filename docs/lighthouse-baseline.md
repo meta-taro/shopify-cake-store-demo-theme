@@ -40,6 +40,35 @@ Phase 完了ごとに `npm run lighthouse:capture -- --label phase-N` を実行�
 | 05-page-delivery | 77 | **97** | 73 | 92 |
 | 06-page-faq | 89 | 96 | 73 | 92 |
 
+## phase-4 スコア（2026-05-11 計測）
+
+詳細: [`docs/lighthouse/phase-4/summary.md`](./lighthouse/phase-4/summary.md)。括弧内は phase-3 からの差分。
+
+### desktop
+
+| Page | Performance | Accessibility | Best Practices | SEO |
+|---|---:|---:|---:|---:|
+| 01-home | 89 (−6) | 97 | 73 | **100 (+8)** |
+| 04-product-strawberry | 86 (+1) | **97 (+5)** | 54 | 100 |
+| 05-page-delivery | 98 (+1) | 97 | 73 | **100 (+8)** |
+| 06-page-faq | 97 (+1) | 97 | 73 | **100 (+8)** |
+
+### mobile
+
+| Page | Performance | Accessibility | Best Practices | SEO |
+|---|---:|---:|---:|---:|
+| 01-home | 72 (+6) | 97 | 73 | **100 (+8)** |
+| 04-product-strawberry | 61 (+4) | **97 (+5)** | 73 | 100 |
+| 05-page-delivery | 77 (±0) | 97 | 73 | **100 (+8)** |
+| 06-page-faq | 77 (−12) | 96 | 73 | **100 (+8)** |
+
+### phase-4 で動かした項目の結果
+
+- **SEO 92 → 100（home / delivery / faq）** — `layout/theme.liquid` の `<meta name="description">` フォールバック（`page_description` → `settings.brand_description`）追加で `meta-description` 指摘が解消。OGP も `snippets/meta-tags.liquid` で `settings.brand_description` / `settings.brand_image` に fallback するよう拡張済み（`og:description` / `og:image`）。
+- **PDP Accessibility 92 → 97（desktop / mobile とも）** — `color-contrast`（`.price__tax-suffix` / `.gift-options__optional` / `.delivery-date__optional` / `.delivery-date__note` を不透明度 0.6〜0.65 → 0.8）と数量入力の `aria-label` 追加で改善。残る −3 はフッターのニュースレター見出し / 入力欄が reveal-on-scroll の `opacity: 0.01` 待機状態でスナップショットされる**偽陽性**（[known-issues §9](./known-issues.md)）。実害なし。
+- **Best Practices 73 / PDP 54 は据え置き** — 内訳が `third-party-cookies`（Shop Pay の `_shop_app_essential` cookie）/ `errors-in-console`・`inspector-issues`（`shop.app` iframe の CSP 違反）/ `deprecations`（`overflow: visible` on img/video/canvas — Dawn/Rise 共通の Chrome 将来仕様警告）で、いずれも **Shopify プラットフォーム側 or `theme dev`（http）固有でテーマからは改善不可**。known-issues に既知の制約として記録（[§10](./known-issues.md)）。
+- **Performance は run 間のばらつき範囲**（home desktop 95→89、mobile 各 ±10 程度）。`server-response-time` / `unminified-css` 等は dev サーバー固有で本番では改善する。PDP メイン画像の `fetchpriority` 等は未着手（任意）。
+
 ## 所見と Phase 4 での扱い
 
 ### 1. Best Practices が全ページ 73 / PDP は 54
@@ -98,13 +127,13 @@ PDP の指摘:
 
 ## Phase 4 アクションサマリー
 
-| # | 対象 | 優先度 | コスト感 |
+| # | 対象 | 優先度 | 状態 |
 |---|---|---|---|
-| 1 | PDP `color-contrast` / `label` 修正 | High | 小〜中 |
-| 2 | ホーム / 補助ページに meta description 追加 | High | 小 |
-| 3 | PDP `deprecations` 中身確認・修正 | Medium | 中 |
-| 4 | PDP メイン画像の `fetchpriority="high"` 検討 | Medium | 小 |
-| 5 | Rise 由来 unused CSS/JS 削減 | Low（範囲外） | 大 |
+| 1 | PDP `color-contrast` / `label` 修正 | High | ✅ 完了（a11y 92→97） |
+| 2 | ホーム / 補助ページに meta description 追加 | High | ✅ 完了（SEO 92→100、OGP fallback も追加） |
+| 3 | PDP `deprecations` 中身確認 | Medium | ✅ 確認済 → Shopify 側 or dev 固有のため対応不可、known-issues §10 に記録 |
+| 4 | PDP メイン画像の `fetchpriority="high"` 検討 | Medium | 未着手（任意） |
+| 5 | Rise 由来 unused CSS/JS 削減 | Low（範囲外） | スキップ（学習用デモ） |
 | 6 | dev サーバー固有警告 | スキップ | — |
 
 ## 再計測の運用
