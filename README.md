@@ -5,7 +5,7 @@
 [![Liquid](https://img.shields.io/badge/Liquid-template-2196F3?logo=shopify&logoColor=white)](https://shopify.dev/docs/api/liquid)
 [![Node.js](https://img.shields.io/badge/Node.js-22_LTS-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Shopify CLI](https://img.shields.io/badge/Shopify_CLI-3.x-5E8E3E?logo=shopify&logoColor=white)](https://shopify.dev/docs/themes/tools/cli)
-[![Status](https://img.shields.io/badge/status-WIP-orange.svg)](#roadmap)
+[![Status](https://img.shields.io/badge/status-Phase_4_complete-brightgreen.svg)](#roadmap)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 Shopify Online Store 2.0 のテーマ開発を学ぶためのデモプロジェクト。架空のケーキ・スイーツEC「**Sweet Atelier**」向けに、Shopify 公式テーマ **Rise** をベースとしてカスタマイズしていく学習用テーマです。
@@ -189,9 +189,16 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [x] 3e 商品カード強化（タグベースバッジ "新商品 / 季節限定 / 人気" + 税込表記）
   - [x] 3f 補助ページ（お届けについて / FAQ / 特定商取引法 / 店舗情報 — 4 テンプレート + admin 手順書）
   - [ ] 3g アレルゲン構造化データ（任意・スキップ）
-- [ ] **Phase 4** — レスポンシブ調整・Lighthouse 計測・ドキュメント整備・公開準備
+- [x] **Phase 4** — 仕上げ・公開準備（2026-05-11 完了）
+  - [x] meta description / OGP（`page_description` → `settings.brand_description` フォールバック、`og:image` は `settings.brand_image` にフォールバック）
+  - [x] PDP アクセシビリティ（税込 suffix / ギフト・お届け日の注記の `color-contrast`、数量入力の `aria-label`）
+  - [x] 補助ページの見出しレベル整理（`<h1>` 重複の解消 + `heading-order` 維持）
+  - [x] PDP メイン商品画像に `loading="eager"` + `fetchpriority="high"`（LCP 前倒し）
+  - [x] スクリーンショット撮影方法の改善（reveal-on-scroll を `reducedMotion: "reduce"` で無効化し全セクションを最終状態でキャプチャ）
+  - [x] Lighthouse 計測（[`docs/lighthouse-baseline.md`](./docs/lighthouse-baseline.md)：SEO 92→100、PDP a11y 92→97）
+  - [ ] 公開リハーサル（live テーマへの `theme push` / Bogus Gateway テスト注文 / Theme Library での publish）— 開発ストア管理者側の手動作業（手順は [`docs/qa-checklist.md`](./docs/qa-checklist.md) 公開前リハーサル）
 
-各フェーズのスクリーンショット差分は [`docs/screenshots/`](./docs/screenshots/) で `baseline → phase-1 → phase-2 → phase-3` の順に確認できます。
+各フェーズのスクリーンショット差分は [`docs/screenshots/`](./docs/screenshots/) で `baseline → phase-1 → phase-2 → phase-3 → phase-4` の順に確認できます。
 
 ## Credits
 
