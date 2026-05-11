@@ -67,7 +67,8 @@ Phase 完了ごとに `npm run lighthouse:capture -- --label phase-N` を実行�
 - **SEO 92 → 100（home / delivery / faq）** — `layout/theme.liquid` の `<meta name="description">` フォールバック（`page_description` → `settings.brand_description`）追加で `meta-description` 指摘が解消。OGP も `snippets/meta-tags.liquid` で `settings.brand_description` / `settings.brand_image` に fallback するよう拡張済み（`og:description` / `og:image`）。
 - **PDP Accessibility 92 → 97（desktop / mobile とも）** — `color-contrast`（`.price__tax-suffix` / `.gift-options__optional` / `.delivery-date__optional` / `.delivery-date__note` を不透明度 0.6〜0.65 → 0.8）と数量入力の `aria-label` 追加で改善。残る −3 はフッターのニュースレター見出し / 入力欄が reveal-on-scroll の `opacity: 0.01` 待機状態でスナップショットされる**偽陽性**（[known-issues §9](./known-issues.md)）。実害なし。
 - **Best Practices 73 / PDP 54 は据え置き** — 内訳が `third-party-cookies`（Shop Pay の `_shop_app_essential` cookie）/ `errors-in-console`・`inspector-issues`（`shop.app` iframe の CSP 違反）/ `deprecations`（`overflow: visible` on img/video/canvas — Dawn/Rise 共通の Chrome 将来仕様警告）で、いずれも **Shopify プラットフォーム側 or `theme dev`（http）固有でテーマからは改善不可**。known-issues に既知の制約として記録（[§10](./known-issues.md)）。
-- **Performance は run 間のばらつき範囲**（home desktop 95→89、mobile 各 ±10 程度）。`server-response-time` / `unminified-css` 等は dev サーバー固有で本番では改善する。PDP メイン画像の `fetchpriority` 等は未着手（任意）。
+- **Performance は run 間のばらつき範囲**（home desktop 95→89、mobile 各 ±10 程度）。`server-response-time` / `unminified-css` 等は dev サーバー固有で本番では改善する。
+- **PDP メイン商品画像に `loading="eager"` + `fetchpriority="high"`** — `snippets/product-thumbnail.liquid` を Dawn 現行版の挙動に合わせ、ギャラリー先頭（非 lazy）の画像だけ eager / high priority、それ以外は lazy / auto。Lighthouse の「`fetchpriority=high` should be applied」ヒント（LCP 画像）が解消。スコアへの寄与は次回 re-capture で確認（LCP がわずかに前倒しになる想定）。
 
 ## 所見と Phase 4 での扱い
 
@@ -103,7 +104,7 @@ Phase 完了ごとに `npm run lighthouse:capture -- --label phase-N` を実行�
 **Phase 4 での扱い**:
 - `server-response-time` と `unminified-css` は **dev サーバー固有**なので本番では大きく改善する見込み。
 - `unused-javascript` / `unused-css-rules` は Rise theme のバンドル設計起因。**Rise を魔改造する範囲外**として記録のみとし、Phase 4 では手を入れない（学習用デモのため）。
-- LCP が大きいのは PDP のメイン商品画像とギャラリーが原因の可能性。`fetchpriority="high"` / preload など軽微な調整は検討余地あり。
+- LCP が大きいのは PDP のメイン商品画像とギャラリーが原因。→ Phase 4 で `snippets/product-thumbnail.liquid` のギャラリー先頭画像に `loading="eager"` + `fetchpriority="high"` を付与（対応済み）。`<link rel="preload">` までは入れていない（Dawn も標準では入れない）。
 
 ### 3. ホーム mobile Performance 66
 
@@ -132,7 +133,7 @@ PDP の指摘:
 | 1 | PDP `color-contrast` / `label` 修正 | High | ✅ 完了（a11y 92→97） |
 | 2 | ホーム / 補助ページに meta description 追加 | High | ✅ 完了（SEO 92→100、OGP fallback も追加） |
 | 3 | PDP `deprecations` 中身確認 | Medium | ✅ 確認済 → Shopify 側 or dev 固有のため対応不可、known-issues §10 に記録 |
-| 4 | PDP メイン画像の `fetchpriority="high"` 検討 | Medium | 未着手（任意） |
+| 4 | PDP メイン画像の `fetchpriority="high"` 検討 | Medium | ✅ 完了（`product-thumbnail.liquid`：先頭画像 `loading="eager"` + `fetchpriority="high"`、Lighthouse の LCP ヒント解消） |
 | 5 | Rise 由来 unused CSS/JS 削減 | Low（範囲外） | スキップ（学習用デモ） |
 | 6 | dev サーバー固有警告 | スキップ | — |
 
