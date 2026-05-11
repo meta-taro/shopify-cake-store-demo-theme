@@ -2,6 +2,8 @@
 
 Phase 完了ごとに `npm run lighthouse:capture -- --label phase-N` を実行し、`docs/lighthouse/phase-N/` 配下に JSON / HTML / Markdown サマリーを保存する運用。本ドキュメントはそのトップレベルの記録と所見（どこが課題で、なぜそのスコアなのか、Phase 4 でどう扱うか）をまとめる。
 
+> **計測フローについて**: Shopify CLI のセッションが認証済みであれば、計測は **Claude Code セッションから完全自動で完走できる**（dev サーバーの background 起動 → 計測 → JSON/HTML/summary 読み取りまで Claude が担当）。手動操作が必要なのは **CLI トークンが期限切れになった初回の `shopify auth logout` → ブラウザ再ログインのみ**。詳細は [#再計測の運用](#再計測の運用) 参照。
+
 ## 計測条件
 
 | 項目 | 値 |
@@ -107,7 +109,19 @@ PDP の指摘:
 
 ## 再計測の運用
 
-Phase 4 着手中の改善ごとに以下を回す:
+### Claude Code セッションから自動実行する場合（推奨）
+
+Phase 4 着手中の改善ごとに、Claude に「Lighthouse 再計測して」と依頼すれば以下を自動で回せる。
+
+1. `shopify theme dev` を background プロセスで起動（`Bash` の `run_in_background`）
+2. dev サーバー起動完了を待機（`Monitor` で stdout の "Theme is ready" 等を待つ）
+3. `npm run lighthouse:capture -- --label phase-N` 実行
+4. `docs/lighthouse/phase-N/summary.md` と各ページ HTML を読み、phase-3 との差分を要約
+5. dev サーバープロセスを停止
+
+**前提**: Shopify CLI のセッションが認証済み（`shopify auth logout` 直後でない、トークン期限切れでない）。トークン期限切れの場合は user に再ログインを依頼する。
+
+### 手動実行する場合
 
 ```bash
 # 別ターミナルで dev サーバーを起動
@@ -117,4 +131,6 @@ shopify theme dev --store sweet-atelier-demo.myshopify.com
 npm run lighthouse:capture -- --label phase-4
 ```
 
-Phase 4 クロージング時に `docs/lighthouse/phase-3` と `docs/lighthouse/phase-4` の summary を比較し、本ドキュメントに「phase-4 スコア」セクションを追記する。
+### Phase 4 クロージング
+
+`docs/lighthouse/phase-3` と `docs/lighthouse/phase-4` の summary を比較し、本ドキュメントに「phase-4 スコア」セクションを追記する。
