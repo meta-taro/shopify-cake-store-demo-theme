@@ -192,10 +192,40 @@
 - [ ] `image-with-text` セクション（店舗情報ページのアトリエ写真）は画像未アップロード（user 後付け）
 - [ ] レスポンシブ細部・Lighthouse 計測は Phase 4 で対応
 
-### Phase 4: 仕上げ・公開準備
-- [ ] Lighthouse スコア取得（記録は `docs/lighthouse-baseline.md`、別途作成）
-- [ ] `shopify theme check` で baseline を超える警告が出ていない
-- [ ] スクリーンショット差分の確認
+### Phase 4: 仕上げ・公開準備（2026-05-11 完了）
+
+a11y / SEO / meta タグ / OGP の仕上げと公開前リハーサル。Phase 4 では機能追加は無し（既存挙動の精度を上げる回）。詳細所見は [`docs/lighthouse-baseline.md`](./lighthouse-baseline.md) / [`docs/known-issues.md`](./known-issues.md)。
+
+#### SEO / メタタグ / OGP
+- [ ] `/` `/pages/delivery` `/pages/faq` の `<head>` に `<meta name="description">` が出る（`page_description` 未設定時は `settings.brand_description` にフォールバック）
+- [ ] PDP は商品 description ベースで `<meta name="description">` が出る
+- [ ] `<head>` に OGP（`og:title` / `og:description` / `og:image` / `og:url` / `og:type`）と Twitter Card が出る
+- [ ] `og:description` は `page_description` → `shop.description` → `settings.brand_description` → `shop.name` の順でフォールバックする
+- [ ] `og:image` は `page_image`（記事/商品/ページのソーシャル画像）→ `settings.brand_image` の順でフォールバックする
+- [ ] admin で per-page の SEO description を入れた場合はそちらが優先される（任意・手順 `docs/admin-setup.md` §8）
+
+#### アクセシビリティ（Lighthouse a11y）
+- [ ] PDP の `color-contrast` 指摘が解消（税込 suffix / ギフトオプションの "任意" ラベル / お届け日の注記 = 不透明度 0.8）
+- [ ] PDP の数量入力に `aria-label`（または `<label>`）が紐づいている
+- [ ] 残る a11y −3 はフッターのニュースレター見出し/入力欄が reveal-on-scroll の `opacity:0.01` 待機中にスナップショットされる偽陽性（known-issues §9）— 実機では問題なし
+
+#### パフォーマンス（Lighthouse perf）
+- [ ] PDP のメイン商品画像（ギャラリー先頭）が `loading="eager"` + `fetchpriority="high"` で出る（LCP 前倒し）
+- [ ] ギャラリー 2 枚目以降 / サムネイルは `loading="lazy"`
+- [ ] `unused-css-rules` / `unused-javascript` / `server-response-time` 等の指摘は Rise バンドル設計 or dev サーバー固有として据え置き
+
+#### Best Practices（Lighthouse）
+- [ ] Best Practices が 73（PDP 54）で頭打ちなのは確認済（Shop Pay の third-party cookie / shop.app iframe の CSP 違反 / Chrome 将来仕様の deprecation 警告 — いずれも Shopify プラットフォーム側 or `theme dev`（http）固有でテーマからは改善不可、known-issues §10）
+
+#### 補助ページの見出し
+- [ ] `/pages/faq` `/pages/legal` `/pages/store-info` で `<h1>` がページ内に 1 つだけ（`main-page` のタイトル h1 と先頭セクションの見出しが二重になっていない）
+- [ ] `/pages/delivery` 先頭の multicolumn にダブり見出しが出ていない
+
+#### スクリーンショット / Lighthouse 記録
+- [ ] `npm run screenshot:baseline -- --label phase-4` で 8 ページ × 2 viewport が撮れる
+- [ ] reveal-on-scroll セクション（ホームのキャンペーン/ブランド紹介、お届けページ下部など）が最終状態で写る（`reducedMotion: "reduce"` 指定済 — phase-3 以前の下部空白帯は出ない）
+- [ ] `npm run lighthouse:capture -- --label phase-4` 実行 → `docs/lighthouse/phase-4/summary.md` 生成、スコアを `docs/lighthouse-baseline.md` に記録
+- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
 ---
 
