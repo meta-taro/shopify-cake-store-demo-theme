@@ -51,6 +51,11 @@ docs/screenshots/
 - **08-page-store-info**: 所在地 / 営業時間 / 連絡先 + アトリエ紹介
 - **フッター**: クイックリンク 4 件追加（お届け / FAQ / 店舗情報 / 特商法）
 
+### phase-3 → phase-4 (2026-05-11)
+- **撮影方法の改善**: `reducedMotion: "reduce"` を指定。phase-3 までは reveal-on-scroll で `opacity:0.01` のまま写っていたファーストビュー外セクション（ホームのキャンペーン / ブランド紹介 / クーポン、お届けページの「定休日について」「冷凍配送と解凍方法」など）が、phase-4 からは全部最終状態で写る。phase-3 のスクショ下部にあった大きな空白帯はこの旧挙動由来で、実機では発生しない
+- **補足ページの見出し重複を解消**: `main-page` の h1（ページタイトル）と各ページ先頭セクションの見出しが同じ文言で二重になっていた問題を修正。`page.faq` / `page.legal` / `page.store-info` は intro リッチテキストの h1 見出しブロックを削除、`page.delivery` は info_grid multicolumn の `title` を空に
+- 機能追加は無し（Phase 4 は a11y / SEO / meta タグ / OGP の仕上げが中心。詳細は [`docs/lighthouse-baseline.md`](../lighthouse-baseline.md) phase-4 セクション）
+
 ## 撮り方
 
 `shopify theme dev` でローカル開発サーバーを起動した状態で:
@@ -66,3 +71,4 @@ npm run screenshot:baseline -- --label phase-1  # phase-1/ に保存
 
 - Shopify CLI の HMR が常時接続を張るため `networkidle` 待機がタイムアウトするが、スクリプトは catch して撮影を続行する（出力 PNG は問題なし）
 - `fullPage: true` で撮っているのでスクロール込み全長キャプチャ。空セクションがあると下に空白ができる
+- `animations_reveal_on_scroll` 有効時、ファーストビュー外のセクションは `opacity: 0.01` で待機するため、`fullPage` スクショだと「内容が空白に見える」帯ができる（[known-issues §9](../known-issues.md) と同じ原因）。`scripts/capture-screenshots.mjs` は `reducedMotion: "reduce"` を指定してこの待機を無効化しているので、phase-4 以降のスクショは全セクションが最終状態で写る。phase-3 以前のスクショに残る下部の空白帯はこの旧挙動由来

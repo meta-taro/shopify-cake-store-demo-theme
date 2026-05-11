@@ -10,7 +10,7 @@
     "info_grid": {
       "type": "multicolumn",
       "settings": {
-        "title": "お届けについて",
+        "title": "",
         "heading_size": "h2",
         "image_width": "full",
         "columns_desktop": 3,

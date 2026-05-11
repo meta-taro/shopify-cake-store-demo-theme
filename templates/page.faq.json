@@ -18,13 +18,6 @@
         "padding_bottom": 24
       },
       "blocks": {
-        "intro_heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "よくあるご質問",
-            "heading_size": "h1"
-          }
-        },
         "intro_text": {
           "type": "text",
           "settings": {
@@ -32,7 +25,7 @@
           }
         }
       },
-      "block_order": ["intro_heading", "intro_text"]
+      "block_order": ["intro_text"]
     },
     "faq_main": {
       "type": "collapsible-content",

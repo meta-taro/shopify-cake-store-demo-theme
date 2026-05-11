@@ -74,6 +74,10 @@ async function main() {
         viewport: { width: vp.width, height: vp.height },
         deviceScaleFactor: vp.name === "mobile" ? 2 : 1,
         ignoreHTTPSErrors: true,
+        // reveal-on-scroll sections sit at opacity:0.01 until scrolled into
+        // view; a fullPage screenshot captures them blank. Emulating reduced
+        // motion skips that guard so every section renders at its final state.
+        reducedMotion: "reduce",
       });
       const page = await context.newPage();
 
