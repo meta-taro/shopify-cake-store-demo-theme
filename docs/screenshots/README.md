@@ -53,7 +53,7 @@ docs/screenshots/
 
 ### phase-3 → phase-4 (2026-05-11)
 - **撮影方法の改善**: `reducedMotion: "reduce"` を指定。phase-3 までは reveal-on-scroll で `opacity:0.01` のまま写っていたファーストビュー外セクション（ホームのキャンペーン / ブランド紹介 / クーポン、お届けページの「定休日について」「冷凍配送と解凍方法」など）が、phase-4 からは全部最終状態で写る。phase-3 のスクショ下部にあった大きな空白帯はこの旧挙動由来で、実機では発生しない
-- **補足ページの見出し重複を解消**: `main-page` の h1（ページタイトル）と各ページ先頭セクションの見出しが同じ文言で二重になっていた問題を修正。`page.faq` / `page.legal` / `page.store-info` は intro リッチテキストの h1 見出しブロックを削除、`page.delivery` は info_grid multicolumn の `title` を空に
+- **補足ページの見出し重複を解消**: `main-page` の h1（ページタイトル）と各ページ先頭セクションの見出しが同じ文言で二重になっていた問題を修正。`page.faq` / `page.legal` / `page.store-info` は intro リッチテキストの h1 見出しブロックを削除、`page.delivery` は info_grid multicolumn の `title` を「配送について」に変更（h1 と同文言の重複を避けつつ、空にすると起きる h1→h3 の見出しレベル飛び（Lighthouse `heading-order`）も防ぐ）。`page.legal` 末尾の「本ページについて」は h3→h2 に上げて h1→h3 飛びを解消
 - 機能追加は無し（Phase 4 は a11y / SEO / meta タグ / OGP の仕上げが中心。詳細は [`docs/lighthouse-baseline.md`](../lighthouse-baseline.md) phase-4 セクション）
 
 ## 撮り方

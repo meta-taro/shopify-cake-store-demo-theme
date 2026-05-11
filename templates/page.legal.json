@@ -62,7 +62,7 @@
           "type": "heading",
           "settings": {
             "heading": "本ページについて",
-            "heading_size": "h3"
+            "heading_size": "h2"
           }
         },
         "disclaimer_text": {
