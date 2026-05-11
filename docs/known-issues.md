@@ -197,6 +197,37 @@ shopify theme dev --store sweet-atelier-demo.myshopify.com
 
 ---
 
+## 9. Lighthouse の color-contrast 偽陽性（reveal-on-scroll セクション）
+
+### 内容
+
+`npm run lighthouse:capture` の Accessibility 監査で、フッターのニュースレター見出し（`.footer-block__heading`）とメール入力欄（`#NewsletterForm--...`）が `color-contrast` 違反（contrast ratio **1.01:1**、`#f3e6e3` on `#f5e8e5`）として報告される。実際のブラウザでは普通に読める。
+
+### 理由
+
+テーマ設定 `animations_reveal_on_scroll: true` により、`.footer-block--newsletter` に `scroll-trigger animate--slide-in` クラスが付く。`assets/base.css` 内の以下のルールで、ビューポート外（= スクロールして表示される前）の要素は **`opacity: 0.01`** で待機する:
+
+```css
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-trigger.animate--fade-in,
+  .scroll-trigger.animate--slide-in {
+    opacity: 0.01;
+  }
+}
+```
+
+Lighthouse / axe-core はページ最下部のフッターをスクロールイン前の状態（`opacity: 0.01`）でスナップショットするため、文字色 `#3d2b1f` が 1% 不透明 → 背景 `#f5e8e5` とほぼ同色 = コントラスト 1:1 と誤検知する。スクロールすると `scroll-trigger--offscreen` が外れて `opacity: 1` になり、実ユーザーには正常に見える。
+
+これは Dawn / Rise 系テーマ + 自動 a11y ツールでよく知られた既知の偽陽性パターン。
+
+### 対応するなら（任意）
+
+- 何もしなくてよい（実害なし。本ドキュメントに記録するのみが推奨）
+- どうしても監査スコアを上げたいなら、`sections/footer-group.json` の `footer-block--newsletter` から scroll-trigger を外す（Rise の `footer.liquid:163` 改造）か、テーマ全体の `animations_reveal_on_scroll` を `false` にする。ただし演出を捨てる判断になる
+- **PDP の本物の color-contrast 違反**（`.price__tax-suffix` / `.gift-options__optional` / `.delivery-date__optional` / `.delivery-date__note` の `rgba(var(--color-foreground), 0.6〜0.65)`）は Phase 4 で `0.8` に引き上げ済み。reveal-on-scroll 偽陽性とは別件。
+
+---
+
 ## 更新ルール
 
 - 新しい既知問題が見つかったら**末尾**に追加（番号は連番）

@@ -26,7 +26,8 @@
   margin-left: 0.4rem;
   font-size: 1.2rem;
   font-weight: 400;
-  color: rgba(var(--color-foreground), 0.6);
+  /* 0.8 stays subordinate to the 600-weight legend while clearing WCAG AA 4.5:1 */
+  color: rgba(var(--color-foreground), 0.8);
 }
 
 .gift-options__field {
