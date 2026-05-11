@@ -64,6 +64,46 @@ shopify theme dev --store {YOUR_STORE}.myshopify.com
 
 初回はブラウザが開いて Shopify の認証フローが走ります。完了後、`http://127.0.0.1:9292` でローカルプレビューできます。ファイル保存で自動リロードされます。
 
+## Daily Workflow / 再開手順
+
+### 普段の開発
+
+1. ターミナルで dev サーバー起動: `shopify theme dev --store sweet-atelier-demo.myshopify.com`
+2. ブラウザで `http://127.0.0.1:9292/` を開く
+3. ファイル編集 → 自動リロード
+4. 終了は `Ctrl+C`
+
+### PC 再起動後・dev サーバーが落ちた後の復旧
+
+`http://127.0.0.1:9292/` にアクセスできなくなったら、dev サーバーが停止しているだけ。再起動するだけで戻ります。
+
+```bash
+shopify theme dev --store sweet-atelier-demo.myshopify.com
+```
+
+### 「The access token provided is expired」エラーが出たら
+
+長時間放置（数日〜）後によく出る CLI トークン期限切れ。再認証で復旧します。
+
+```bash
+shopify auth logout
+shopify theme dev --store sweet-atelier-demo.myshopify.com
+```
+
+ブラウザが開いて Shopify の認証フローが走るので、再ログイン → 完了後に dev サーバーが起動します。詳細は [`docs/known-issues.md` §8](./docs/known-issues.md#8-shopify-cli-トークンの期限切れ)。
+
+### live テーマへの反映（admin で見えるテンプレート更新等）
+
+`theme dev` は一時プレビュー専用。**admin のテンプレート一覧や本番ストアに反映するには明示的に push が必要**。
+
+```bash
+shopify theme push --theme=156264464583  # live (Rise) の theme id
+```
+
+> ⚠️ プロンプトで「Create a new theme」を Yes にすると意図せず別テーマが作られます。`--theme=<id>` 指定が安全。詳細は [`docs/known-issues.md` §7](./docs/known-issues.md#7-shopify-theme-pull-がローカル変更を上書きする) も参照。
+
+---
+
 ## Commands
 
 | コマンド | 用途 |

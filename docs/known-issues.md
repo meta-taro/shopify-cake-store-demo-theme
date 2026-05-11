@@ -167,21 +167,33 @@ Phase 3a/3b 作業中、`templates/product.json` をローカルで編集（icon
 
 ---
 
-## 8. Shopify CLI トークンの期限切れ
+## 8. Shopify CLI トークンの期限切れ／dev サーバー再起動
 
 ### 内容
 
-`shopify theme dev` を長時間放置すると、ある時点から「The access token provided is expired, revoked, malformed, or invalid for other reasons.」エラーが出る。
+以下のいずれかで `http://127.0.0.1:9292/` にアクセスできなくなる:
+
+1. **PC 再起動・ターミナルを閉じた**: dev サーバープロセスが停止しているだけ。再起動コマンドで戻る。
+2. **長時間放置（数日〜）後**: `shopify theme dev` 起動時 or 起動中に「The access token provided is expired, revoked, malformed, or invalid for other reasons.」エラー。CLI トークン期限切れ。
 
 ### 対処
 
+**ケース 1（単純停止）**: 再起動するだけ。
+
 ```bash
-# サーバー停止後
+shopify theme dev --store sweet-atelier-demo.myshopify.com
+```
+
+**ケース 2（トークン期限切れ）**: ログアウト → 再認証。
+
+```bash
 shopify auth logout
 shopify theme dev --store sweet-atelier-demo.myshopify.com
 ```
 
 ブラウザで再認証フロー → 復旧。
+
+> README の [Daily Workflow / 再開手順](../README.md#daily-workflow--再開手順) でも同じ手順をユーザー視点で案内している。
 
 ---
 
