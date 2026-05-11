@@ -74,6 +74,7 @@ shopify theme dev --store {YOUR_STORE}.myshopify.com
 | `shopify theme list` | ストアにあるテーマ一覧 |
 | `shopify theme check` | テーマのリンター実行 |
 | `npm run screenshot:baseline` | ローカル dev サーバーから Phase 比較用スクリーンショット取得（[詳細](./docs/screenshots/README.md)） |
+| `npm run lighthouse:capture -- --label phase-N` | ローカル dev サーバーに対し Lighthouse 計測（[ベースライン](./docs/lighthouse-baseline.md)） |
 
 ## Directory Structure
 
@@ -169,7 +170,7 @@ shopify theme dev --store {YOUR_STORE}.myshopify.com
 
 > Rise 本体が更新された場合は、新規ブランチで `shopify theme pull --new-store` 後、`b10336b` との diff を取って手動マージ判断する想定。
 
-baseline 時点での `shopify theme check` 結果（自分のカスタマイズと Rise 由来の offense を切り分けるための基準値）は [`docs/theme-check-baseline.md`](./docs/theme-check-baseline.md) に記録。公開前の手動QAチェックリストは [`docs/qa-checklist.md`](./docs/qa-checklist.md)（Phase 完了ごとに育てる Living checklist）。意図的に対応していない既知問題と Rise ベースライン由来の制約は [`docs/known-issues.md`](./docs/known-issues.md) に集約。
+baseline 時点での `shopify theme check` 結果（自分のカスタマイズと Rise 由来の offense を切り分けるための基準値）は [`docs/theme-check-baseline.md`](./docs/theme-check-baseline.md) に記録。公開前の手動QAチェックリストは [`docs/qa-checklist.md`](./docs/qa-checklist.md)（Phase 完了ごとに育てる Living checklist）。意図的に対応していない既知問題と Rise ベースライン由来の制約は [`docs/known-issues.md`](./docs/known-issues.md) に集約。Lighthouse 計測のベースラインと所見は [`docs/lighthouse-baseline.md`](./docs/lighthouse-baseline.md) に記録（`npm run lighthouse:capture` で再計測可）。
 
 ## License
 

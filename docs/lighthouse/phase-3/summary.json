@@ -1,0 +1,74 @@
+[
+  {
+    "device": "desktop",
+    "page": "01-home",
+    "url": "http://127.0.0.1:9292/",
+    "performance": 95,
+    "accessibility": 97,
+    "bestPractices": 73,
+    "seo": 92
+  },
+  {
+    "device": "desktop",
+    "page": "04-product-strawberry",
+    "url": "http://127.0.0.1:9292/products/strawberry-shortcake",
+    "performance": 85,
+    "accessibility": 92,
+    "bestPractices": 54,
+    "seo": 100
+  },
+  {
+    "device": "desktop",
+    "page": "05-page-delivery",
+    "url": "http://127.0.0.1:9292/pages/delivery",
+    "performance": 97,
+    "accessibility": 97,
+    "bestPractices": 73,
+    "seo": 92
+  },
+  {
+    "device": "desktop",
+    "page": "06-page-faq",
+    "url": "http://127.0.0.1:9292/pages/faq",
+    "performance": 96,
+    "accessibility": 97,
+    "bestPractices": 73,
+    "seo": 92
+  },
+  {
+    "device": "mobile",
+    "page": "01-home",
+    "url": "http://127.0.0.1:9292/",
+    "performance": 66,
+    "accessibility": 97,
+    "bestPractices": 73,
+    "seo": 92
+  },
+  {
+    "device": "mobile",
+    "page": "04-product-strawberry",
+    "url": "http://127.0.0.1:9292/products/strawberry-shortcake",
+    "performance": 57,
+    "accessibility": 92,
+    "bestPractices": 73,
+    "seo": 100
+  },
+  {
+    "device": "mobile",
+    "page": "05-page-delivery",
+    "url": "http://127.0.0.1:9292/pages/delivery",
+    "performance": 77,
+    "accessibility": 97,
+    "bestPractices": 73,
+    "seo": 92
+  },
+  {
+    "device": "mobile",
+    "page": "06-page-faq",
+    "url": "http://127.0.0.1:9292/pages/faq",
+    "performance": 89,
+    "accessibility": 96,
+    "bestPractices": 73,
+    "seo": 92
+  }
+]
