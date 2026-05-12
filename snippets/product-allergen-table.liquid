@@ -4,11 +4,13 @@
   Reads metafields:
   - product.metafields.custom.allergens
       type: list.metaobject_reference → metaobject definition `allergen`
-      fields: name (single_line_text), category (single_line_text: 「特定原材料」 / 「推奨表示」),
-              icon (file_reference, optional)
+      fields: name (single_line_text, required), icon (file_reference, optional)
       The order shown follows the order set on the metafield in the admin.
   - product.metafields.custom.allergen_contamination
       type: multi_line_text_field — コンタミネーション（混入の可能性）に関する注記
+
+  The 「区分」(特定原材料 / 推奨表示) column is derived here from the fixed list of
+  8 特定原材料 defined by Japan's 食品表示法 — no metaobject field is needed for it.
 
   Accepts:
   - product: {Object} required
@@ -19,6 +21,7 @@
 {%- liquid
   assign allergens = product.metafields.custom.allergens.value
   assign contamination = product.metafields.custom.allergen_contamination.value
+  assign specified_raw_materials = '卵,乳,小麦,えび,かに,そば,落花生,くるみ' | split: ','
 -%}
 
 <div class="allergen-table">
@@ -37,6 +40,14 @@
       </thead>
       <tbody>
         {%- for a in allergens -%}
+          {%- liquid
+            assign a_name = a.name.value | default: a.system.handle
+            if specified_raw_materials contains a_name
+              assign a_category = '特定原材料'
+            else
+              assign a_category = '推奨表示'
+            endif
+          -%}
           <tr>
             <th scope="row" class="allergen-table__name">
               {%- if a.icon.value != blank -%}
@@ -46,9 +57,9 @@
                   | image_tag: alt: '', loading: 'lazy', widths: '24, 48', class: 'allergen-table__icon'
                 }}
               {%- endif -%}
-              <span>{{ a.name.value | default: a.system.handle | escape }}</span>
+              <span>{{ a_name | escape }}</span>
             </th>
-            <td class="allergen-table__category">{{ a.category.value | default: '—' | escape }}</td>
+            <td class="allergen-table__category">{{ a_category }}</td>
           </tr>
         {%- endfor -%}
       </tbody>
