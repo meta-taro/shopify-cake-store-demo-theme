@@ -188,7 +188,7 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [x] 3d お届け日ピッカー（最短 3 営業日後 / 水曜定休除外 / 時間帯選択）
   - [x] 3e 商品カード強化（タグベースバッジ "新商品 / 季節限定 / 人気" + 税込表記）
   - [x] 3f 補助ページ（お届けについて / FAQ / 特定商取引法 / アトリエのご案内 — 4 テンプレート + admin 手順書）
-  - [ ] 3g アレルゲン構造化データ（任意・スキップ）
+  - [x] 3g（アレルゲン構造化データは Phase 5a に統合）
 - [x] **Phase 4** — 仕上げ・公開準備（2026-05-11 完了）
   - [x] meta description / OGP（`page_description` → `settings.brand_description` フォールバック、`og:image` は `settings.brand_image` にフォールバック）
   - [x] PDP アクセシビリティ（税込 suffix / ギフト・お届け日の注記の `color-contrast`、数量入力の `aria-label`）
@@ -196,9 +196,46 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [x] PDP メイン商品画像に `loading="eager"` + `fetchpriority="high"`（LCP 前倒し）
   - [x] スクリーンショット撮影方法の改善（reveal-on-scroll を `reducedMotion: "reduce"` で無効化し全セクションを最終状態でキャプチャ）
   - [x] Lighthouse 計測（[`docs/lighthouse-baseline.md`](./docs/lighthouse-baseline.md)：SEO 92→100、PDP a11y 92→97）
-  - [ ] 公開リハーサル（live テーマへの `theme push` / Bogus Gateway テスト注文 / Theme Library での publish）— 開発ストア管理者側の手動作業（手順は [`docs/qa-checklist.md`](./docs/qa-checklist.md) 公開前リハーサル）
+  - [x] 公開リハーサル（live テーマへの `theme push` / Bogus Gateway テスト注文 #1001 / `money_with_currency_format` 整理 / 不要テーマ削除）
+  - [x] アトリエのご案内ページに店舗外観画像（`11-store-exterior.png`）、特商法ページの事業者名を架空名に統一（2026-05-12）
 
-各フェーズのスクリーンショット差分は [`docs/screenshots/`](./docs/screenshots/) で `baseline → phase-1 → phase-2 → phase-3 → phase-4` の順に確認できます。
+### 提案機能ショーケース ロードマップ（Phase 5 以降・順次着手）
+
+各 Phase はサブステップ（5a, 5b…）に分割し、1 つずつ commit → スクショ Before/After → README / `docs/qa-checklist.md` 更新で進める。
+
+- [ ] **Phase 5** — 商品情報の充実
+  - [ ] 5a アレルゲン表示（商品メタフィールド `custom.allergens` + コンタミネーション注記 → PDP テーブル/アイコン + 商品カード小バッジ + コレクション/検索のメタフィールドフィルタ連携）
+  - [ ] 5b 号数早見表（PDP に直径 / 想定人数の表）
+  - [ ] 5c 季節商品の販売期間バッジ + カウントダウン（"販売は〜まで"）
+- [ ] **Phase 6** — SEO・構造化データ仕上げ
+  - [ ] 6a `FAQPage` JSON-LD（FAQ ページ）
+  - [ ] 6b `BreadcrumbList` JSON-LD + パンくず UI（商品 / コレクション / 補助ページ）
+- [ ] **Phase 7** — ギフト体験の強化
+  - [ ] 7a ラッピング画像付きラジオ
+  - [ ] 7b メッセージカード文字数カウンター
+  - [ ] 7c 熨斗（のし）プレビュー
+- [ ] **Phase 8** — 検索・フィルター・並べ替え（Shopify Search & Discovery 連携）
+  - [ ] 8a faceted filtering（価格 / タグ / アレルゲン / コレクション）
+  - [ ] 8b ソート + 検索結果ページ強化
+- [ ] **Phase 9** — 回遊・パーソナライズ（フロントエンドのみ・アプリ不要）
+  - [ ] 9a 最近見た商品（localStorage）
+  - [ ] 9b ウィッシュリスト（localStorage）
+  - [ ] 9c 送料シミュレーター（都道府県選択 → 送料表示）
+- [ ] **Phase 10** — コンテンツ（ブログ / コラム）
+  - [ ] 10a blog テンプレート一式（季節の素材 / レシピ / お知らせ）
+  - [ ] 10b 関連記事 + 記事内商品リンク
+- [ ] **Phase 11** — 店舗受け取り・お客様の声
+  - [ ] 11a local pickup 導線（Shopify 標準機能 + テーマ表示）
+  - [ ] 11b お客様の声セクション（メタオブジェクトのダミーレビュー。※本番のレビュー収集はアプリ前提と注記）
+- [ ] **Phase 12** — 多言語・通貨
+  - [ ] 12a en ロケール整備
+  - [ ] 12b language / currency switcher の実用化（現状フッターに設置のみ）
+- [ ] **Phase 13** — 顧客アカウント
+  - [ ] 13a 注文履歴 / 再注文 / お気に入り
+- [ ] **Phase 14** — アクセシビリティ・パフォーマンス 第 2 弾
+  - [ ] 14a Lighthouse さらなる作り込み / 画像最適化 / CLS 対策
+
+各フェーズのスクリーンショット差分は [`docs/screenshots/`](./docs/screenshots/) で `baseline → phase-1 → phase-2 → phase-3 → phase-4 → …` の順に確認できます。
 
 ## Credits
 
