@@ -1,8 +1,8 @@
 {% comment %}
-  Renders one tag-based badge (新商品 / 季節限定 / 人気) inside card__badge.
+  Renders one badge (人気 / 季節限定 / 新商品 / アレルゲン情報あり) inside card__badge.
   Shown only when the product isn't sold out and isn't on sale.
 
-  Tag priority (first match wins): popular > seasonal > new
+  Priority (first match wins): popular > seasonal > new > has allergen metafield
 
   Accepts:
   - card_product: {Object}
@@ -21,6 +21,9 @@
   elsif card_product.tags contains 'new'
     assign extra_label = '新商品'
     assign extra_class = 'badge--new'
+  elsif card_product.metafields.custom.allergens != blank
+    assign extra_label = 'アレルゲン情報あり'
+    assign extra_class = 'badge--allergen'
   endif
 -%}
 

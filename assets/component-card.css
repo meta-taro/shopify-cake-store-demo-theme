@@ -506,6 +506,12 @@
   color: #ffffff !important;
 }
 
+.badge--allergen {
+  background-color: #6b5b4a !important;
+  border-color: #6b5b4a !important;
+  color: #ffffff !important;
+}
+
 .card-information > .rating {
   margin-top: 0.4rem;
 }

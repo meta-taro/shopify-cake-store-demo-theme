@@ -12,6 +12,8 @@ docs/screenshots/
 ├── phase-1/           # Phase 1 完了時 (2026-05-03)
 ├── phase-2/           # Phase 2 完了時 (2026-05-07)
 ├── phase-3/           # Phase 3 完了時 (2026-05-11)
+├── phase-4/           # Phase 4 完了時 (2026-05-11)
+├── phase-5/           # Phase 5 進行中 (5a アレルゲン表示, 2026-05-12)
 └── ...
 ```
 
@@ -55,6 +57,11 @@ docs/screenshots/
 - **撮影方法の改善**: `reducedMotion: "reduce"` を指定。phase-3 までは reveal-on-scroll で `opacity:0.01` のまま写っていたファーストビュー外セクション（ホームのキャンペーン / ブランド紹介 / クーポン、お届けページの「定休日について」「冷凍配送と解凍方法」など）が、phase-4 からは全部最終状態で写る。phase-3 のスクショ下部にあった大きな空白帯はこの旧挙動由来で、実機では発生しない
 - **補足ページの見出し重複を解消**: `main-page` の h1（ページタイトル）と各ページ先頭セクションの見出しが同じ文言で二重になっていた問題を修正。`page.faq` / `page.legal` / `page.store-info` は intro リッチテキストの h1 見出しブロックを削除、`page.delivery` は info_grid multicolumn の `title` を「配送について」に変更（h1 と同文言の重複を避けつつ、空にすると起きる h1→h3 の見出しレベル飛び（Lighthouse `heading-order`）も防ぐ）。`page.legal` 末尾の「本ページについて」は h3→h2 に上げて h1→h3 飛びを解消
 - 機能追加は無し（Phase 4 は a11y / SEO / meta タグ / OGP の仕上げが中心。詳細は [`docs/lighthouse-baseline.md`](../lighthouse-baseline.md) phase-4 セクション）
+
+### phase-4 → phase-5 (2026-05-12)
+- **5a アレルゲン表示**: PDP（04-product-strawberry）の「アレルゲン情報」行が、固定文から構造化テーブル（アレルゲン名 / 区分 ＋ コンタミネーション注記）に。商品メタフィールド `custom.allergens`（メタオブジェクト `allergen` のリスト）と `custom.allergen_contamination` を参照。メタフィールド未設定の商品は「準備中」表示
+- **04 商品カード**: `custom.allergens` 設定済み商品に「アレルゲン情報あり」バッジ（`人気 / 季節限定 / 新商品` バッジが優先されるため、それらが付かない商品でのみ表示）
+- スクショの差分は admin でメタフィールドを登録した後に反映される（`docs/admin-setup.md` §9）。テーマ側コードのみの状態では PDP は「準備中」表示
 
 ## 撮り方
 

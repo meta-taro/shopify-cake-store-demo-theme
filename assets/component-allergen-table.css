@@ -1,0 +1,87 @@
+/*
+ * Sweet Atelier — allergen table
+ * Rendered by snippets/product-allergen-table.liquid inside a PDP collapsible tab.
+ * Reads product.metafields.custom.allergens (list.metaobject_reference) and
+ * product.metafields.custom.allergen_contamination (multi_line_text_field).
+ */
+
+.allergen-table {
+  margin-top: 1rem;
+}
+
+.allergen-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+}
+
+.allergen-table__table caption {
+  text-align: left;
+}
+
+.allergen-table__table th,
+.allergen-table__table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 0.1rem solid rgba(61, 43, 31, 0.15);
+}
+
+.allergen-table__table thead th {
+  font-size: 1.2rem;
+  letter-spacing: 0.06rem;
+  text-transform: none;
+  color: rgba(61, 43, 31, 0.7);
+  border-bottom-width: 0.2rem;
+}
+
+.allergen-table__name {
+  font-weight: 600;
+}
+
+.allergen-table__name span {
+  vertical-align: middle;
+}
+
+.allergen-table__icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  object-fit: contain;
+  margin-right: 0.6rem;
+  vertical-align: middle;
+}
+
+.allergen-table__category {
+  white-space: nowrap;
+  color: rgba(61, 43, 31, 0.8);
+}
+
+.allergen-table__contamination,
+.allergen-table__note {
+  margin-top: 1.2rem;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: rgba(61, 43, 31, 0.8);
+}
+
+.allergen-table__contamination {
+  padding: 1rem 1.2rem;
+  background-color: rgba(217, 199, 167, 0.25);
+  border-radius: var(--inputs-radius, 0.4rem);
+}
+
+.allergen-table__empty {
+  font-size: 1.4rem;
+  color: rgba(61, 43, 31, 0.8);
+}
+
+@media screen and (max-width: 480px) {
+  .allergen-table__table {
+    font-size: 1.3rem;
+  }
+
+  .allergen-table__table th,
+  .allergen-table__table td {
+    padding: 0.7rem 0.6rem;
+  }
+}
