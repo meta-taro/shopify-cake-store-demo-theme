@@ -150,7 +150,7 @@ Phase 3 クロージング時に1件は流して以下を確認:
 
 - **テンプレート一覧は live(発行中)テーマから取得されます**。`shopify theme dev` で開発テーマだけ最新化しても admin のドロップダウンには出ないため、`shopify theme push --theme=<live-theme-id>` で live を最新化してから admin 作業を行ってください。
 - ハンドルを英字にしておくと、他ページからの相互リンク(`/pages/delivery` 等)が確実に動きます。
-- アトリエのご案内ページの `image-with-text` セクションは画像を空のまま push しています。アトリエ写真ができたらテーマカスタマイザで画像をアップロードしてください。
+- アトリエのご案内ページの `image-with-text`（`shop_atelier`）セクションには `docs/seed-data/banners/11-store-exterior.png` を Files にアップロードのうえ設定済み（`templates/page.store-info.json` に `shopify://shop_images/11-store-exterior.png` を記述、`height: adapt`）。画像を差し替える場合は Files に新ファイルをアップロード → テーマカスタマイザ or 同テンプレートの `shop_atelier.settings.image` を更新。
 
 ---
 

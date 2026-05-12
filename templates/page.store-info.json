@@ -70,7 +70,8 @@
     "shop_atelier": {
       "type": "image-with-text",
       "settings": {
-        "height": "medium",
+        "image": "shopify://shop_images/11-store-exterior.png",
+        "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
         "desktop_content_position": "middle",
