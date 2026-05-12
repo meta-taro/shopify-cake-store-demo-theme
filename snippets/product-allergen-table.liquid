@@ -3,8 +3,9 @@
 
   Reads metafields:
   - product.metafields.custom.allergens
-      type: list.metaobject_reference → metaobject definition `allergen`
-      fields: name (single_line_text, required), icon (file_reference, optional)
+      type: list.metaobject_reference → the Shopify-provided "アレルゲン情報" metaobject
+      (or any metaobject exposing a `label` / `name` field). The display name is read from
+      `label` first, then `name`, then the system handle.
       The order shown follows the order set on the metafield in the admin.
   - product.metafields.custom.allergen_contamination
       type: multi_line_text_field — コンタミネーション（混入の可能性）に関する注記
@@ -41,7 +42,7 @@
       <tbody>
         {%- for a in allergens -%}
           {%- liquid
-            assign a_name = a.name.value | default: a.system.handle
+            assign a_name = a.label.value | default: a.name.value | default: a.system.handle
             if specified_raw_materials contains a_name
               assign a_category = '特定原材料'
             else

@@ -232,7 +232,7 @@ a11y / SEO / meta タグ / OGP の仕上げと公開前リハーサル。Phase 4
 #### 5a アレルゲン表示（2026-05-12）
 
 テーマ側: `snippets/product-allergen-table.liquid` / `assets/component-allergen-table.css` 追加、`sections/main-product.liquid` の `collapsible_tab` に `show_allergens` チェック追加、`templates/product.json` の `tab-allergen` で `show_allergens: true`、`snippets/card-product-extra-badge.liquid` にバッジ追加。
-admin 側: メタオブジェクト `allergen` + 商品メタフィールド `custom.allergens` / `custom.allergen_contamination` の登録（`docs/admin-setup.md` §9）。
+admin 側: Shopify 提供の「アレルゲン情報」メタオブジェクト（ラベル + ベースアレルゲン情報）にエントリー作成 + 商品メタフィールド `custom.allergens`（上記メタオブジェクトへの参照リスト）/ `custom.allergen_contamination`（複数行テキスト）の登録（`docs/admin-setup.md` §9）。
 
 - [ ] PDP「アレルゲン情報」行を開くと、固定文ではなく表（アレルゲン名 / 区分）が出る ※メタフィールド登録後
 - [ ] 区分列に「特定原材料」「推奨表示」が出る（テーマ側で 8 特定原材料リストから自動判定。卵/乳/小麦/くるみ→特定原材料、大豆/アーモンド→推奨表示）
