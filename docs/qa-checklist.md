@@ -232,18 +232,18 @@ a11y / SEO / meta タグ / OGP の仕上げと公開前リハーサル。Phase 4
 #### 5a アレルゲン表示（2026-05-12）
 
 テーマ側: `snippets/product-allergen-table.liquid` / `assets/component-allergen-table.css` 追加、`sections/main-product.liquid` の `collapsible_tab` に `show_allergens` チェック追加、`templates/product.json` の `tab-allergen` で `show_allergens: true`、`snippets/card-product-extra-badge.liquid` にバッジ追加。
-admin 側: Shopify 提供の「アレルゲン情報」メタオブジェクト（ラベル + ベースアレルゲン情報）にエントリー作成 + 商品メタフィールド `custom.allergens`（上記メタオブジェクトへの参照リスト）/ `custom.allergen_contamination`（複数行テキスト）の登録（`docs/admin-setup.md` §9）。
+admin 側: 各商品の標準「アレルゲン情報」カテゴリーメタフィールドに値を設定（`docs/admin-setup.md` §9）。任意で `custom.allergen_contamination`（複数行テキスト）を定義してコンタミ注記を入力。
 
-- [ ] PDP「アレルゲン情報」行を開くと、固定文ではなく表（アレルゲン名 / 区分）が出る ※メタフィールド登録後
+- [ ] PDP「アレルゲン情報」行を開くと、固定文ではなく表（アレルゲン名 / 区分）が出る ※標準メタフィールド設定後
 - [ ] 区分列に「特定原材料」「推奨表示」が出る（テーマ側で 8 特定原材料リストから自動判定。卵/乳/小麦/くるみ→特定原材料、大豆/アーモンド→推奨表示）
-- [ ] アレルゲンの並び順が商品メタフィールドで設定した順になっている
-- [ ] コンタミネーション注記（`custom.allergen_contamination`）が表の下に出る（改行が `<br>` で反映）
-- [ ] メタフィールド未設定の商品では「アレルゲン情報は現在準備中です」と出る（エラーにならない）
+- [ ] アレルゲンの並び順が標準メタフィールドで設定した順になっている
+- [ ] コンタミネーション注記（`custom.allergen_contamination`）が表の下に出る（改行が `<br>` で反映）※注記を設定した商品のみ
+- [ ] アレルゲン未設定の商品では「アレルゲン情報は現在準備中です」と出る（エラーにならない）
 - [ ] テーマカスタマイザで「アレルゲン表を表示する」チェックを OFF にすると表が消える
-- [ ] 商品カード（home / collection）で `custom.allergens` 設定済み商品に「アレルゲン情報あり」バッジが出る（ただし `人気 / 季節限定 / 新商品` バッジが優先）
+- [ ] 商品カード（home / collection）でアレルゲン設定済み商品に「アレルゲン情報あり」バッジが出る（ただし `人気 / 季節限定 / 新商品` バッジが優先）
 - [ ] アレルゲン表のコントラスト比が 4.5:1 以上（茶系テキスト on オフホワイト / サンドベージュ）
 - [ ] `<table>` に `<caption>`（visually-hidden）と `<th scope>` が付いている（スクリーンリーダー）
-- [ ] （任意）「検索と発見」アプリで `custom.allergens` をフィルター追加 → コレクションページに「アレルゲン」絞り込みが出る
+- [ ] （任意）「検索と発見」アプリで標準「アレルゲン情報」メタフィールドをフィルター追加 → コレクションページに絞り込みが出る
 - [ ] `npm run screenshot:baseline -- --label phase-5` で撮影 → `docs/screenshots/phase-5/`
 - [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 

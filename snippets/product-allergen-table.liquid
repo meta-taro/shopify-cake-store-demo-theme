@@ -2,13 +2,13 @@
   Renders a structured allergen table for a product.
 
   Reads metafields:
-  - product.metafields.custom.allergens
-      type: list.metaobject_reference → the Shopify-provided "アレルゲン情報" metaobject
-      (or any metaobject exposing a `label` / `name` field). The display name is read from
-      `label` first, then `name`, then the system handle.
-      The order shown follows the order set on the metafield in the admin.
+  - product.metafields.shopify.allergen-information (Shopify standard category metafield)
+      preferred source; type: list.metaobject_reference → Shopify taxonomy allergen values.
+      Falls back to product.metafields.custom.allergens (a custom list.metaobject_reference)
+      if the standard one is empty. The display name is read from `label` first, then `name`,
+      then the system handle. The order shown follows the order set on the metafield in admin.
   - product.metafields.custom.allergen_contamination
-      type: multi_line_text_field — コンタミネーション（混入の可能性）に関する注記
+      type: multi_line_text_field — コンタミネーション（混入の可能性）に関する注記（任意）
 
   The 「区分」(特定原材料 / 推奨表示) column is derived here from the fixed list of
   8 特定原材料 defined by Japan's 食品表示法 — no metaobject field is needed for it.
@@ -20,7 +20,7 @@
 {{ 'component-allergen-table.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign allergens = product.metafields.custom.allergens.value
+  assign allergens = product.metafields.shopify["allergen-information"].value | default: product.metafields.custom.allergens.value
   assign contamination = product.metafields.custom.allergen_contamination.value
   assign specified_raw_materials = '卵,乳,小麦,えび,かに,そば,落花生,くるみ' | split: ','
 -%}
@@ -42,7 +42,7 @@
       <tbody>
         {%- for a in allergens -%}
           {%- liquid
-            assign a_name = a.label.value | default: a.name.value | default: a.system.handle
+            assign a_name = a.label.value | default: a.label | default: a.name.value | default: a.name | default: a.system.handle
             if specified_raw_materials contains a_name
               assign a_category = '特定原材料'
             else

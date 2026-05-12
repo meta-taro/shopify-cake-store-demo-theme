@@ -3,6 +3,7 @@
   Shown only when the product isn't sold out and isn't on sale.
 
   Priority (first match wins): popular > seasonal > new > has allergen metafield
+  (allergen = the Shopify standard "アレルゲン情報" category metafield, falling back to custom.allergens)
 
   Accepts:
   - card_product: {Object}
@@ -21,9 +22,12 @@
   elsif card_product.tags contains 'new'
     assign extra_label = '新商品'
     assign extra_class = 'badge--new'
-  elsif card_product.metafields.custom.allergens != blank
-    assign extra_label = 'アレルゲン情報あり'
-    assign extra_class = 'badge--allergen'
+  else
+    assign allergen_meta = card_product.metafields.shopify["allergen-information"].value | default: card_product.metafields.custom.allergens.value
+    if allergen_meta != blank
+      assign extra_label = 'アレルゲン情報あり'
+      assign extra_class = 'badge--allergen'
+    endif
   endif
 -%}
 
