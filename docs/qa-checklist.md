@@ -251,13 +251,13 @@ admin 側: 各商品の標準「アレルゲン情報」カテゴリーメタフ
 
 テーマ側: `snippets/product-size-guide.liquid` / `assets/component-size-guide.css` 追加、`sections/main-product.liquid` の `collapsible_tab` に `show_size_guide` チェック追加、`templates/product.json` の `tab-size-guide` で `show_size_guide: true`（旧 `content` の固定 `<ul>` は短い補足文に置換）。admin 作業なし（メタフィールド不使用）。
 
-- [ ] PDP「サイズの目安」行を開くと、号数 / 直径の目安 / 目安人数の表（3〜7号）が出る
-- [ ] 「サイズ」バリエーションを持つ商品（苺のショートケーキ等）では、該当号数の行が強調され「この商品で選べます」バッジが付く
+- [x] PDP「サイズの目安」行を開くと、号数 / 直径の目安 / 目安人数の表（3〜7号）が出る（ローカル + live で確認）
+- [x] 「サイズ」バリエーションを持つ商品（苺のショートケーキ等）では、該当号数の行が強調され「この商品で選べます」バッジが付く
 - [ ] 「サイズ」バリエーションが号数でない商品（アトリエクッキー缶 = S/M）では全行が一般目安として表示され、強調なし（エラーにならない）
 - [ ] テーマカスタマイザで「号数早見表を表示する」チェックを OFF にすると表が消える
-- [ ] 表のコントラスト比が 4.5:1 以上（バッジ = 白文字 on ココアブラウン）
-- [ ] `<table>` に `<caption>`（visually-hidden）と `<th scope>` が付いている
-- [ ] モバイル幅で表が横スクロール可能（`overflow-x: auto`）／バッジが折り返す
+- [x] 表のコントラスト比が 4.5:1 以上（バッジ = 白文字 on ココアブラウン `--color-base-text`）
+- [x] `<table>` に `<caption>`（visually-hidden）と `<th scope>` が付いている
+- [x] モバイル幅で表が横スクロール可能（`overflow-x: auto`）／バッジが折り返す
 - [x] `npm run screenshot:baseline -- --label phase-5b` で撮影 → `docs/screenshots/phase-5b/`（16 枚、PDP 04 は健全レンダリングを目視確認。表自体は collapsible_tab 折りたたみ内なのでスクショには写らない＝phase-5a と同じ扱い）
 - [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
