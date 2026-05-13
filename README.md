@@ -237,6 +237,31 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
 
 各フェーズのスクリーンショット差分は [`docs/screenshots/`](./docs/screenshots/) で `baseline → phase-1 → phase-2 → phase-3 → phase-4 → …` の順に確認できます。
 
+## Beyond This Repo — さらなる学習の発展とビジネスへの展開
+
+このリポジトリは「Shopify テーマ開発の学習＋スキルを見せるためのポートフォリオ」が目的で、Rise theme の派生物（＝そのまま販売はできない）です。ここから先、学習を発展させてビジネスにつなげるなら次のような道筋があります（本リポジトリでは扱わない、構想メモ）。
+
+### 1. Shopify App を作って公式公開（開発者ブランディング向き）
+- **何を作る**: 外部ホストの Web アプリ（Node / Rails 等）が Shopify の各種 API（Admin API / Storefront API）を叩く構成。管理画面に画面を足す（App Bridge + Polaris）か、ストアフロントにウィジェットを足す（**Theme App Extension / App Block / App Embed** — テーマのコードを直接いじらず機能を載せる現行推奨の仕組み）か、Webhook / Shopify Functions / Checkout UI Extensions で裏側に介入するか。
+- **狙い目**: いきなり大型アプリは審査・保守・競合で消耗するので、**小さく実在のニッチ**から。例：このデモで line item properties として実装した「のし・ラッピング指定」「お届け日時指定の高機能版」のような日本市場向け機能。
+- **配布**: Shopify App Store（審査あり）。課金は Shopify の Billing API に乗せられる（年商 100万ドルまでレベニューシェア 0%）。
+- **宣伝商材化**: App Store リスティング（マーチャント向け）＋ **Zenn / Qiita 記事**（「Shopify アプリを公式公開するまで」「Theme App Extension でウィジェットを作る」系は読まれやすい。1 本完結より企画→実装→審査→運用で複数本に分割）＋デモ動画＋（任意で）公開リポジトリ。公開する場合は `client_secret` / API キー / Webhook 署名シークレットを絶対にコミットしない（`.env` を gitignore、`.env.example` を置く）。Shopify の API 利用規約・ブランドガイドライン（アプリ名に "Shopify" を含めない等）を遵守。
+
+### 2. 販売用テーマを ThemeForest / Shopify Theme Store へ（このリポジトリとは別物）
+- ⚠️ **本リポジトリのテーマは Rise の派生なので販売不可**。販売用テーマは**新規プロジェクトとしてゼロから（またはライセンスがクリーンなベースから）**起こす必要がある。本リポジトリで身につけた Liquid / セクション設計のスキルを、クリーンな新規テーマに活かす形。
+- **ThemeForest（Envato）**: 審査のハードルが比較的低く「登録して様子見」がしやすい。マーケットプレイス自体に集客力あり。単価は安め。まず需要を測る入口に向く。
+- **Shopify Theme Store**: 参入障壁は高い（掲載テーマ数は世界で 100〜200 程度、品質・パフォーマンス・サポート体制まで審査、レベニューシェア＋独占販売＋継続メンテ義務）が、入れれば Shopify 本体が集客してくれるので外部マーケ最小で売れる“本命”。ThemeForest で手応えを得てから挑戦するルートが現実的。
+
+### 3. 受託・コンサル（学習リポジトリをそのまま営業資料に）
+- このリポジトリ＋スクリーンショット＋（作るなら）`docs/feature-matrix.md` を「標準テーマカスタマイズでここまでできます」の実物デモとして使う。提案では「テーマカスタマイズで完結すること」と「アプリ追加が前提のこと（レビュー本格運用・サブスク・複雑な在庫連携など）」を切り分けると話が通りやすい。
+- ライブデモは開発ストア（提案時だけパスワード共有 or 一時解除）で見せる。
+
+### 4. AEO / LLMO（AI 経由の流入・購入への対応）
+- Shopify はプラットフォーム側で `llms.txt` / `agents.md` / UCP（Universal Commerce Protocol）の入口を**自動配信**しており、Shopify ストアは AI コマースの最低要件を勝手に満たしている（テーマ側の作業は基本不要。`templates/llms.txt.liquid` を置けば中身をカスタマイズ可）。
+- 確実に効くのは従来からの**構造化データ（JSON-LD / schema.org）**。Phase 6（SEO・構造化データ）で `FAQPage` / `BreadcrumbList` を入れる予定。「構造化データをちゃんとやる＋ついでに llms.txt も置く」が AEO/LLMO 実務の定石。
+
+> 上記はいずれも本リポジトリのスコープ外。Phase 5〜14（上記ロードマップ）を一通り終えたあとの発展方向のメモ。
+
 ## Credits
 
 このテーマは Shopify 公式の **[Rise theme](https://themes.shopify.com/themes/rise)** をベースとして派生したものです。元テーマの著作権・ライセンスは Shopify Inc. に帰属します。本リポジトリで公開しているカスタマイズ部分は学習用の派生物であり、Rise theme の利用規約に従って使用してください。
