@@ -87,7 +87,8 @@
           "settings": {
             "heading": "サイズの目安",
             "icon": "ruler",
-            "content": "<p>ホールサイズの目安です。ご利用人数の参考にしてください。</p><ul><li><strong>3号</strong>（直径 約 9cm）／2〜3名様</li><li><strong>4号</strong>（直径 約 12cm）／3〜4名様</li><li><strong>5号</strong>（直径 約 15cm）／5〜6名様</li><li><strong>6号</strong>（直径 約 18cm）／7〜8名様</li><li><strong>7号</strong>（直径 約 21cm）／9〜10名様</li></ul><p>※ ロールケーキ・焼き菓子・カットケーキ等は形状が異なるため「商品仕様」をご確認ください。</p>"
+            "content": "<p>ご利用人数に合わせて号数をお選びください。下の早見表を目安にどうぞ。</p>",
+            "show_size_guide": true
           }
         },
         "tab-storage": {

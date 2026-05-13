@@ -1,0 +1,82 @@
+/*
+ * Sweet Atelier — cake size quick-reference table (号数早見表)
+ * Rendered by snippets/product-size-guide.liquid inside a PDP collapsible tab.
+ * The size data is static; rows matching the product's 「サイズ」 variant option
+ * receive the `size-guide__row--available` modifier.
+ */
+
+.size-guide {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.size-guide__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+}
+
+.size-guide__table caption {
+  text-align: left;
+}
+
+.size-guide__table th,
+.size-guide__table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 0.1rem solid rgba(61, 43, 31, 0.15);
+  white-space: nowrap;
+}
+
+.size-guide__table thead th {
+  font-size: 1.2rem;
+  letter-spacing: 0.06rem;
+  color: rgba(61, 43, 31, 0.7);
+  border-bottom-width: 0.2rem;
+}
+
+.size-guide__gosu {
+  font-weight: 600;
+}
+
+.size-guide__row--available {
+  background-color: rgba(232, 180, 184, 0.18);
+}
+
+.size-guide__badge {
+  display: inline-block;
+  margin-left: 0.6rem;
+  padding: 0.15rem 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #fff;
+  background-color: var(--color-base-text, #3d2b1f);
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+.size-guide__note {
+  margin-top: 1.2rem;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: rgba(61, 43, 31, 0.8);
+}
+
+@media screen and (max-width: 480px) {
+  .size-guide__table {
+    font-size: 1.3rem;
+  }
+
+  .size-guide__table th,
+  .size-guide__table td {
+    padding: 0.7rem 0.6rem;
+  }
+
+  .size-guide__badge {
+    display: block;
+    margin-left: 0;
+    margin-top: 0.3rem;
+  }
+}

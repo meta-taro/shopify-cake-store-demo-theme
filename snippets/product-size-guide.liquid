@@ -1,0 +1,71 @@
+{% comment %}
+  Renders a cake size quick-reference table (号数早見表) for a product.
+
+  The size data (号数 → 直径 → 目安人数) is a fixed reference table defined here —
+  it does not depend on any metafield. If the product has a variant option named
+  「サイズ」, the matching 号数 rows are highlighted with the `--available` modifier
+  so the customer can see which sizes this product actually offers. When no 号数 is
+  detected, the full reference table is shown as a general guide.
+
+  Accepts:
+  - product: {Object} required
+{% endcomment %}
+
+{{ 'component-size-guide.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign gosu_list = '3,4,5,6,7' | split: ','
+  assign diameter_list = '9,12,15,18,21' | split: ','
+  assign serves_list = '2〜3名様,3〜4名様,5〜6名様,7〜8名様,9〜10名様' | split: ','
+
+  assign available_gosu = ','
+  for option in product.options_with_values
+    assign option_name = option.name | downcase
+    if option_name contains 'サイズ' or option_name contains 'size'
+      for value in option.values
+        assign digits = value | replace: '号', '' | strip
+        assign num = digits | times: 1
+        if num > 0
+          assign available_gosu = available_gosu | append: num | append: ','
+        endif
+      endfor
+    endif
+  endfor
+-%}
+
+<div class="size-guide">
+  <table class="size-guide__table">
+    <caption class="visually-hidden">ホールケーキの号数早見表（号数・直径・目安人数）</caption>
+    <thead>
+      <tr>
+        <th scope="col">号数</th>
+        <th scope="col">直径の目安</th>
+        <th scope="col">目安人数</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for gosu in gosu_list -%}
+        {%- liquid
+          assign idx = forloop.index0
+          assign check = ',' | append: gosu | append: ','
+          assign is_available = false
+          if available_gosu contains check
+            assign is_available = true
+          endif
+        -%}
+        <tr class="size-guide__row{% if is_available %} size-guide__row--available{% endif %}">
+          <th scope="row" class="size-guide__gosu">
+            {{ gosu }}号
+            {%- if is_available -%}<span class="size-guide__badge">この商品で選べます</span>{%- endif -%}
+          </th>
+          <td>約 {{ diameter_list[idx] }}cm</td>
+          <td>{{ serves_list[idx] }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+
+  <p class="size-guide__note">
+    ※ 直径・人数はあくまで目安です。ロールケーキ・焼き菓子・カットケーキ等は形状が異なるため、「商品仕様」もあわせてご確認ください。
+  </p>
+</div>

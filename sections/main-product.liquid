@@ -226,6 +226,9 @@
                       {%- if block.settings.show_allergens -%}
                         {% render 'product-allergen-table', product: product %}
                       {%- endif -%}
+                      {%- if block.settings.show_size_guide -%}
+                        {% render 'product-size-guide', product: product %}
+                      {%- endif -%}
                       {{ block.settings.page.content }}
                     </div>
                   </details>
@@ -1172,6 +1175,13 @@
           "default": false,
           "label": "アレルゲン表を表示する",
           "info": "商品メタフィールド custom.allergens（アレルゲン metaobject のリスト）と custom.allergen_contamination を読み取り、この行の中に表を表示します。"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_size_guide",
+          "default": false,
+          "label": "号数早見表を表示する",
+          "info": "号数・直径・目安人数の早見表を表示します。商品に「サイズ」バリエーションがある場合、該当する号数の行を強調します。"
         }
       ]
     },

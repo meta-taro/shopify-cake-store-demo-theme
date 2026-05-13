@@ -247,6 +247,20 @@ admin 側: 各商品の標準「アレルゲン情報」カテゴリーメタフ
 - [x] `npm run screenshot:baseline -- --label phase-5` で撮影 → `docs/screenshots/phase-5/`
 - [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
+#### 5b 号数早見表（2026-05-13）
+
+テーマ側: `snippets/product-size-guide.liquid` / `assets/component-size-guide.css` 追加、`sections/main-product.liquid` の `collapsible_tab` に `show_size_guide` チェック追加、`templates/product.json` の `tab-size-guide` で `show_size_guide: true`（旧 `content` の固定 `<ul>` は短い補足文に置換）。admin 作業なし（メタフィールド不使用）。
+
+- [ ] PDP「サイズの目安」行を開くと、号数 / 直径の目安 / 目安人数の表（3〜7号）が出る
+- [ ] 「サイズ」バリエーションを持つ商品（苺のショートケーキ等）では、該当号数の行が強調され「この商品で選べます」バッジが付く
+- [ ] 「サイズ」バリエーションが号数でない商品（アトリエクッキー缶 = S/M）では全行が一般目安として表示され、強調なし（エラーにならない）
+- [ ] テーマカスタマイザで「号数早見表を表示する」チェックを OFF にすると表が消える
+- [ ] 表のコントラスト比が 4.5:1 以上（バッジ = 白文字 on ココアブラウン）
+- [ ] `<table>` に `<caption>`（visually-hidden）と `<th scope>` が付いている
+- [ ] モバイル幅で表が横スクロール可能（`overflow-x: auto`）／バッジが折り返す
+- [ ] `npm run screenshot:baseline -- --label phase-5b` で撮影 → `docs/screenshots/phase-5b/`
+- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+
 ---
 
 ## 公開前リハーサル（Phase 4 終盤）
