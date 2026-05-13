@@ -258,8 +258,8 @@ admin 側: 各商品の標準「アレルゲン情報」カテゴリーメタフ
 - [ ] 表のコントラスト比が 4.5:1 以上（バッジ = 白文字 on ココアブラウン）
 - [ ] `<table>` に `<caption>`（visually-hidden）と `<th scope>` が付いている
 - [ ] モバイル幅で表が横スクロール可能（`overflow-x: auto`）／バッジが折り返す
-- [ ] `npm run screenshot:baseline -- --label phase-5b` で撮影 → `docs/screenshots/phase-5b/`
-- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+- [x] `npm run screenshot:baseline -- --label phase-5b` で撮影 → `docs/screenshots/phase-5b/`（16 枚、PDP 04 は健全レンダリングを目視確認。表自体は collapsible_tab 折りたたみ内なのでスクショには写らない＝phase-5a と同じ扱い）
+- [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
 ---
 
