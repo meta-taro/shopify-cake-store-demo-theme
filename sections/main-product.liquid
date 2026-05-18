@@ -140,6 +140,14 @@
                     {{ form | payment_terms }}
                   {%- endform -%}
                 </div>
+              {%- when 'sale_period' -%}
+                <div {{ block.shopify_attributes }}>
+                  {%- render 'product-sale-period',
+                    product: product,
+                    placement: 'pdp',
+                    emphasis_threshold: block.settings.emphasis_threshold
+                  -%}
+                </div>
               {%- when 'inventory' -%}
                 <p
                   class="product__inventory{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.inventory_management != 'shopify' %} visibility-hidden{% endif %}"
@@ -795,6 +803,28 @@
       "type": "price",
       "name": "t:sections.main-product.blocks.price.name",
       "limit": 1
+    },
+    {
+      "type": "sale_period",
+      "name": "販売期間バナー",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "商品メタフィールド custom.sale_start / custom.sale_end（日付）を読み取り、販売期間と残り日数を表示します。両方未設定の商品では何も表示されません。"
+        },
+        {
+          "type": "range",
+          "id": "emphasis_threshold",
+          "min": 1,
+          "max": 30,
+          "step": 1,
+          "default": 7,
+          "unit": "日",
+          "label": "強調表示する残り日数",
+          "info": "残り日数がこの値以下になると、パネルが強調色（暖色）に切り替わります。"
+        }
+      ]
     },
     {
       "type": "sku",

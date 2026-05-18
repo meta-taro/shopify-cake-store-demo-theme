@@ -1,0 +1,116 @@
+{% comment %}
+  Renders a seasonal sale period banner showing the sale end date and a
+  day-granularity countdown. Used by both the PDP and product cards.
+
+  Reads two custom date metafields on the product:
+  - custom.sale_start (date)
+  - custom.sale_end   (date)
+
+  States:
+  - "live"  : sale_start <= today <= sale_end
+  - "pre"   : today < sale_start
+  - "ended" : today > sale_end
+  - "none"  : both metafields are blank or invalid → nothing is rendered
+
+  Day boundary uses the storefront's request time at day granularity, which
+  works under Shopify's storefront caching (see docs/known-issues.md §12).
+
+  Accepts:
+  - product:             {Object} required
+  - placement:           {String} 'pdp' (default) or 'card'
+  - emphasis_threshold:  {Number} days remaining at which the panel switches to
+                                  the --ending highlight (default 7)
+  - hide_when_ended:     {Boolean} when true, render nothing in the "ended"
+                                   state (used by product cards). Default false.
+{% endcomment %}
+
+{%- liquid
+  assign placement = placement | default: 'pdp'
+  assign emphasis_threshold = emphasis_threshold | default: 7
+  if hide_when_ended == nil
+    assign hide_when_ended = false
+  endif
+
+  assign sale_start = product.metafields.custom.sale_start.value
+  assign sale_end = product.metafields.custom.sale_end.value
+
+  assign state = 'none'
+  assign days_remaining = 0
+  assign days_to_start = 0
+
+  if sale_end != blank
+    assign now_ts = 'now' | date: '%s' | plus: 0
+    assign end_ts = sale_end | date: '%s' | plus: 0
+    assign start_ts = sale_start | date: '%s' | plus: 0
+    if sale_start != blank and now_ts < start_ts
+      assign state = 'pre'
+      assign diff_to_start = start_ts | minus: now_ts | plus: 86399
+      assign days_to_start = diff_to_start | divided_by: 86400
+    elsif now_ts > end_ts
+      assign state = 'ended'
+    else
+      assign state = 'live'
+      assign diff_to_end = end_ts | minus: now_ts | plus: 86399
+      assign days_remaining = diff_to_end | divided_by: 86400
+      if days_remaining < 0
+        assign days_remaining = 0
+      endif
+    endif
+  endif
+-%}
+
+{%- if state == 'none' -%}{%- else -%}
+  {%- if state == 'ended' and hide_when_ended -%}{%- else -%}
+    {{ 'component-sale-period.css' | asset_url | stylesheet_tag }}
+
+    {%- assign modifier = '' -%}
+    {%- if state == 'live' and days_remaining <= emphasis_threshold -%}
+      {%- assign modifier = ' sale-period--ending' -%}
+    {%- elsif state == 'ended' -%}
+      {%- assign modifier = ' sale-period--ended' -%}
+    {%- elsif state == 'pre' -%}
+      {%- assign modifier = ' sale-period--pre' -%}
+    {%- endif -%}
+
+    <div class="sale-period sale-period--{{ placement }}{{ modifier }}">
+      <span class="sale-period__icon" aria-hidden="true">🌸</span>
+      <div class="sale-period__body">
+        {%- if state == 'live' -%}
+          <p class="sale-period__lead">
+            <span class="sale-period__label">季節限定</span>
+            販売は <time datetime="{{ sale_end | date: '%Y-%m-%d' }}">{{ sale_end | date: '%-m/%-d' }}</time> まで
+          </p>
+          <p class="sale-period__countdown">
+            {%- if days_remaining == 0 -%}
+              本日が最終日です
+            {%- elsif days_remaining == 1 -%}
+              残り <strong>1</strong> 日
+            {%- else -%}
+              残り <strong>{{ days_remaining }}</strong> 日
+            {%- endif -%}
+          </p>
+        {%- elsif state == 'pre' -%}
+          <p class="sale-period__lead">
+            <span class="sale-period__label">季節限定</span>
+            <time datetime="{{ sale_start | date: '%Y-%m-%d' }}">{{ sale_start | date: '%-m/%-d' }}</time> から販売開始
+          </p>
+          <p class="sale-period__countdown">
+            {%- if days_to_start == 1 -%}
+              あと <strong>1</strong> 日
+            {%- else -%}
+              あと <strong>{{ days_to_start }}</strong> 日
+            {%- endif -%}
+          </p>
+        {%- elsif state == 'ended' -%}
+          <p class="sale-period__lead">
+            <span class="sale-period__label">販売終了</span>
+            今シーズンの販売は終了しました
+          </p>
+          <p class="sale-period__countdown">
+            次回の販売をお楽しみに
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}

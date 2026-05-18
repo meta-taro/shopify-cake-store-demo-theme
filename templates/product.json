@@ -30,6 +30,12 @@
           "settings": {
           }
         },
+        "sale-period": {
+          "type": "sale_period",
+          "settings": {
+            "emphasis_threshold": 7
+          }
+        },
         "description": {
           "type": "description",
           "settings": {
@@ -121,6 +127,7 @@
         "vendor",
         "title",
         "price",
+        "sale-period",
         "description",
         "variant-picker",
         "quantity-selector",
