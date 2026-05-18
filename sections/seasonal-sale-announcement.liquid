@@ -1,0 +1,238 @@
+{% comment %}
+  Sweet Atelier — seasonal sale announcement.
+
+  Lists products from the current collection whose custom.sale_end metafield
+  is still in the future. Designed to sit above main-collection-product-grid
+  on /collections/seasonal so visitors immediately see what's currently for
+  sale (and how many days are left). Products without the metafields are
+  silently skipped, so the section degrades to "empty list → hidden" when
+  no admin data is set yet.
+{% endcomment %}
+
+{{ 'component-sale-period.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign now_ts = 'now' | date: '%s' | plus: 0
+  assign live_products = ''
+  for product in collection.products limit: section.settings.product_limit
+    assign p_end = product.metafields.custom.sale_end.value
+    if p_end == blank
+      continue
+    endif
+    assign p_end_ts = p_end | date: '%s' | plus: 0
+    if now_ts > p_end_ts
+      continue
+    endif
+    assign live_products = live_products | append: product.id | append: ','
+  endfor
+-%}
+
+{%- if live_products != '' -%}
+  <div class="page-width section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+    {%- style -%}
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+        padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      }
+      @media screen and (min-width: 750px) {
+        .section-{{ section.id }}-padding {
+          padding-top: {{ section.settings.padding_top }}px;
+          padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+      }
+    {%- endstyle -%}
+
+    <div class="seasonal-sale-announcement">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="seasonal-sale-announcement__heading h3">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="seasonal-sale-announcement__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      <ul class="seasonal-sale-announcement__list" role="list">
+        {%- for product in collection.products limit: section.settings.product_limit -%}
+          {%- assign p_end = product.metafields.custom.sale_end.value -%}
+          {%- if p_end == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign p_end_ts = p_end | date: '%s' | plus: 0 -%}
+          {%- if now_ts > p_end_ts -%}{%- continue -%}{%- endif -%}
+
+          {%- assign p_start = product.metafields.custom.sale_start.value -%}
+          {%- assign p_start_ts = 0 -%}
+          {%- if p_start != blank -%}
+            {%- assign p_start_ts = p_start | date: '%s' | plus: 0 -%}
+          {%- endif -%}
+
+          {%- assign p_state = 'live' -%}
+          {%- if p_start_ts > 0 and now_ts < p_start_ts -%}
+            {%- assign p_state = 'pre' -%}
+          {%- endif -%}
+
+          {%- assign p_diff_end = p_end_ts | minus: now_ts | plus: 86399 -%}
+          {%- assign p_days_left = p_diff_end | divided_by: 86400 -%}
+          {%- if p_days_left < 0 -%}{%- assign p_days_left = 0 -%}{%- endif -%}
+
+          {%- assign p_diff_start = p_start_ts | minus: now_ts | plus: 86399 -%}
+          {%- assign p_days_to_start = p_diff_start | divided_by: 86400 -%}
+
+          <li class="seasonal-sale-announcement__item">
+            <a class="seasonal-sale-announcement__link" href="{{ product.url }}">
+              <span class="seasonal-sale-announcement__title">{{ product.title | escape }}</span>
+              <span class="seasonal-sale-announcement__period">
+                {%- if p_state == 'live' -%}
+                  販売は <time datetime="{{ p_end | date: '%Y-%m-%d' }}">{{ p_end | date: '%-m/%-d' }}</time> まで
+                  {%- if p_days_left == 0 %} ・ <strong>本日最終日</strong>
+                  {%- elsif p_days_left == 1 %} ・ <strong>残り 1 日</strong>
+                  {%- else %} ・ <strong>残り {{ p_days_left }} 日</strong>
+                  {%- endif -%}
+                {%- elsif p_state == 'pre' -%}
+                  <time datetime="{{ p_start | date: '%Y-%m-%d' }}">{{ p_start | date: '%-m/%-d' }}</time> から販売開始
+                  {%- if p_days_to_start == 1 %} ・ <strong>あと 1 日</strong>
+                  {%- else %} ・ <strong>あと {{ p_days_to_start }} 日</strong>
+                  {%- endif -%}
+                {%- endif -%}
+              </span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+
+  {%- style -%}
+    .seasonal-sale-announcement {
+      padding: 1.6rem 1.8rem;
+      border-radius: 1rem;
+      background-color: rgba(232, 180, 184, 0.18);
+      border: 0.1rem solid rgba(232, 180, 184, 0.55);
+    }
+    .seasonal-sale-announcement__heading {
+      margin: 0 0 0.4rem;
+      color: var(--color-base-text, #3d2b1f);
+    }
+    .seasonal-sale-announcement__subheading {
+      margin: 0 0 1.2rem;
+      font-size: 1.4rem;
+      color: rgba(61, 43, 31, 0.85);
+    }
+    .seasonal-sale-announcement__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+    @media screen and (min-width: 750px) {
+      .seasonal-sale-announcement__list {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem 2.4rem;
+      }
+    }
+    .seasonal-sale-announcement__item {
+      padding: 0;
+    }
+    .seasonal-sale-announcement__link {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1rem;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      text-decoration: none;
+      color: var(--color-base-text, #3d2b1f);
+      border-bottom: 0.1rem solid rgba(61, 43, 31, 0.1);
+    }
+    .seasonal-sale-announcement__link:hover .seasonal-sale-announcement__title {
+      text-decoration: underline;
+    }
+    .seasonal-sale-announcement__title {
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+    .seasonal-sale-announcement__period {
+      font-size: 1.3rem;
+      color: rgba(61, 43, 31, 0.85);
+    }
+    .seasonal-sale-announcement__period strong {
+      font-weight: 700;
+      color: #b85a2b;
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "季節商品 販売中バナー",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "コレクション内の商品のうち、custom.sale_end が未来日付の商品を「販売は MM/DD まで・残り N 日」リストで表示します。該当商品がゼロ件の場合は何も表示されません。"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "現在販売中の季節商品",
+      "label": "見出し"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "シーズンを過ぎると販売を終了します。お早めにどうぞ。",
+      "label": "サブテキスト"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 6,
+      "label": "最大表示件数"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        { "value": "scheme-1", "label": "Scheme 1" },
+        { "value": "scheme-2", "label": "Scheme 2" },
+        { "value": "scheme-3", "label": "Scheme 3" },
+        { "value": "scheme-4", "label": "Scheme 4" },
+        { "value": "scheme-5", "label": "Scheme 5" }
+      ],
+      "default": "scheme-1",
+      "label": "カラースキーム"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24,
+      "label": "上余白"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 12,
+      "label": "下余白"
+    }
+  ],
+  "presets": [
+    {
+      "name": "季節商品 販売中バナー"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection"]
+  }
+}
+{% endschema %}
