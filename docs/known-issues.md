@@ -276,6 +276,32 @@ PDP 以外（ホーム / 補助ページ）は Shop Pay スクリプトを読ま
 
 ---
 
+## 12. 販売期間カウントダウンは日次粒度（時:分:秒は出さない）
+
+### 内容
+
+Phase 5c の販売期間バナー（`snippets/product-sale-period.liquid` / `sections/seasonal-sale-announcement.liquid`）は「残り N 日」までの粒度しか表示しない。よくある EC の "残り 02:14:36" のような秒単位カウントダウンは採用していない。
+
+### 理由
+
+Shopify Online Store 2.0 のストアフロントは CDN レイヤで HTML を秒〜分単位でキャッシュする。Liquid の `'now' | date: '%s'` はリクエスト到達時刻ではなくキャッシュ生成時刻になるため、秒単位の数字を Liquid で焼き込むと**全ユーザーが古い時刻を見る**事態が起きる。
+
+正しく秒単位カウントダウンを出すには、
+
+1. クライアント JS で `Date.now()` ベースに毎秒タイマー更新
+2. サーバー側で出すのは終了日時の ISO 文字列のみ
+
+の構成にする必要がある。学習デモの範囲では「日次粒度なら Liquid 単体で完結し、キャッシュとも整合する」を優先して、JS タイマーは入れなかった。
+
+### 対応するなら
+
+- `assets/sale-countdown.js` を追加し、`<time datetime="…">` の値を読んで `requestAnimationFrame` / `setInterval` で残り時間を毎秒書き換える
+- `snippets/product-sale-period.liquid` の `.sale-period__countdown` を data-end-at 属性付きにして JS が DOM を更新
+- アクセシビリティ: 視覚的にチカチカするカウンタは `prefers-reduced-motion` を尊重し更新頻度を分単位に落とすか、`aria-live` を `off` にする
+- Lighthouse の CLS（layout shift）を避けるため、`残り XX 日 XX 時間 XX 分 XX 秒` の桁数を固定幅にする
+
+---
+
 ## 更新ルール
 
 - 新しい既知問題が見つかったら**末尾**に追加（番号は連番）

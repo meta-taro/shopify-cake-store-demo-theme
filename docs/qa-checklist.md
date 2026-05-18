@@ -261,6 +261,41 @@ admin 側: 各商品の標準「アレルゲン情報」カテゴリーメタフ
 - [x] `npm run screenshot:baseline -- --label phase-5b` で撮影 → `docs/screenshots/phase-5b/`（16 枚、PDP 04 は健全レンダリングを目視確認。表自体は collapsible_tab 折りたたみ内なのでスクショには写らない＝phase-5a と同じ扱い）
 - [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
+#### 5c 季節商品の販売期間バッジ + カウントダウン（2026-05-18）
+
+テーマ側: `snippets/product-sale-period.liquid` / `assets/component-sale-period.css` / `sections/seasonal-sale-announcement.liquid` を新設。`sections/main-product.liquid` に `sale_period` ブロックを追加し `templates/product.json` の `block_order` に `sale-period` を挿入。`templates/collection.seasonal.json` を新規追加し、`/collections/seasonal` の上に announcement セクションを乗せる。`snippets/card-product-extra-badge.liquid` を更新し、seasonal タグ + 販売期間内のとき「季節限定 ・ 残り N 日」表示、終了後は seasonal バッジを非表示にして優先度を次に譲る。
+admin 側: `custom.sale_start` / `custom.sale_end` 日付メタフィールドを定義し、季節商品（桜と苺のタルト等）に値を設定（`docs/admin-setup.md` §10）。
+
+##### PDP 表示
+- [ ] 販売期間内の商品 PDP（桜と苺のタルト等）で、価格直下に「🌸 季節限定 ・ 販売は MM/DD まで・残り N 日」バナーが出る
+- [ ] 残り日数 ≤ 7 日（テーマカスタマイザのしきい値）でバナーが暖色（`--ending` 修飾）に切り替わる
+- [ ] 残り 1 日で「残り 1 日」、当日（終了日）で「本日が最終日です」と表示される
+- [ ] `sale_start` を未来日付に設定した商品では「MM/DD から販売開始・あと N 日」と出る（PDP `--pre`）
+- [ ] `sale_end` が過去日付の商品では「販売終了」表示（`--ended`、グレー）
+- [ ] メタフィールド未設定の商品（苺のショートケーキ等）では PDP バナーが出ない（エラーにならず、価格直下が従来通り）
+- [ ] テーマカスタマイザで「販売期間バナー」ブロックを削除するとバナーが消える
+
+##### 商品カードバッジ
+- [ ] 販売期間内の seasonal 商品のカードバッジが「季節限定 ・ 残り N 日」表示（home / コレクション / 検索結果）
+- [ ] 販売終了後は seasonal バッジが消え、次優先（`new` または「アレルゲン情報あり」）に切り替わる
+- [ ] メタフィールド未設定 + seasonal タグのみの商品は従来通り「季節限定」表示（互換性維持）
+- [ ] `popular` タグ付きの商品は seasonal より優先される（既存挙動を壊さない）
+
+##### コレクションお知らせ枠
+- [ ] `/collections/seasonal` のグリッド上部に「現在販売中の季節商品」リストが出る（販売期間内の商品のみ、`残り N 日` 付き）
+- [ ] 該当商品ゼロ件（全商品が販売終了 or メタフィールド未設定）の場合、announcement セクション自体が描画されない
+- [ ] リスト内の商品名クリックで該当 PDP に遷移
+- [ ] テーマカスタマイザで見出し・サブテキスト・最大表示件数（既定 6）を編集できる
+
+##### アクセシビリティ・スタイル
+- [ ] バナーの色コントラスト（暖色 `--ending` の赤茶 `#b85a2b` on ピンク背景）が 4.5:1 以上
+- [ ] `<time datetime="YYYY-MM-DD">` で機械可読な日付がマークアップされている
+- [ ] モバイル幅でバナーがレイアウト崩れせず、カウントダウンが折り返す
+
+##### 計測
+- [ ] `npm run screenshot:baseline -- --label phase-5c` で撮影 → `docs/screenshots/phase-5c/`
+- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+
 ---
 
 ## 公開前リハーサル（Phase 4 終盤）
