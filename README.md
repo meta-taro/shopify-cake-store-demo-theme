@@ -217,7 +217,7 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [x] 5b 号数早見表（PDP「サイズの目安」行に号数 / 直径 / 目安人数の早見表。「サイズ」バリエーションがある商品は該当号数の行を強調〔該当号数の行に「この商品で選べます」バッジ〕。admin 作業なし）
   - [x] 5c 季節商品の販売期間バッジ + カウントダウン（custom.sale_start / sale_end 日付メタフィールドを読み、PDP に「販売は MM/DD まで・残り N 日」バナー〔残り日数 ≤ 7 日で暖色に強調〕、商品カードバッジに残り日数を併記、`/collections/seasonal` 上部に「販売中の季節商品」リスト。期間外は自動で非表示／優先度フォールバック）
 - [ ] **Phase 6** — SEO・構造化データ仕上げ
-  - [ ] 6a `FAQPage` JSON-LD（FAQ ページ）
+  - [x] 6a `FAQPage` JSON-LD（FAQ ページ：視覚 UI 用の collapsible-content と並走する非表示セクション `faq-jsonld` を追加。Q&A 内容は theme editor 内で 2 セクション分を手動同期する運用）
   - [ ] 6b `BreadcrumbList` JSON-LD + パンくず UI（商品 / コレクション / 補助ページ）
 - [ ] **Phase 7** — ギフト体験の強化
   - [ ] 7a ラッピング画像付きラジオ

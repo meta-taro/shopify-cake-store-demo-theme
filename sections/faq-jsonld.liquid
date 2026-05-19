@@ -1,0 +1,71 @@
+{%- comment -%}
+  FAQPage 構造化データ専用セクション。視覚 UI は描画せず JSON-LD のみ出力する。
+  Q&A の内容は同じテンプレート内の visible な collapsible-content セクションと
+  手動で同期させること（管理画面の Theme editor で両セクションのブロックを揃える）。
+{%- endcomment -%}
+
+{%- if section.blocks.size > 0 -%}
+  {%- capture faq_items -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'qa' -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.heading | strip_html | strip | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ block.settings.row_content | strip_html | strip | json }}
+          }
+        }{% unless forloop.last %},{% endunless %}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{{ faq_items }}]
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FAQPage 構造化データ",
+  "limit": 1,
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Q&A",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "視覚 UI 側の collapsible-content セクションと同じ内容を入力してください。SEO 向けの構造化データ専用のため画面には何も表示されません。"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "質問（質問文だけを入れる）"
+        },
+        {
+          "type": "richtext",
+          "id": "row_content",
+          "label": "回答（HTML は自動で取り除かれます）"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQPage 構造化データ",
+      "blocks": [
+        { "type": "qa" },
+        { "type": "qa" },
+        { "type": "qa" }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["page"]
+  }
+}
+{% endschema %}

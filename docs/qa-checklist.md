@@ -303,6 +303,21 @@ admin 側: `custom.sale_start` / `custom.sale_end` 日付メタフィールド�
 - [ ] `npm run screenshot:baseline -- --label phase-5c` で撮影 → `docs/screenshots/phase-5c/`
 - [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
+### Phase 6: SEO・構造化データ仕上げ（進行中）
+
+#### 6a FAQPage JSON-LD（2026-05-19）
+
+テーマ側: `sections/faq-jsonld.liquid` を新規追加（視覚 UI なし・JSON-LD `<script>` のみ出力）、`templates/page.faq.json` の `order` に `faq_jsonld` を追加し、`faq_main` と同じ Q&A 8 件を `qa` ブロックとして複製配置。
+admin 側: 作業不要。Q&A を変更するときは theme editor で `faq_main` と `faq_jsonld` 両セクションのブロックを揃える運用。
+
+- [ ] `/pages/faq` の HTML ソースに `<script type="application/ld+json">` で `"@type": "FAQPage"` ブロックが出力されている
+- [ ] `mainEntity` 配列に 8 件の `Question` が並び、各 `acceptedAnswer.text` から HTML タグが除去されたプレーン文になっている
+- [ ] [Google Rich Results Test](https://search.google.com/test/rich-results) に `https://sweet-atelier-demo.myshopify.com/pages/faq?password=recamp` を流して「FAQ」が検出され、エラーなしで通る
+- [ ] [Schema.org Validator](https://validator.schema.org/) でも JSON-LD が無効としてフラグされない
+- [ ] 視覚 UI（`faq_main` の collapsible-content）には影響がなく、見た目は従来通り
+- [ ] FAQ ページ以外のページ（home / PDP 等）には `FAQPage` JSON-LD が出力されていない（theme editor 上 `enabled_on.templates = ["page"]` で `page.faq` 以外には追加されない設計）
+- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+
 ---
 
 ## 公開前リハーサル（Phase 4 終盤）
