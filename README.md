@@ -12,6 +12,15 @@ Shopify Online Store 2.0 のテーマ開発を学ぶためのデモプロジェ�
 
 > 実在のサイト・ブランド・商品名・画像・文章は使用していません。すべてオリジナルのデモコンテンツで構築します。
 
+## Live Demo
+
+実装中のデモストアで実機動作をご確認いただけます。
+
+- **URL**: <https://sweet-atelier-demo.myshopify.com/>
+- **ストアパスワード**: `recamp`
+
+> 閲覧専用のデモストアです。実際の購入はできません。Shopify 開発ストアのため、長期間アクセスがないと inactive 扱いになる場合があります。
+
 ## Tech Stack
 
 - Shopify Online Store 2.0

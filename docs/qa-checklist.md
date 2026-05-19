@@ -2,6 +2,13 @@
 
 公開前に踏む動線をまとめた手動QAチェックリスト。Phase 完了ごとに「自分が触った範囲」の項目を追記して育てる Living checklist。
 
+## Live Demo URL
+
+- <https://sweet-atelier-demo.myshopify.com/>
+- ストアパスワード: `recamp`
+
+実機での動作確認時はこのURLを使用する（ローカル `shopify theme dev` でも確認可）。
+
 ## 使い方
 
 - Phase 完了時、または公開前に上から順に踏む
