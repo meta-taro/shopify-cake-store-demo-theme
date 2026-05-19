@@ -216,9 +216,9 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [x] 5a アレルゲン表示（Shopify 標準「アレルゲン情報」カテゴリーメタフィールドを読み取り、PDP「アレルゲン情報」行に構造化テーブル表示〔区分はテーマ側で食品表示法 8 特定原材料から自動判定〕。任意の `custom.allergen_contamination` でコンタミ注記、商品カード小バッジ「アレルゲン情報あり」。コレクション/検索の絞り込みは admin の「検索と発見」アプリ側設定で任意）
   - [x] 5b 号数早見表（PDP「サイズの目安」行に号数 / 直径 / 目安人数の早見表。「サイズ」バリエーションがある商品は該当号数の行を強調〔該当号数の行に「この商品で選べます」バッジ〕。admin 作業なし）
   - [x] 5c 季節商品の販売期間バッジ + カウントダウン（custom.sale_start / sale_end 日付メタフィールドを読み、PDP に「販売は MM/DD まで・残り N 日」バナー〔残り日数 ≤ 7 日で暖色に強調〕、商品カードバッジに残り日数を併記、`/collections/seasonal` 上部に「販売中の季節商品」リスト。期間外は自動で非表示／優先度フォールバック）
-- [ ] **Phase 6** — SEO・構造化データ仕上げ
+- [x] **Phase 6** — SEO・構造化データ仕上げ
   - [x] 6a `FAQPage` JSON-LD（FAQ ページ：視覚 UI 用の collapsible-content と並走する非表示セクション `faq-jsonld` を追加。Q&A 内容は theme editor 内で 2 セクション分を手動同期する運用）
-  - [ ] 6b `BreadcrumbList` JSON-LD + パンくず UI（商品 / コレクション / 補助ページ）
+  - [x] 6b `BreadcrumbList` JSON-LD + パンくず UI（`snippets/breadcrumb.liquid` + `assets/component-breadcrumb.css` で視覚 UI と JSON-LD を同居生成。商品 / コレクション / page テンプレートの `main-*` セクションから render。collection に置かれた商品では中間階層も自動追加）
 - [ ] **Phase 7** — ギフト体験の強化
   - [ ] 7a ラッピング画像付きラジオ
   - [ ] 7b メッセージカード文字数カウンター

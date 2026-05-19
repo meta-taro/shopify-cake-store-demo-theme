@@ -318,6 +318,32 @@ admin 側: 作業不要。Q&A を変更するときは theme editor で `faq_mai
 - [ ] FAQ ページ以外のページ（home / PDP 等）には `FAQPage` JSON-LD が出力されていない（theme editor 上 `enabled_on.templates = ["page"]` で `page.faq` 以外には追加されない設計）
 - [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
+#### 6b BreadcrumbList JSON-LD + パンくず UI（2026-05-19）
+
+テーマ側: `snippets/breadcrumb.liquid` を新規追加（視覚 UI + `BreadcrumbList` JSON-LD を同一スニペットで生成）、`assets/component-breadcrumb.css` で BEM 風スタイル。`sections/main-product.liquid` / `sections/main-page.liquid` / `sections/main-collection-product-grid.liquid` の冒頭で `{% render 'breadcrumb' %}` を呼ぶ。admin 作業なし。
+
+##### 視覚 UI
+- [ ] PDP（例 苺のショートケーキ）の上部に「ホーム › 商品名」のパンくずが出る
+- [ ] `/collections/{handle}/products/{handle}` 経由で開いた商品では「ホーム › コレクション名 › 商品名」と 3 階層になる
+- [ ] コレクション一覧（`/collections/all`, `/collections/seasonal` 等）の上部に「ホーム › コレクション名」が出る
+- [ ] page 系（`/pages/faq` `/pages/delivery` `/pages/legal` `/pages/contact` `/pages/store-info`）に「ホーム › ページタイトル」が出る
+- [ ] home（`/`）/ cart / search / 404 / account 系にはパンくずが出ない
+- [ ] パンくずリンク（ホーム / コレクション）クリックで遷移できる
+- [ ] 現在ページに対応する末尾 item は `<span>`（リンクではない）で表示され `aria-current="page"` 付き
+
+##### 構造化データ
+- [ ] HTML ソースに `<script type="application/ld+json">` で `"@type": "BreadcrumbList"` が出力されている
+- [ ] [Google Rich Results Test](https://search.google.com/test/rich-results) で「Breadcrumbs」が検出され、エラーなしで通る（PDP / コレクション / page 各 1 件）
+- [ ] [Schema.org Validator](https://validator.schema.org/) でも無効としてフラグされない
+- [ ] `itemListElement[].item` が絶対 URL で出力される（末尾要素には `item` を含めない仕様）
+
+##### アクセシビリティ・スタイル
+- [ ] `<nav aria-label="パンくずリスト">` + `<ol>` 構造でセマンティック
+- [ ] パンくずテキストのコントラスト比が 4.5:1 以上（`rgba(--color-foreground, 0.7)` on 背景。Lighthouse a11y で確認）
+- [ ] フォーカス時のリンクに視覚的な区別（`:focus-visible` で下線）が付く
+- [ ] モバイル幅で折り返しが効き、レイアウト崩れしない
+- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+
 ---
 
 ## 公開前リハーサル（Phase 4 終盤）

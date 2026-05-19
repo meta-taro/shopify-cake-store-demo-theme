@@ -1,0 +1,110 @@
+{%- comment -%}
+  パンくず（視覚 UI + BreadcrumbList JSON-LD を同時生成）
+
+  template.name に応じて構成:
+    product    : Home > [Collection (任意)] > Product
+    collection : Home > Collection
+    page       : Home > Page Title
+  上記以外（index / cart / search / 404 / account 系等）では何も描画しない。
+
+  product 内で collection.url が存在するのは
+  /collections/{handle}/products/{handle} 経由でアクセスされた場合のみ。
+  直接 /products/{handle} で開いた場合は中間階層を省略する。
+{%- endcomment -%}
+
+{%- liquid
+  assign render_breadcrumb = false
+  case template.name
+    when 'product'
+      assign render_breadcrumb = true
+    when 'collection'
+      assign render_breadcrumb = true
+    when 'page'
+      assign render_breadcrumb = true
+  endcase
+-%}
+
+{%- if render_breadcrumb -%}
+  {%- assign origin = request.origin -%}
+  {%- assign home_url = origin | append: routes.root_url -%}
+
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <ol class="breadcrumb__list">
+      <li class="breadcrumb__item">
+        <a class="breadcrumb__link" href="{{ routes.root_url }}">ホーム</a>
+      </li>
+
+      {%- case template.name -%}
+        {%- when 'product' -%}
+          {%- if collection.url -%}
+            <li class="breadcrumb__item">
+              <a class="breadcrumb__link" href="{{ collection.url }}">{{ collection.title | escape }}</a>
+            </li>
+          {%- endif -%}
+          <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">
+            <span>{{ product.title | escape }}</span>
+          </li>
+
+        {%- when 'collection' -%}
+          <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">
+            <span>{{ collection.title | escape }}</span>
+          </li>
+
+        {%- when 'page' -%}
+          <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">
+            <span>{{ page.title | escape }}</span>
+          </li>
+      {%- endcase -%}
+    </ol>
+  </nav>
+
+  {%- capture breadcrumb_items -%}
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ホーム",
+      "item": {{ home_url | json }}
+    }
+    {%- case template.name -%}
+      {%- when 'product' -%}
+        {%- if collection.url -%}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ collection.title | strip_html | strip | json }},
+            "item": {{ origin | append: collection.url | json }}
+          },{
+            "@type": "ListItem",
+            "position": 3,
+            "name": {{ product.title | strip_html | strip | json }}
+          }
+        {%- else -%}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ product.title | strip_html | strip | json }}
+          }
+        {%- endif -%}
+      {%- when 'collection' -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ collection.title | strip_html | strip | json }}
+        }
+      {%- when 'page' -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ page.title | strip_html | strip | json }}
+        }
+    {%- endcase -%}
+  {%- endcapture -%}
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{{ breadcrumb_items }}]
+    }
+  </script>
+{%- endif -%}
