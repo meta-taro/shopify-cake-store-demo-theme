@@ -96,13 +96,89 @@
       <input
         type="checkbox"
         id="GiftWrapping-{{ section_id }}"
-        name="properties[ギフトラッピング]"
-        value="希望する"
         class="gift-options__checkbox-input"
+        data-gift-toggle="wrapping"
       >
       <label for="GiftWrapping-{{ section_id }}" class="gift-options__checkbox-label">
         ギフトラッピングを付ける（無料）
       </label>
+    </div>
+
+    <div
+      class="gift-options__nested gift-options__nested--wrapping"
+      data-gift-nested="wrapping"
+      hidden
+    >
+      <fieldset class="gift-options__radio-group">
+        <legend class="gift-options__radio-legend">ラッピングスタイルを選択</legend>
+
+        <label class="gift-options__radio-card">
+          <input
+            type="radio"
+            name="properties[ギフトラッピング]"
+            value="シンプル"
+            class="gift-options__radio-input"
+            checked
+            disabled
+          >
+          <span class="gift-options__radio-frame">
+            <img
+              src="{{ 'wrapping-simple.svg' | asset_url }}"
+              alt=""
+              class="gift-options__radio-thumb"
+              width="64"
+              height="64"
+              loading="lazy"
+            >
+          </span>
+          <span class="gift-options__radio-label">シンプル</span>
+          <span class="gift-options__radio-sub">無地の包装紙でやさしく包みます</span>
+        </label>
+
+        <label class="gift-options__radio-card">
+          <input
+            type="radio"
+            name="properties[ギフトラッピング]"
+            value="リボン付き"
+            class="gift-options__radio-input"
+            disabled
+          >
+          <span class="gift-options__radio-frame">
+            <img
+              src="{{ 'wrapping-ribbon.svg' | asset_url }}"
+              alt=""
+              class="gift-options__radio-thumb"
+              width="64"
+              height="64"
+              loading="lazy"
+            >
+          </span>
+          <span class="gift-options__radio-label">リボン付き</span>
+          <span class="gift-options__radio-sub">アクセントにリボンを結びます</span>
+        </label>
+
+        <label class="gift-options__radio-card">
+          <input
+            type="radio"
+            name="properties[ギフトラッピング]"
+            value="箱入り"
+            class="gift-options__radio-input"
+            disabled
+          >
+          <span class="gift-options__radio-frame">
+            <img
+              src="{{ 'wrapping-box.svg' | asset_url }}"
+              alt=""
+              class="gift-options__radio-thumb"
+              width="64"
+              height="64"
+              loading="lazy"
+            >
+          </span>
+          <span class="gift-options__radio-label">箱入り</span>
+          <span class="gift-options__radio-sub">専用ボックスでしっかりお届け</span>
+        </label>
+      </fieldset>
     </div>
   </fieldset>
 
@@ -110,25 +186,30 @@
     (function () {
       var root = document.querySelector('[data-gift-options="{{ section_id }}"]');
       if (!root) return;
-      var toggle = root.querySelector('[data-gift-toggle="noshi"]');
-      var nested = root.querySelector('[data-gift-nested="noshi"]');
-      if (!toggle || !nested) return;
-      var fields = nested.querySelectorAll('input, select, textarea');
+      var toggles = root.querySelectorAll('[data-gift-toggle]');
+      toggles.forEach(function (toggle) {
+        var key = toggle.getAttribute('data-gift-toggle');
+        var nested = root.querySelector('[data-gift-nested="' + key + '"]');
+        if (!nested) return;
+        var fields = nested.querySelectorAll('input, select, textarea');
 
-      function update() {
-        var on = toggle.checked;
-        nested.hidden = !on;
-        fields.forEach(function (f) {
-          f.disabled = !on;
-          if (!on) {
-            if (f.tagName === 'SELECT') f.selectedIndex = 0;
-            else f.value = '';
-          }
-        });
-      }
+        function update() {
+          var on = toggle.checked;
+          nested.hidden = !on;
+          fields.forEach(function (f) {
+            f.disabled = !on;
+            if (on) return;
+            if (f.tagName === 'SELECT') {
+              f.selectedIndex = 0;
+            } else if (f.tagName === 'TEXTAREA' || f.type === 'text') {
+              f.value = '';
+            }
+          });
+        }
 
-      toggle.addEventListener('change', update);
-      update();
+        toggle.addEventListener('change', update);
+        update();
+      });
     })();
   </script>
 {%- endunless -%}

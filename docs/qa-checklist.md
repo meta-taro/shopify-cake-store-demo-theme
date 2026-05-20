@@ -344,6 +344,26 @@ admin 側: 作業不要。Q&A を変更するときは theme editor で `faq_mai
 - [ ] モバイル幅で折り返しが効き、レイアウト崩れしない
 - [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
+### Phase 7: ギフト体験の強化（進行中）
+
+#### 7a ラッピング画像付きラジオ（2026-05-20）
+
+テーマ側: `snippets/gift-options.liquid` に「ギフトラッピングを付ける」checkbox を残しつつ、その配下に 3 種ラジオ（シンプル / リボン付き / 箱入り）の入れ子 fieldset を追加。`assets/wrapping-simple.svg` / `wrapping-ribbon.svg` / `wrapping-box.svg` を装飾サムネとして配置。`assets/component-gift-options.css` に `.gift-options__radio-card` 系スタイルを追加（選択中の枠色強調、disabled の半透明化）。既存 JS の toggle を `data-gift-toggle` ベースの全件巡回に汎用化。admin 作業なし。
+
+- [ ] PDP のギフトオプション内に「ギフトラッピングを付ける（無料）」checkbox が存在する（既存挙動を維持）
+- [ ] checkbox を ON にすると、配下にラジオカード 3 種（シンプル / リボン付き / 箱入り）が表示される
+- [ ] 各ラジオカードに 64×64 のサムネ SVG（包装紙 / リボン / 箱）が表示される
+- [ ] 既定で「シンプル」が選択されている
+- [ ] ラジオを切り替えると枠色が変わり、現在選択中が視覚的に分かる（`--color-button` の枠＋淡い影）
+- [ ] checkbox OFF 時はラジオが `disabled` になり submit されない（半透明で操作不可表示）
+- [ ] カートに追加 → カート画面の line item properties に `ギフトラッピング: シンプル`（または選んだスタイル）が表示される
+- [ ] checkbox OFF のままカート追加 → `ギフトラッピング` プロパティは送信されない
+- [ ] ギフトカード商品（`product.gift_card?`）には gift-options 自体が出ない（既存挙動を維持）
+- [ ] モバイル幅（〜480px）でラジオが 1 列、タブレット以上で複数列にグリッドフロー
+- [ ] ラジオラベル / サブテキストのコントラスト比が 4.5:1 以上
+- [ ] `<fieldset><legend>` のセマンティックが付き、`:focus-visible` でフォーカスリングが見える
+- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+
 ---
 
 ## 公開前リハーサル（Phase 4 終盤）

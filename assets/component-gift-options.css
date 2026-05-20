@@ -101,3 +101,110 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.gift-options__nested--wrapping {
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 750px) {
+  .gift-options__nested--wrapping {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gift-options__radio-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.gift-options__radio-legend {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgba(var(--color-foreground), 0.85);
+}
+
+.gift-options__radio-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 0.6rem 0.8rem;
+  border: 0.15rem solid rgba(var(--color-foreground), 0.18);
+  border-radius: var(--inputs-radius, 0.4rem);
+  background: rgb(var(--color-background));
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.gift-options__radio-card:hover {
+  border-color: rgba(var(--color-foreground), 0.45);
+}
+
+.gift-options__radio-input {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: 0;
+  accent-color: rgb(var(--color-button));
+}
+
+.gift-options__radio-input:focus-visible + .gift-options__radio-frame {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.55);
+  outline-offset: 0.2rem;
+}
+
+.gift-options__radio-input:checked ~ * {
+  /* selected text emphasis is applied below; keep this rule for spec clarity */
+}
+
+.gift-options__radio-card:has(.gift-options__radio-input:checked) {
+  border-color: rgb(var(--color-button));
+  box-shadow: 0 0 0 0.15rem rgba(var(--color-button), 0.25);
+}
+
+.gift-options__radio-frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 50%;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.gift-options__radio-thumb {
+  width: 4.8rem;
+  height: 4.8rem;
+  display: block;
+}
+
+.gift-options__radio-label {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.gift-options__radio-sub {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.gift-options__nested--wrapping[hidden] {
+  display: none;
+}
+
+.gift-options__radio-card:has(.gift-options__radio-input:disabled) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

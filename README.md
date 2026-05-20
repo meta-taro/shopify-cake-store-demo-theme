@@ -220,7 +220,7 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [x] 6a `FAQPage` JSON-LD（FAQ ページ：視覚 UI 用の collapsible-content と並走する非表示セクション `faq-jsonld` を追加。Q&A 内容は theme editor 内で 2 セクション分を手動同期する運用）
   - [x] 6b `BreadcrumbList` JSON-LD + パンくず UI（`snippets/breadcrumb.liquid` + `assets/component-breadcrumb.css` で視覚 UI と JSON-LD を同居生成。商品 / コレクション / page テンプレートの `main-*` セクションから render。collection に置かれた商品では中間階層も自動追加）
 - [ ] **Phase 7** — ギフト体験の強化
-  - [ ] 7a ラッピング画像付きラジオ
+  - [x] 7a ラッピング画像付きラジオ（`snippets/gift-options.liquid` の「ギフトラッピングを付ける」checkbox に、シンプル / リボン付き / 箱入りの 3 種ラジオを入れ子で追加。`assets/wrapping-*.svg` の装飾サムネ付きラジオカード UI。熨斗と同じ data-gift-toggle / data-gift-nested 機構で disable 連動）
   - [ ] 7b メッセージカード文字数カウンター
   - [ ] 7c 熨斗（のし）プレビュー
 - [ ] **Phase 8** — 検索・フィルター・並べ替え（Shopify Search & Discovery 連携）
