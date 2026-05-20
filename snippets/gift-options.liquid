@@ -89,7 +89,15 @@
         maxlength="100"
         rows="3"
         placeholder="お祝いメッセージなどをご記入ください"
+        data-gift-counter-input
       ></textarea>
+      <p
+        class="gift-options__counter"
+        data-gift-counter
+        aria-live="polite"
+      >
+        <span data-gift-counter-current>0</span><span aria-hidden="true"> / </span><span class="visually-hidden"> / </span><span>100</span> 字
+      </p>
     </div>
 
     <div class="gift-options__field gift-options__field--checkbox">
@@ -209,6 +217,26 @@
 
         toggle.addEventListener('change', update);
         update();
+      });
+
+      var counterInputs = root.querySelectorAll('[data-gift-counter-input]');
+      counterInputs.forEach(function (input) {
+        var counter = input.parentElement && input.parentElement.querySelector('[data-gift-counter]');
+        if (!counter) return;
+        var currentEl = counter.querySelector('[data-gift-counter-current]');
+        if (!currentEl) return;
+        var max = parseInt(input.getAttribute('maxlength'), 10) || 0;
+        var threshold = max ? Math.floor(max * 0.9) : 0;
+
+        function updateCounter() {
+          var len = input.value.length;
+          currentEl.textContent = len;
+          counter.classList.toggle('gift-options__counter--warning', max > 0 && len >= threshold && len < max);
+          counter.classList.toggle('gift-options__counter--limit', max > 0 && len >= max);
+        }
+
+        input.addEventListener('input', updateCounter);
+        updateCounter();
       });
     })();
   </script>

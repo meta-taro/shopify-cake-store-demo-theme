@@ -96,6 +96,27 @@
     0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
 }
 
+.gift-options__counter {
+  margin: 0.3rem 0 0;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  text-align: right;
+  color: rgba(var(--color-foreground), 0.7);
+  /* font-variant-numeric keeps the digit width steady so the counter
+     does not nudge text around as the number grows. */
+  font-variant-numeric: tabular-nums;
+}
+
+.gift-options__counter--warning {
+  color: #a45a14;
+  font-weight: 600;
+}
+
+.gift-options__counter--limit {
+  color: #b22a2a;
+  font-weight: 600;
+}
+
 @media screen and (min-width: 750px) {
   .gift-options__nested {
     grid-template-columns: 1fr 1fr;

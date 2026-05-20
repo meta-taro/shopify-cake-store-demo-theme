@@ -364,6 +364,20 @@ admin 側: 作業不要。Q&A を変更するときは theme editor で `faq_mai
 - [ ] `<fieldset><legend>` のセマンティックが付き、`:focus-visible` でフォーカスリングが見える
 - [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
+#### 7b メッセージカード文字数カウンター（2026-05-20）
+
+テーマ側: `snippets/gift-options.liquid` のメッセージカード textarea 直下に `<p class="gift-options__counter" aria-live="polite">N / 100 字</p>` を追加。`data-gift-counter-input` / `data-gift-counter` 属性ベースで JS から監視し、入力ごとに残り字数を更新。`.gift-options__counter--warning` / `--limit` の 2 段階で色変更。`assets/component-gift-options.css` にスタイルを追加。
+
+- [ ] メッセージカード textarea の直下に「0 / 100 字」が初期表示される
+- [ ] 1 文字入力するごとにカウンターが「1 / 100」「2 / 100」と即時更新される
+- [ ] 90 文字到達でカウンターが暖色（`#a45a14` アンバー）＋太字に切り替わる
+- [ ] 100 文字到達でカウンターが赤系（`#b22a2a`）＋太字に切り替わる（textarea の `maxlength="100"` で物理的にも入力不可）
+- [ ] 入力をクリアすると「0 / 100」に戻り、警告色も解除される
+- [ ] カウンターのコントラスト比が 4.5:1 以上（warning / limit の両色とも背景に対して確認）
+- [ ] スクリーンリーダーで `aria-live="polite"` により残り字数が読み上げられる（ただし高頻度更新で読み上げ干渉しないこと — 必要なら debounce 検討）
+- [ ] 数字幅が tabular-nums で固定され、桁数変化でテキストがずれない
+- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+
 ---
 
 ## 公開前リハーサル（Phase 4 終盤）
