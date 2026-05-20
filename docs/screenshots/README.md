@@ -15,8 +15,16 @@ docs/screenshots/
 ├── phase-4/           # Phase 4 完了時 (2026-05-11)
 ├── phase-5/           # Phase 5 進行中 (5a アレルゲン表示, 2026-05-12)
 ├── phase-5b/          # Phase 5 進行中 (5b 号数早見表, 2026-05-13)
+├── phase-7/           # Phase 7 完了 (ギフト体験・操作後の状態, 2026-05-20)
 └── ...
 ```
+
+> **phase-7 は撮影方式が異なる**: ギフトオプションは操作（チェック ON / ラジオ選択 / 文字入力）後にしか現れないため、`scripts/capture-phase-7.mjs` がウィジェットを操作して `[data-gift-options]` 要素をクローズアップ撮影する（fullPage ではない）。命名も下記の 4 状態 × 2 viewport:
+>
+> - `01-wrapping-radios.png` — ラッピング ON・ラジオ 3 種（「リボン付き」選択中）
+> - `02-counter-warning.png` — メッセージカード 92/100 字（アンバー警告色）
+> - `03-counter-limit.png` — メッセージカード 100/100 字（赤系・限界色）
+> - `04-noshi-preview.png` — 熨斗 ON・用途「御祝」+ 名入れ「田中」の紅白水引きプレビュー
 
 各ディレクトリに以下のページを保管（Phase 3 以降は 8 枚 × 2 viewport）:
 
@@ -67,6 +75,16 @@ docs/screenshots/
 ### phase-5 → phase-5b (2026-05-13)
 - **5b 号数早見表**: PDP（04-product-strawberry）の「サイズの目安」行が、固定 `<ul>` から号数 / 直径の目安 / 目安人数の `<table>`（3〜7号）に。商品に「サイズ」バリエーション（号数）がある場合は該当行を強調し「この商品で選べます」バッジを表示。メタフィールド不使用・admin 作業なしなのでテーマ push のみで反映される
 
+### phase-5b → phase-7 (2026-05-20)
+
+（Phase 6（FAQPage / BreadcrumbList JSON-LD）は構造化データ中心で視覚差分が小さいため専用スクショは省略）
+
+PDP（04-product-strawberry）のギフトオプションを操作後の 4 状態を要素クローズアップで記録:
+
+- **7a ラッピング画像付きラジオ**: 「ギフトラッピングを付ける（無料）」ON で 3 種ラジオカード（シンプル / リボン付き / 箱入り、64×64 サムネ SVG）が出現。選択中は枠＋淡い影で強調。`repeat(auto-fit, minmax(13rem, 1fr))` で幅に応じ列数自動調整（390px で 2 列）
+- **7b メッセージカード文字数カウンター**: textarea 直下に「N / 100 字」、90 字でアンバー（`#a45a14`）、100 字で赤系（`#b22a2a`）＋太字。tabular-nums で桁ズレなし
+- **7c 熨斗プレビュー**: 用途・名入れ入力に連動し、和紙風カードに用途上段 / 紅白水引き SVG / 名入れ下段をリアルタイム表示
+
 ## 撮り方
 
 `shopify theme dev` でローカル開発サーバーを起動した状態で:
@@ -74,9 +92,10 @@ docs/screenshots/
 ```bash
 npm run screenshot:baseline                  # baseline/ に保存
 npm run screenshot:baseline -- --label phase-1  # phase-1/ に保存
+npm run screenshot:phase7                    # phase-7/ に保存（ギフトオプション操作後の状態）
 ```
 
-スクリプト本体: [`scripts/capture-screenshots.mjs`](../../scripts/capture-screenshots.mjs)
+スクリプト本体: [`scripts/capture-screenshots.mjs`](../../scripts/capture-screenshots.mjs)（静的 fullPage） / [`scripts/capture-phase-7.mjs`](../../scripts/capture-phase-7.mjs)（操作を伴う要素クローズアップ）
 
 ## 注意
 

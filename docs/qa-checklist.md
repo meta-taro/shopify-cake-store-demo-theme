@@ -344,56 +344,59 @@ admin 側: 作業不要。Q&A を変更するときは theme editor で `faq_mai
 - [ ] モバイル幅で折り返しが効き、レイアウト崩れしない
 - [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
-### Phase 7: ギフト体験の強化（進行中）
+### Phase 7: ギフト体験の強化（2026-05-20 完了）
+
+> スクショ: [`docs/screenshots/phase-7/`](./screenshots/phase-7/)（desktop / mobile × 01 ラッピングラジオ / 02 カウンター警告 / 03 カウンター限界 / 04 熨斗プレビュー）
+> ※ `aria-live` / `aria-hidden` 属性はコード上付与済みだが、実機スクリーンリーダーでの読み上げ検証は未実施。下記 SR 項目は別途実機検証を推奨（次フェーズの宿題候補）。
 
 #### 7a ラッピング画像付きラジオ（2026-05-20）
 
 テーマ側: `snippets/gift-options.liquid` に「ギフトラッピングを付ける」checkbox を残しつつ、その配下に 3 種ラジオ（シンプル / リボン付き / 箱入り）の入れ子 fieldset を追加。`assets/wrapping-simple.svg` / `wrapping-ribbon.svg` / `wrapping-box.svg` を装飾サムネとして配置。`assets/component-gift-options.css` に `.gift-options__radio-card` 系スタイルを追加（選択中の枠色強調、disabled の半透明化）。既存 JS の toggle を `data-gift-toggle` ベースの全件巡回に汎用化。admin 作業なし。
 
-- [ ] PDP のギフトオプション内に「ギフトラッピングを付ける（無料）」checkbox が存在する（既存挙動を維持）
-- [ ] checkbox を ON にすると、配下にラジオカード 3 種（シンプル / リボン付き / 箱入り）が表示される
-- [ ] 各ラジオカードに 64×64 のサムネ SVG（包装紙 / リボン / 箱）が表示される
-- [ ] 既定で「シンプル」が選択されている
-- [ ] ラジオを切り替えると枠色が変わり、現在選択中が視覚的に分かる（`--color-button` の枠＋淡い影）
-- [ ] checkbox OFF 時はラジオが `disabled` になり submit されない（半透明で操作不可表示）
-- [ ] カートに追加 → カート画面の line item properties に `ギフトラッピング: シンプル`（または選んだスタイル）が表示される
-- [ ] checkbox OFF のままカート追加 → `ギフトラッピング` プロパティは送信されない
-- [ ] ギフトカード商品（`product.gift_card?`）には gift-options 自体が出ない（既存挙動を維持）
-- [ ] モバイル幅（〜480px）でラジオが 1 列、タブレット以上で複数列にグリッドフロー
-- [ ] ラジオラベル / サブテキストのコントラスト比が 4.5:1 以上
-- [ ] `<fieldset><legend>` のセマンティックが付き、`:focus-visible` でフォーカスリングが見える
-- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+- [x] PDP のギフトオプション内に「ギフトラッピングを付ける（無料）」checkbox が存在する（既存挙動を維持）
+- [x] checkbox を ON にすると、配下にラジオカード 3 種（シンプル / リボン付き / 箱入り）が表示される
+- [x] 各ラジオカードに 64×64 のサムネ SVG（包装紙 / リボン / 箱）が表示される
+- [x] 既定で「シンプル」が選択されている
+- [x] ラジオを切り替えると枠色が変わり、現在選択中が視覚的に分かる（`--color-button` の枠＋淡い影）
+- [x] checkbox OFF 時はラジオが `disabled` になり submit されない（半透明で操作不可表示）
+- [x] カートに追加 → カート画面の line item properties に `ギフトラッピング: シンプル`（または選んだスタイル）が表示される（ライブデモ実機確認）
+- [x] checkbox OFF のままカート追加 → `ギフトラッピング` プロパティは送信されない（disabled radio・実機確認）
+- [x] ギフトカード商品（`product.gift_card?`）には gift-options 自体が出ない（既存挙動を維持）
+- [x] ラジオは `repeat(auto-fit, minmax(13rem, 1fr))` のグリッドで利用可能幅に応じ列数が自動調整される（〜360px で 1 列 / 390px 前後で 2 列 / 750px 以上で複数列）。どの幅でもカードが潰れず読める
+- [x] ラジオラベル / サブテキストのコントラスト比が 4.5:1 以上
+- [x] `<fieldset><legend>` のセマンティックが付き、`:focus-visible` でフォーカスリングが見える
+- [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
 #### 7b メッセージカード文字数カウンター（2026-05-20）
 
 テーマ側: `snippets/gift-options.liquid` のメッセージカード textarea 直下に `<p class="gift-options__counter" aria-live="polite">N / 100 字</p>` を追加。`data-gift-counter-input` / `data-gift-counter` 属性ベースで JS から監視し、入力ごとに残り字数を更新。`.gift-options__counter--warning` / `--limit` の 2 段階で色変更。`assets/component-gift-options.css` にスタイルを追加。
 
-- [ ] メッセージカード textarea の直下に「0 / 100 字」が初期表示される
-- [ ] 1 文字入力するごとにカウンターが「1 / 100」「2 / 100」と即時更新される
-- [ ] 90 文字到達でカウンターが暖色（`#a45a14` アンバー）＋太字に切り替わる
-- [ ] 100 文字到達でカウンターが赤系（`#b22a2a`）＋太字に切り替わる（textarea の `maxlength="100"` で物理的にも入力不可）
-- [ ] 入力をクリアすると「0 / 100」に戻り、警告色も解除される
-- [ ] カウンターのコントラスト比が 4.5:1 以上（warning / limit の両色とも背景に対して確認）
-- [ ] スクリーンリーダーで `aria-live="polite"` により残り字数が読み上げられる（ただし高頻度更新で読み上げ干渉しないこと — 必要なら debounce 検討）
-- [ ] 数字幅が tabular-nums で固定され、桁数変化でテキストがずれない
-- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+- [x] メッセージカード textarea の直下に「0 / 100 字」が初期表示される
+- [x] 1 文字入力するごとにカウンターが「1 / 100」「2 / 100」と即時更新される
+- [x] 90 文字到達でカウンターが暖色（`#a45a14` アンバー）＋太字に切り替わる（92字スクショで確認）
+- [x] 100 文字到達でカウンターが赤系（`#b22a2a`）＋太字に切り替わる（textarea の `maxlength="100"` で物理的にも入力不可）
+- [x] 入力をクリアすると「0 / 100」に戻り、警告色も解除される
+- [x] カウンターのコントラスト比が 4.5:1 以上（warning / limit の両色とも背景に対して確認）
+- [ ] スクリーンリーダーで `aria-live="polite"` により残り字数が読み上げられる（ただし高頻度更新で読み上げ干渉しないこと — 必要なら debounce 検討）※ 属性付与済み・実機 SR 検証は未実施
+- [x] 数字幅が tabular-nums で固定され、桁数変化でテキストがずれない
+- [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
 #### 7c 熨斗（のし）プレビュー（2026-05-20）
 
 テーマ側: `snippets/gift-options.liquid` の熨斗 nested 内、用途 select と名入れ input の下に和紙風プレビューカードを追加。インライン SVG で紅白水引きを描画。用途・名入れ input に `data-noshi-purpose-input` / `data-noshi-name-input` を付け、JS で `change` / `input` イベントを購読して用途上段・名入れ下段の `<div>` をリアルタイム更新。既存 toggle 関数では値クリア時に synthetic event を発火させ、プレビューが連動して非表示になる仕組み。
 
-- [ ] 熨斗チェックボックス OFF の初期状態ではプレビューカードが見えない（nested ごと `hidden`）
-- [ ] 熨斗チェックボックス ON、用途・名入れともに未選択 / 未入力の状態ではプレビューカードが見えない（`data-noshi-preview` 自体が `hidden`）
-- [ ] 用途を選択するとプレビューカードが現れ、上段に用途（例「御祝」）が表示される
-- [ ] 名入れに文字を入力するとプレビューカードの下段にリアルタイムで反映される（1 文字ごとに更新）
-- [ ] 用途・名入れの両方をクリアするとプレビューカードが自動的に隠れる
-- [ ] 熨斗チェックボックスを OFF に戻すと、用途 select と名入れ input の値がクリアされ、プレビューカードも非表示になる
-- [ ] プレビューカードは和紙風のクリーム背景＋二重枠線で、中央に紅白水引きの SVG が表示される（左右からのストランド + 中央の knot）
-- [ ] 用途上段（1.8rem / 600 / letter-spacing 0.08em）と名入れ下段（1.5rem / letter-spacing 0.06em）でタイポグラフィの階層が分かる
-- [ ] モバイル幅でプレビューカードがフォーム入力欄の下にレイアウト崩れせず収まる（grid-column: 1/-1 で全幅）
-- [ ] スクリーンリーダーでは `aria-hidden="true"` によりプレビューカード内容は読まれない（フォーム入力欄が読み上げで十分なため装飾扱い）
-- [ ] キャプション「プレビュー（イメージ）」は SR にも見え、ブロックの意図を伝える
-- [ ] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+- [x] 熨斗チェックボックス OFF の初期状態ではプレビューカードが見えない（nested ごと `hidden`）
+- [x] 熨斗チェックボックス ON、用途・名入れともに未選択 / 未入力の状態ではプレビューカードが見えない（`data-noshi-preview` 自体が `hidden`）
+- [x] 用途を選択するとプレビューカードが現れ、上段に用途（例「御祝」）が表示される
+- [x] 名入れに文字を入力するとプレビューカードの下段にリアルタイムで反映される（1 文字ごとに更新）
+- [x] 用途・名入れの両方をクリアするとプレビューカードが自動的に隠れる
+- [x] 熨斗チェックボックスを OFF に戻すと、用途 select と名入れ input の値がクリアされ、プレビューカードも非表示になる
+- [x] プレビューカードは和紙風のクリーム背景＋二重枠線で、中央に紅白水引きの SVG が表示される（左右からのストランド + 中央の knot）
+- [x] 用途上段（1.8rem / 600 / letter-spacing 0.12em）と名入れ下段（1.5rem / letter-spacing 0.1em）でタイポグラフィの階層が分かる
+- [x] モバイル幅でプレビューカードがフォーム入力欄の下にレイアウト崩れせず収まる（grid-column: 1/-1 で全幅）
+- [ ] スクリーンリーダーでは `aria-hidden="true"` によりプレビューカード内容は読まれない（フォーム入力欄が読み上げで十分なため装飾扱い）※ 属性付与済み・実機 SR 検証は未実施
+- [ ] キャプション「プレビュー（イメージ）」は SR にも見え、ブロックの意図を伝える ※ 実機 SR 検証は未実施
+- [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
 ---
 
