@@ -9,7 +9,8 @@
 
   product 内で collection.url が存在するのは
   /collections/{handle}/products/{handle} 経由でアクセスされた場合のみ。
-  直接 /products/{handle} で開いた場合は中間階層を省略する。
+  直接 /products/{handle} で開いた場合は product.collections.first を
+  中間階層フォールバックとして使用し、SEO 上の階層情報を維持する。
 {%- endcomment -%}
 
 {%- liquid
@@ -22,6 +23,15 @@
     when 'page'
       assign render_breadcrumb = true
   endcase
+
+  assign product_middle = null
+  if template.name == 'product'
+    if collection.url
+      assign product_middle = collection
+    elsif product.collections.first
+      assign product_middle = product.collections.first
+    endif
+  endif
 -%}
 
 {%- if render_breadcrumb -%}
@@ -36,9 +46,9 @@
 
       {%- case template.name -%}
         {%- when 'product' -%}
-          {%- if collection.url -%}
+          {%- if product_middle -%}
             <li class="breadcrumb__item">
-              <a class="breadcrumb__link" href="{{ collection.url }}">{{ collection.title | escape }}</a>
+              <a class="breadcrumb__link" href="{{ product_middle.url }}">{{ product_middle.title | escape }}</a>
             </li>
           {%- endif -%}
           <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">
@@ -67,12 +77,12 @@
     }
     {%- case template.name -%}
       {%- when 'product' -%}
-        {%- if collection.url -%}
+        {%- if product_middle -%}
           ,{
             "@type": "ListItem",
             "position": 2,
-            "name": {{ collection.title | strip_html | strip | json }},
-            "item": {{ origin | append: collection.url | json }}
+            "name": {{ product_middle.title | strip_html | strip | json }},
+            "item": {{ origin | append: product_middle.url | json }}
           },{
             "@type": "ListItem",
             "position": 3,

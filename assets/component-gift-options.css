@@ -133,6 +133,16 @@
   }
 }
 
+.gift-options__nested--noshi {
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 750px) {
+  .gift-options__nested--noshi {
+    grid-template-columns: 1fr;
+  }
+}
+
 .gift-options__radio-group {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
@@ -250,10 +260,10 @@
   position: relative;
   display: grid;
   grid-template-rows: 1fr auto 1fr;
-  gap: 0.6rem;
-  align-items: center;
+  gap: 0.8rem;
+  align-items: stretch;
   justify-items: center;
-  min-height: 14rem;
+  min-height: 22rem;
   padding: 1.8rem 1.4rem;
   background: #fbf5e6;
   border: 0.1rem solid rgba(94, 56, 32, 0.18);
@@ -262,12 +272,14 @@
 }
 
 .gift-options__noshi-purpose {
+  writing-mode: vertical-rl;
   align-self: end;
-  min-height: 1.4em;
+  min-height: 7rem;
+  padding-top: 0.4rem;
   font-size: 1.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-align: center;
+  letter-spacing: 0.12em;
+  text-align: start;
   color: #1f2018;
 }
 
@@ -284,10 +296,12 @@
 }
 
 .gift-options__noshi-name {
+  writing-mode: vertical-rl;
   align-self: start;
-  min-height: 1.4em;
+  min-height: 7rem;
+  padding-bottom: 0.4rem;
   font-size: 1.5rem;
-  letter-spacing: 0.06em;
-  text-align: center;
+  letter-spacing: 0.1em;
+  text-align: start;
   color: #1f2018;
 }
