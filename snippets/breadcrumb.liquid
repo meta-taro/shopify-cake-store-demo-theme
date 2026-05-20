@@ -9,8 +9,10 @@
 
   product 内で collection.url が存在するのは
   /collections/{handle}/products/{handle} 経由でアクセスされた場合のみ。
-  直接 /products/{handle} で開いた場合は product.collections.first を
-  中間階層フォールバックとして使用し、SEO 上の階層情報を維持する。
+  直接 /products/{handle} で開いた場合は product.collections から
+  最初の「実カテゴリ」を中間階層フォールバックに使う。
+  frontpage / all / home-page は Shopify 標準のシステムコレクションで、
+  カテゴリではないため除外する。
 {%- endcomment -%}
 
 {%- liquid
@@ -28,8 +30,14 @@
   if template.name == 'product'
     if collection.url
       assign product_middle = collection
-    elsif product.collections.first
-      assign product_middle = product.collections.first
+    else
+      assign breadcrumb_skip_handles = 'frontpage,all,home-page' | split: ','
+      for c in product.collections
+        unless breadcrumb_skip_handles contains c.handle
+          assign product_middle = c
+          break
+        endunless
+      endfor
     endif
   endif
 -%}
