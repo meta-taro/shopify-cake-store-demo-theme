@@ -226,10 +226,10 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
 - [x] **Phase 8** — 検索・フィルター・並べ替え（Shopify Search & Discovery 連携）
   - [x] 8a faceted filtering（在庫状況 / 価格 / タグ〔おすすめ〕/ サイズ / アレルゲン）。フィルターは「検索と発見」アプリで制御し、テーマの `snippets/facets.liquid` が汎用描画（コード追加なし）。バッジ用タグを英語（new/popular/seasonal）→日本語（人気/季節限定/新商品）に変更し、タグ絞り込みに英語が出る問題を解消（`card-product-extra-badge.liquid` の判定も追従）
   - [x] 8b ソート（`templates/collection.json` / `search.json` で `enable_sorting: true`）＋検索結果ページの絞り込み（horizontal）。admin 手順は `docs/admin-setup.md §11`
-- [ ] **Phase 9** — 回遊・パーソナライズ（フロントエンドのみ・アプリ不要）
-  - [ ] 9a 最近見た商品（localStorage）
-  - [ ] 9b ウィッシュリスト（localStorage）
-  - [ ] 9c 送料シミュレーター（都道府県選択 → 送料表示）
+- [x] **Phase 9** — 回遊・パーソナライズ（フロントエンドのみ・アプリ不要）
+  - [x] 9a 最近見た商品（localStorage に閲覧履歴を保存し、Section Rendering API でカードを取得して表示。最大 12 件・現在の商品は除外・空なら非表示）
+  - [x] 9b ウィッシュリスト（カード／PDP のハートトグル → `localStorage` キー `sweet-atelier:wishlist`、ヘッダー件数バッジと `wishlist:updated` イベントで全インスタンス同期。一覧ページは `page.wishlist` テンプレート〔管理画面でページ作成が必要・`docs/admin-setup.md §12`〕。トグルは `card-wrapper` 直下に置きカードリンクの `::after` スタッキングを回避）
+  - [x] 9c 送料シミュレーター（都道府県セレクト → 本州/北海道・四国・九州/沖縄の 3 区分で送料表示。任意の注文金額入力で送料無料〔¥10,000 以上・沖縄を除く〕判定。選択は `localStorage` キー `sweet-atelier:shipping-pref` に保存。配送ページ `page.delivery` に設置済み・料金はセクション設定で調整可）
 - [ ] **Phase 10** — コンテンツ（ブログ / コラム）
   - [ ] 10a blog テンプレート一式（季節の素材 / レシピ / お知らせ）
   - [ ] 10b 関連記事 + 記事内商品リンク
