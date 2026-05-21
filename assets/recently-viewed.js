@@ -52,15 +52,9 @@ class RecentlyViewedProducts extends HTMLElement {
 
     if (!handles.length || !this.list) return;
 
-    this.observer = new IntersectionObserver(
-      (entries, observer) => {
-        if (!entries[0].isIntersecting) return;
-        observer.unobserve(this);
-        this.loadCards(handles);
-      },
-      { rootMargin: '0px 0px 400px 0px' }
-    );
-    this.observer.observe(this);
+    // wrapper は hidden（display:none）なので IntersectionObserver は交差を検知できない。
+    // 取得は最大数件・軽量なので遅延ロードはせず、その場で取得して描画する。
+    this.loadCards(handles);
   }
 
   loadCards(handles) {
