@@ -47,6 +47,21 @@
       },
       "block_order": ["col_area", "col_fee", "col_lead"]
     },
+    "shipping_simulator": {
+      "type": "shipping-simulator",
+      "settings": {
+        "heading": "送料シミュレーター",
+        "heading_size": "h2",
+        "subtext": "<p>お届け先の都道府県を選ぶと、送料の目安を確認できます。ご注文金額を入力すると送料無料の判定も行えます。</p>",
+        "fee_honshu": 980,
+        "fee_kotetsu": 1280,
+        "fee_okinawa": 1800,
+        "free_threshold": 10000,
+        "color_scheme": "background-2",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
     "closed_day": {
       "type": "rich-text",
       "settings": {
@@ -102,5 +117,5 @@
       "block_order": ["heading_frozen", "text_frozen"]
     }
   },
-  "order": ["main", "info_grid", "closed_day", "frozen_shipping"]
+  "order": ["main", "info_grid", "shipping_simulator", "closed_day", "frozen_shipping"]
 }
