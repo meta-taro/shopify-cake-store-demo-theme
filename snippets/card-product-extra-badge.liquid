@@ -2,10 +2,11 @@
   Renders one badge (人気 / 季節限定 / 新商品 / アレルゲン情報あり) inside card__badge.
   Shown only when the product isn't sold out and isn't on sale.
 
-  Priority (first match wins): popular > seasonal (live or pre) > new > has allergen metafield
-  (allergen = the Shopify standard "アレルゲン情報" category metafield, falling back to custom.allergens)
+  Priority (first match wins): 人気 > 季節限定 (live or pre) > 新商品 > has allergen metafield
+  (badges are driven by Japanese product tags 人気 / 季節限定 / 新商品;
+   allergen = the Shopify standard "アレルゲン情報" category metafield, falling back to custom.allergens)
 
-  For seasonal products with custom.sale_end (date) set, the label is expanded
+  For 季節限定 products with custom.sale_end (date) set, the label is expanded
   to "季節限定 ・ 残り N 日" while the sale is live; once the period has ended,
   the seasonal badge is hidden and the next-priority badge takes over.
 
@@ -17,7 +18,7 @@
 {%- liquid
   assign seasonal_active = false
   assign seasonal_label = '季節限定'
-  if card_product.tags contains 'seasonal'
+  if card_product.tags contains '季節限定'
     assign sale_end = card_product.metafields.custom.sale_end.value
     if sale_end == blank
       assign seasonal_active = true
@@ -54,13 +55,13 @@
 
   assign extra_label = ''
   assign extra_class = ''
-  if card_product.tags contains 'popular'
+  if card_product.tags contains '人気'
     assign extra_label = '人気'
     assign extra_class = 'badge--popular'
   elsif seasonal_active
     assign extra_label = seasonal_label
     assign extra_class = 'badge--seasonal'
-  elsif card_product.tags contains 'new'
+  elsif card_product.tags contains '新商品'
     assign extra_label = '新商品'
     assign extra_class = 'badge--new'
   else
