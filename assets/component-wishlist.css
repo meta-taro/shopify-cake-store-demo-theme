@@ -1,0 +1,84 @@
+/* お気に入り（Phase 9b）
+ * - カード上のオーバーレイ型トグル / PDP のテキスト付きトグル / ヘッダー件数バッジ / 一覧の空状態。
+ * - 半透明色は Rise の --color-* がコンマ区切りのため rgba() レガシー記法を使う。
+ */
+
+/* カード画像上のオーバーレイ（アイコンのみ） */
+.card__inner .wishlist-toggle--card {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  line-height: 0;
+}
+
+.wishlist-toggle__button--card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(var(--color-background), 0.86);
+  color: rgba(var(--color-foreground), 0.5);
+  box-shadow: 0 1px 5px rgba(var(--color-foreground), 0.16);
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+}
+
+.wishlist-toggle__button--card:hover {
+  color: rgba(var(--color-foreground), 0.85);
+  transform: scale(1.06);
+}
+
+.wishlist-toggle__button--card[aria-pressed='true'] {
+  color: #c0392b;
+}
+
+.wishlist-toggle__icon svg {
+  width: 1.8rem;
+  height: 1.8rem;
+  fill: currentColor;
+}
+
+/* PDP のテキスト付きボタン */
+.wishlist-toggle--pdp {
+  display: block;
+  margin-top: 1rem;
+}
+
+.wishlist-toggle__button--pdp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.wishlist-toggle__button--pdp .wishlist-toggle__icon svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.wishlist-toggle__button--pdp[aria-pressed='true'] {
+  color: #c0392b;
+  border-color: #c0392b;
+}
+
+/* ヘッダーの件数バッジ（cart-count-bubble を踏襲） */
+.wishlist-count-bubble {
+  display: block;
+}
+
+/* お気に入り一覧の空状態 */
+.wishlist-empty {
+  text-align: center;
+  padding: 3.2rem 1.6rem;
+}
+
+.wishlist-empty__text {
+  margin: 0 0 1.6rem;
+  color: rgba(var(--color-foreground), 0.75);
+}

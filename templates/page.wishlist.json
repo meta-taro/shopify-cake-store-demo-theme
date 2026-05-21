@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 4
+      }
+    },
+    "wishlist_intro": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 8,
+        "padding_bottom": 12
+      },
+      "blocks": {
+        "intro_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>気になる商品をハートに登録しておくと、このページにまとまります。<br>登録内容はこのブラウザに保存されます（ログイン不要）。</p>"
+          }
+        }
+      },
+      "block_order": ["intro_text"]
+    },
+    "wishlist_main": {
+      "type": "wishlist-products",
+      "settings": {
+        "heading": "お気に入り",
+        "heading_size": "h1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "empty_text": "お気に入りに登録された商品はまだありません。",
+        "empty_link_label": "商品を見る",
+        "empty_link_url": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": ["main", "wishlist_intro", "wishlist_main"]
+}

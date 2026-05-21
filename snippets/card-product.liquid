@@ -16,6 +16,7 @@
   - horizontal_class: {Boolean} Add a card--horizontal class if set to true. Default: false (optional)
   - horizontal_quick_add: {Boolean} Changes the quick add button styles when set to true. Default: false (optional)
   - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
+  - wishlist_toggle: {Boolean} Show the wishlist heart toggle over the image. Default: true (optional)
 
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
@@ -25,6 +26,7 @@
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
 
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
@@ -104,6 +106,9 @@
                 >
               {%- endif -%}
             </div>
+            {%- if wishlist_toggle != false and card_product.handle -%}
+              {% render 'wishlist-button', product: card_product, context: 'card' %}
+            {%- endif -%}
           </div>
         {%- endif -%}
         <div class="card__content">

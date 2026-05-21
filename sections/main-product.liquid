@@ -502,6 +502,9 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
+                {{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
+                {% render 'wishlist-button', product: product, context: 'pdp' %}
+                <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">

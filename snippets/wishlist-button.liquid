@@ -1,0 +1,37 @@
+{% comment %}
+  お気に入りトグルボタン（Phase 9b）
+
+  Accepts:
+  - product: {Object} 商品オブジェクト（handle を取得）
+  - handle:  {String} 商品 handle（product 未指定時に使用）
+  - context: {String} 'card'（画像オーバーレイ・アイコンのみ）/ 'pdp'（テキスト付きボタン）。既定 'card'
+
+  localStorage キー sweet-atelier:wishlist に handle を保存。状態は assets/wishlist.js が制御し、
+  document の 'wishlist:updated' イベントで全インスタンス（カード・PDP・ヘッダー件数）を同期する。
+{% endcomment %}
+{%- liquid
+  assign wl_handle = handle | default: product.handle
+  assign wl_context = context | default: 'card'
+-%}
+{%- if wl_handle != blank -%}
+  <wishlist-toggle
+    class="wishlist-toggle wishlist-toggle--{{ wl_context }}"
+    data-product-handle="{{ wl_handle }}"
+    data-label-add="お気に入りに追加"
+    data-label-remove="お気に入りから削除"
+  >
+    <button
+      type="button"
+      class="wishlist-toggle__button wishlist-toggle__button--{{ wl_context }}{% if wl_context == 'pdp' %} button button--secondary{% endif %}"
+      aria-pressed="false"
+      aria-label="お気に入りに追加"
+    >
+      <span class="svg-wrapper wishlist-toggle__icon">
+        {{- 'icon-heart.svg' | inline_asset_content -}}
+      </span>
+      {%- if wl_context == 'pdp' -%}
+        <span class="wishlist-toggle__text">お気に入りに追加</span>
+      {%- endif -%}
+    </button>
+  </wishlist-toggle>
+{%- endif -%}

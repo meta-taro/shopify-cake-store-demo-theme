@@ -1,0 +1,212 @@
+{% comment %}
+  お気に入り一覧（Phase 9b）
+
+  動作の仕組み（9a の最近見た商品と同方式）:
+  - product が scope にある時（＝商品ページ／カード取得 fetch）は単一カードを出力する
+    「カードファクトリ」モードを兼ねる。
+  - 一覧ホストとして置かれた時は、JS が localStorage（sweet-atelier:wishlist）の handle を読み、
+    各 handle のカードを /products/{handle}?section_id= で取得してグリッドに差し込む。
+  - 履歴が無い場合は空状態メッセージ（買い物導線リンク付き）を表示する（最近見た商品との違い）。
+  - 一覧ページで商品のトグルを OFF にすると、そのカードはその場で消える（wishlist.js が制御）。
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Wishlist-{{ section.id }} .wishlist__heading {
+    margin: 0 0 1.5rem;
+  }
+{%- endstyle -%}
+
+{%- if product != blank -%}
+  {%- comment -%} カードファクトリ: /products/{handle}?section_id= で取得された時に単一カードを出力 {%- endcomment -%}
+  <li class="grid__item">
+    {% render 'card-product',
+      card_product: product,
+      media_aspect_ratio: section.settings.image_ratio,
+      show_secondary_image: section.settings.show_secondary_image,
+      show_vendor: section.settings.show_vendor,
+      show_rating: section.settings.show_rating
+    %}
+  </li>
+{%- else -%}
+  <wishlist-products
+    id="Wishlist-{{ section.id }}"
+    class="wishlist color-{{ section.settings.color_scheme }} gradient page-width section-{{ section.id }}-padding isolate"
+    data-section-id="{{ section.id }}"
+    data-root-url="{{ routes.root_url }}"
+  >
+    <h2 class="wishlist__heading inline-richtext {{ section.settings.heading_size }}">
+      {{ section.settings.heading }}
+    </h2>
+
+    <ul
+      data-wishlist-grid
+      class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+      role="list"
+      hidden
+    ></ul>
+
+    <div class="wishlist-empty" data-wishlist-empty>
+      <p class="wishlist-empty__text">{{ section.settings.empty_text }}</p>
+      <a href="{{ section.settings.empty_link_url | default: routes.all_products_collection_url }}" class="button">
+        {{ section.settings.empty_link_label }}
+      </a>
+    </div>
+  </wishlist-products>
+{%- endif -%}
+
+<script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "お気に入り",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "閲覧者がお気に入り（ハート）に登録した商品の一覧を表示します。登録はブラウザ（localStorage）に保存され、ログイン不要です。専用ページ（テンプレート「wishlist」）に置く想定です。"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "お気に入り",
+      "label": "見出し"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "小" },
+        { "value": "h1", "label": "中" },
+        { "value": "h0", "label": "大" }
+      ],
+      "default": "h1",
+      "label": "見出しサイズ"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "デスクトップの列数"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "モバイルの列数",
+      "options": [
+        { "value": "1", "label": "1 列" },
+        { "value": "2", "label": "2 列" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "adapt", "label": "画像に合わせる" },
+        { "value": "portrait", "label": "縦長" },
+        { "value": "square", "label": "正方形" }
+      ],
+      "default": "square",
+      "label": "画像比率"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "ホバーで2枚目の画像を表示"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "ベンダーを表示"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "レビュー評価を表示"
+    },
+    {
+      "type": "header",
+      "content": "空状態（お気に入りが無い時）"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "default": "お気に入りに登録された商品はまだありません。",
+      "label": "空状態メッセージ"
+    },
+    {
+      "type": "text",
+      "id": "empty_link_label",
+      "default": "商品を見る",
+      "label": "リンクのラベル"
+    },
+    {
+      "type": "url",
+      "id": "empty_link_url",
+      "label": "リンク先（未指定なら全商品コレクション）"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "カラースキーム",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "余白"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40,
+      "label": "上余白"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 52,
+      "label": "下余白"
+    }
+  ],
+  "presets": [
+    {
+      "name": "お気に入り"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["page", "collection", "index", "search"]
+  }
+}
+{% endschema %}
