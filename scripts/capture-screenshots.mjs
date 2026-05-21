@@ -35,6 +35,7 @@ const PAGES = [
   { name: "06-page-faq", path: "/pages/faq" },
   { name: "07-page-legal", path: "/pages/legal" },
   { name: "08-page-store-info", path: "/pages/store-info" },
+  { name: "09-collection-all", path: "/collections/all" }, // Phase 8: faceted filter + sort
 ];
 
 const VIEWPORTS = [

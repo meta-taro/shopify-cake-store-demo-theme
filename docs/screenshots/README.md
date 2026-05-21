@@ -16,6 +16,7 @@ docs/screenshots/
 ├── phase-5/           # Phase 5 進行中 (5a アレルゲン表示, 2026-05-12)
 ├── phase-5b/          # Phase 5 進行中 (5b 号数早見表, 2026-05-13)
 ├── phase-7/           # Phase 7 完了 (ギフト体験・操作後の状態, 2026-05-20)
+├── phase-8/           # Phase 8 完了 (検索・フィルター・並べ替え, 2026-05-21)
 └── ...
 ```
 
@@ -26,7 +27,7 @@ docs/screenshots/
 > - `03-counter-limit.png` — メッセージカード 100/100 字（赤系・限界色）
 > - `04-noshi-preview.png` — 熨斗 ON・用途「御祝」+ 名入れ「田中」の紅白水引きプレビュー
 
-各ディレクトリに以下のページを保管（Phase 3 以降は 8 枚 × 2 viewport）:
+各ディレクトリに以下のページを保管（Phase 3 以降は 8 枚 × 2 viewport、Phase 8 以降は 09 を加えた 9 枚 × 2 viewport）:
 
 - `01-home.png` — トップページ
 - `02-cart-empty.png` — 空カート
@@ -36,6 +37,7 @@ docs/screenshots/
 - `06-page-faq.png` — よくあるご質問
 - `07-page-legal.png` — 特定商取引法に基づく表記
 - `08-page-store-info.png` — アトリエのご案内
+- `09-collection-all.png` — 全商品コレクション（Phase 8〜：絞り込みカラム＋並べ替え＋日本語タグバッジ）
 
 ## Phase 別の差分メモ
 
@@ -85,7 +87,12 @@ PDP（04-product-strawberry）のギフトオプションを操作後の 4 状�
 - **7b メッセージカード文字数カウンター**: textarea 直下に「N / 100 字」、90 字でアンバー（`#a45a14`）、100 字で赤系（`#b22a2a`）＋太字。tabular-nums で桁ズレなし
 - **7c 熨斗プレビュー**: 用途・名入れ入力に連動し、和紙風カードに用途上段 / 紅白水引き SVG / 名入れ下段をリアルタイム表示
 
-## 撮り方
+### phase-7 → phase-8 (2026-05-21)
+
+- **撮影対象に 09-collection-all を追加**: `scripts/capture-screenshots.mjs` の PAGES に `/collections/all` を追加（Phase 8 以降は 9 枚 × 2 viewport）。静的 fullPage 方式は phase-3〜のものと同じ
+- **09-collection-all**: コレクションページ左に絞り込みカラム（在庫状況 / 価格 / おすすめ〔タグ〕/ サイズ / アレルゲン情報）、右上に並べ替えドロップダウン、グリッドに日本語タグバッジ。絞り込み自体は Shopify「検索と発見」アプリで制御（テーマは `snippets/facets.liquid` で汎用描画）
+- **タグバッジの日本語化**: 商品カードのバッジ用タグを英語（new/popular/seasonal）→日本語（人気/季節限定/新商品）に変更。タグ絞り込みの値に英語が出る問題を解消。バッジ見た目自体は phase-3e から不変
+- 他ページ（01〜08）に視覚差分はほぼなし（Phase 8 はコレクションページ中心 + admin 設定が主体）
 
 `shopify theme dev` でローカル開発サーバーを起動した状態で:
 

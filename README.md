@@ -223,9 +223,9 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [x] 7a ラッピング画像付きラジオ（`snippets/gift-options.liquid` の「ギフトラッピングを付ける」checkbox に、シンプル / リボン付き / 箱入りの 3 種ラジオを入れ子で追加。`assets/wrapping-*.svg` の装飾サムネ付きラジオカード UI。熨斗と同じ data-gift-toggle / data-gift-nested 機構で disable 連動）
   - [x] 7b メッセージカード文字数カウンター（textarea 直下にライブ「N / 100 字」カウンター、`aria-live="polite"`、90字到達でアンバー警告、100字到達で赤系強調）
   - [x] 7c 熨斗（のし）プレビュー（用途・名入れ入力に連動して、和紙風カードに用途上段／紅白水引き SVG／名入れ下段の体裁でリアルタイム表示。両方未入力時は非表示、checkbox オフ時は入力クリア＋プレビューも自動的に隠れる。`aria-hidden` で SR には冗長読み上げを避ける装飾扱い）
-- [ ] **Phase 8** — 検索・フィルター・並べ替え（Shopify Search & Discovery 連携）
-  - [ ] 8a faceted filtering（価格 / タグ / アレルゲン / コレクション）
-  - [ ] 8b ソート + 検索結果ページ強化
+- [x] **Phase 8** — 検索・フィルター・並べ替え（Shopify Search & Discovery 連携）
+  - [x] 8a faceted filtering（在庫状況 / 価格 / タグ〔おすすめ〕/ サイズ / アレルゲン）。フィルターは「検索と発見」アプリで制御し、テーマの `snippets/facets.liquid` が汎用描画（コード追加なし）。バッジ用タグを英語（new/popular/seasonal）→日本語（人気/季節限定/新商品）に変更し、タグ絞り込みに英語が出る問題を解消（`card-product-extra-badge.liquid` の判定も追従）
+  - [x] 8b ソート（`templates/collection.json` / `search.json` で `enable_sorting: true`）＋検索結果ページの絞り込み（horizontal）。admin 手順は `docs/admin-setup.md §11`
 - [ ] **Phase 9** — 回遊・パーソナライズ（フロントエンドのみ・アプリ不要）
   - [ ] 9a 最近見た商品（localStorage）
   - [ ] 9b ウィッシュリスト（localStorage）

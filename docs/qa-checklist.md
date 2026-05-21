@@ -398,6 +398,26 @@ admin 側: 作業不要。Q&A を変更するときは theme editor で `faq_mai
 - [ ] キャプション「プレビュー（イメージ）」は SR にも見え、ブロックの意図を伝える ※ 実機 SR 検証は未実施
 - [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
 
+### Phase 8: 検索・フィルター・並べ替え（2026-05-21 完了）
+
+> スクショ: [`docs/screenshots/phase-8/`](./screenshots/phase-8/)（09-collection-all に絞り込みカラム＋並べ替え＋日本語タグが写る）
+> テーマ側: `templates/collection.json` で `enable_sorting: true`。フィルターは Shopify「検索と発見 / Search & Discovery」アプリで制御し、`snippets/facets.liquid` が汎用描画（コード追加なし）。バッジ用タグを英語（new/popular/seasonal）→日本語（人気/季節限定/新商品）に変更し、`snippets/card-product-extra-badge.liquid` の `tags contains` 判定も合わせた。admin 手順は `docs/admin-setup.md §11`（フィルター）/ §5（バッジタグ）。
+
+#### 8a faceted filtering（絞り込み）
+- [x] コレクションページ（`/collections/all`）左カラムに絞り込みが縦並びで表示される（在庫状況 / 価格 / おすすめ〔タグ〕/ サイズ / アレルゲン情報）
+- [x] タグ絞り込み（ラベル「おすすめ」）の値が**日本語**（人気 / 季節限定 / 新商品 ＋ 定番 / 通年 等）になり、英語（new/popular/seasonal）が出ない
+- [x] 検索結果ページ（`templates/search.json`）でも絞り込みが横並び（horizontal）で出る
+- [ ] サイズ絞り込みが号数バリエーション商品で機能する ※ admin の号数バリエーションが前提・最終目視は任意
+- [ ] アレルゲン絞り込みが標準「アレルゲン情報」メタフィールド設定済み商品で機能する ※ §9 の入力が前提・最終目視は任意
+
+#### 8b ソート＋バッジ整合
+- [x] コレクションページ右上に並べ替えドロップダウン（おすすめ / 新着 / 価格順 / 名前順 等）が表示され、選ぶと並びが変わる
+- [x] 商品タグを日本語化した後も商品カードのバッジ（人気 / 季節限定 / 新商品）が正しく表示される（実機で「新商品」確認済み 2026-05-21）
+- [x] 季節限定バッジの「残り N 日」展開（`custom.sale_end` 連動・Phase 5c）が日本語タグ `季節限定` でも従来どおり動く
+- [x] `shopify theme check` が baseline（2 errors / 9 warnings）を超えていない
+
+> **admin 前提（user 作業・2026-05-21 実施済み）**: 「検索と発見」アプリのインストール＋絞り込み 5 本追加（§11）、各商品のバッジタグを日本語（人気/季節限定/新商品）に変更（§5）。
+
 ---
 
 ## 公開前リハーサル（Phase 4 終盤）
