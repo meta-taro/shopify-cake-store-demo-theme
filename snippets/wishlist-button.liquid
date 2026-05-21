@@ -10,7 +10,14 @@
   document の 'wishlist:updated' イベントで全インスタンス（カード・PDP・ヘッダー件数）を同期する。
 {% endcomment %}
 {%- liquid
-  assign wl_handle = handle | default: product.handle
+  # product が渡された場合は必ずその handle を使う。
+  # コレクションページでは bare な `handle` がコレクションのハンドル（例: "all"）に解決されて
+  # しまうため、`handle | default: product.handle` だと全カードが "all" になる不具合があった。
+  if product != blank
+    assign wl_handle = product.handle
+  else
+    assign wl_handle = handle
+  endif
   assign wl_context = context | default: 'card'
 -%}
 {%- if wl_handle != blank -%}

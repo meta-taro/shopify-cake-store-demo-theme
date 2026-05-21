@@ -43,6 +43,15 @@
     endif
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
+    {%- comment -%}
+      お気に入りトグルは card-wrapper 直下に置く。card__inner は transform でスタッキングコンテキストを作るため、
+      その内側に置くとカードリンクの ::after（z-index:1）が card__inner サブツリー全体の上に描画され、
+      トグルの z-index を上げてもクリックを奪われる。card-wrapper 直下なら ::after と同じ grid__item
+      コンテキストに入り z-index で勝てる。
+    {%- endcomment -%}
+    {%- if wishlist_toggle != false and card_product.handle -%}
+      {% render 'wishlist-button', product: card_product, context: 'card' %}
+    {%- endif -%}
     <div
       class="
         card card--{{ settings.card_style }}
@@ -106,9 +115,6 @@
                 >
               {%- endif -%}
             </div>
-            {%- if wishlist_toggle != false and card_product.handle -%}
-              {% render 'wishlist-button', product: card_product, context: 'card' %}
-            {%- endif -%}
           </div>
         {%- endif -%}
         <div class="card__content">

@@ -504,7 +504,7 @@
                 -%}
                 {{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
                 {% render 'wishlist-button', product: product, context: 'pdp' %}
-                <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+                {%- comment -%} wishlist.js は header が全ページで読み込むためここでは読み込まない（二重ロード防止） {%- endcomment -%}
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">

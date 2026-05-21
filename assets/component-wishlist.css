@@ -3,8 +3,11 @@
  * - 半透明色は Rise の --color-* がコンマ区切りのため rgba() レガシー記法を使う。
  */
 
-/* カード画像上のオーバーレイ（アイコンのみ） */
-.card__inner .wishlist-toggle--card {
+/* カード画像上のオーバーレイ（アイコンのみ）
+ * card__inner は transform でスタッキングコンテキストを作り、その内側に置くとカードリンクの
+ * ::after（z-index:1）が card__inner サブツリー全体の上に描画されてクリックを奪う。
+ * そのため card-wrapper 直下に置き、::after と同じ grid__item コンテキストで z-index:2 > 1 に勝たせる。 */
+.card-wrapper > .wishlist-toggle--card {
   position: absolute;
   top: 1rem;
   right: 1rem;

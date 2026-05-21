@@ -8,6 +8,11 @@
  *   空なら空状態を表示。他所でトグルされた変更（'wishlist:updated'）にも追従し、削除分はその場で消す。
  * - すべてのインスタンスは 'wishlist:updated' を購読して localStorage を単一の真実として再同期する。
  */
+// header が全ページでこのスクリプトを読み込むため、PDP・一覧ページでの再読込で二重実行されうる。
+// IIFE で const をスコープし、定義済みなら早期 return して再宣言・再 define エラーを防ぐ。
+(function () {
+  if (customElements.get('wishlist-toggle')) return;
+
 const WISHLIST_KEY = 'sweet-atelier:wishlist';
 const WISHLIST_MAX = 50;
 const WISHLIST_EVENT = 'wishlist:updated';
@@ -175,3 +180,4 @@ class WishlistProducts extends HTMLElement {
 customElements.define('wishlist-toggle', WishlistToggle);
 customElements.define('wishlist-count', WishlistCount);
 customElements.define('wishlist-products', WishlistProducts);
+})();
