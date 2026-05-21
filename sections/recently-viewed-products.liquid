@@ -1,0 +1,195 @@
+{% comment %}
+  最近見た商品（Phase 9a）
+
+  動作の仕組み:
+  - 商品ページでこのセクションが描画されると、JS が現在の商品 handle を
+    localStorage（キー: sweet-atelier:recently-viewed）に記録する。
+  - 表示時は localStorage の handle 配列（現在の商品を除外）を読み、各 handle に対し
+    /products/{handle}?section_id={このセクション} を fetch して .grid__item（カード）だけを
+    抜き出し、グリッドに差し込む（Section Rendering API。related-products と同方式）。
+  - product が scope にある時（＝商品ページ／カード取得 fetch）だけ単一カードを出力する
+    「カードファクトリ」モードを兼ねる。host 側の初期カードは JS が描画前にクリアする。
+  - localStorage が空／使用不可、または対象が無い場合はセクション全体を hidden のままにする
+    （no-JS でも空の色帯が出ないよう、wrapper 自体に hidden を付与）。
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #RecentlyViewed-{{ section.id }} .recently-viewed__heading {
+    margin: 0 0 1.5rem;
+  }
+{%- endstyle -%}
+
+<recently-viewed-products
+  id="RecentlyViewed-{{ section.id }}"
+  class="recently-viewed color-{{ section.settings.color_scheme }} gradient page-width section-{{ section.id }}-padding isolate"
+  data-section-id="{{ section.id }}"
+  data-root-url="{{ routes.root_url }}"
+  data-limit="{{ section.settings.products_to_show }}"
+  {%- if product != blank %} data-current-handle="{{ product.handle }}"{% endif %}
+  hidden
+>
+  <h2 class="recently-viewed__heading inline-richtext {{ section.settings.heading_size }}" hidden>
+    {{ section.settings.heading }}
+  </h2>
+  <ul
+    class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+    role="list"
+  >
+    {%- comment -%} カードファクトリ: /products/{handle}?section_id= で取得された時に単一カードを出力 {%- endcomment -%}
+    {%- if product != blank -%}
+      <li class="grid__item">
+        {% render 'card-product',
+          card_product: product,
+          media_aspect_ratio: section.settings.image_ratio,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating
+        %}
+      </li>
+    {%- endif -%}
+  </ul>
+</recently-viewed-products>
+
+<script src="{{ 'recently-viewed.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "最近見た商品",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "閲覧者がこれまでに見た商品をブラウザ（localStorage）に記録し、最近見た順に表示します。商品ページに置くと閲覧履歴の記録も兼ねます。履歴が無い場合は何も表示されません。"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "最近見た商品",
+      "label": "見出し"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "小" },
+        { "value": "h1", "label": "中" },
+        { "value": "h0", "label": "大" }
+      ],
+      "default": "h2",
+      "label": "見出しサイズ"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "最大表示件数"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "デスクトップの列数"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "モバイルの列数",
+      "options": [
+        { "value": "1", "label": "1 列" },
+        { "value": "2", "label": "2 列" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "adapt", "label": "画像に合わせる" },
+        { "value": "portrait", "label": "縦長" },
+        { "value": "square", "label": "正方形" }
+      ],
+      "default": "square",
+      "label": "画像比率"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "ホバーで2枚目の画像を表示"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "ベンダーを表示"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "レビュー評価を表示"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "カラースキーム",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "余白"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "上余白"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "下余白"
+    }
+  ],
+  "presets": [
+    {
+      "name": "最近見た商品"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product", "collection", "index", "search", "cart"]
+  }
+}
+{% endschema %}
