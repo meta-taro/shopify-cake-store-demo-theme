@@ -70,9 +70,25 @@
   border-color: #c0392b;
 }
 
-/* ヘッダーの件数バッジ（cart-count-bubble を踏襲） */
-.wishlist-count-bubble {
-  display: block;
+/* お気に入りアイコンの位置基準。基底の .cart-count-bubble は position:absolute なので、
+   .header__icon--cart と同様に親リンクへ position:relative を与えないと、バッジが
+   別の祖先（ヘッダー枠）基準で左上へ飛んでしまう。 */
+.header__icon--wishlist {
+  position: relative;
+}
+
+/* ♡ は塗りベース SVG（fill-rule:evenodd で輪郭リングを描く）。基底の
+   .header__icon .icon { fill:none } で消えてしまうため、塗りを currentColor に戻す。 */
+.header__icon--wishlist .icon-heart {
+  fill: currentColor;
+}
+
+/* ヘッダーの件数バッジ（cart-count-bubble を踏襲）。
+   バブルの見た目・中央寄せは基底の .cart-count-bubble（display:flex/position:absolute）に任せる。
+   ただし基底側に display:flex があるため [hidden] 属性（UA の display:none）が打ち消され、
+   件数 0 でも「0」バッジが残ってしまう。class+属性で特異度を上げて 0 件時は確実に隠す。 */
+.wishlist-count-bubble[hidden] {
+  display: none;
 }
 
 /* お気に入り一覧の空状態 */
