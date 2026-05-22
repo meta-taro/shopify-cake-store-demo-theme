@@ -140,6 +140,30 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
 - **フックを一時的にスキップ**したい場合: `git commit --no-verify` / `git push --no-verify`（緊急時のみ）。
 - **フックが効かない**場合（clone 直後など）: `pnpm install` もしくは `pnpm exec lefthook install` で再セットアップ。
 
+## Visual QA / Screenshot 自動化
+
+ローカル dev サーバー（`http://127.0.0.1:9292`）に対し、**Playwright（ヘッドレス Chromium）**でストアフロントを自動撮影している。Phase ごとの Before / After 比較を手作業のスクショに頼らず再現可能にするのが目的。
+
+- **技術スタック**: `playwright`（devDependency）/ Node.js ESM スクリプト / Chromium ヘッドレス。dev サーバーは Shopify CLI が立てる（撮影スクリプトは URL を叩くだけで CLI 非依存）。
+- **2 ビューポート固定**: desktop(1280×900) と mobile(390×844 / iPhone 14 相当、`deviceScaleFactor: 2`)を同一スクリプト内でループ。
+- **reveal-on-scroll 対策**: `reducedMotion: "reduce"` を指定し、Rise の `opacity:0.01` 待機を無効化。ファーストビュー外セクションも最終状態で写る。
+
+撮影方式は 2 種類:
+
+| スクリプト | コマンド | 方式 | 用途 |
+|---|---|---|---|
+| [`scripts/capture-screenshots.mjs`](./scripts/capture-screenshots.mjs) | `pnpm run screenshot:baseline [-- --label phase-N]` | 静的 `page.screenshot({ fullPage: true })` | ページ全長キャプチャ（トップ・PDP・コレクション等） |
+| [`scripts/capture-phase-7.mjs`](./scripts/capture-phase-7.mjs) | `pnpm run screenshot:phase7` | 操作後の**要素クローズアップ** | 操作後にしか現れない UI（ギフトオプション等） |
+
+**要素クローズアップの仕組み**（テストにも転用できるポイント）:
+
+1. ページを毎回リロードし、ウィジェット状態がショット間で漏れないようにする
+2. `page.locator("[data-...]")` で対象要素を掴む
+3. `.check()` / `.fill()` / `.selectOption()` で人間と同じ操作を自動実行（チェック ON・文字入力・選択）
+4. **`page` ではなく locator に対して `.screenshot()` を呼ぶ** → Playwright がその要素のバウンディングボックスだけを自動でクリップ。画像編集での切り抜きは不要
+
+> この「locator を操作 → 要素単位でアサート/撮影」というパターンは、そのまま **E2E / ビジュアルリグレッションテストの土台**になる。現状は目視比較用のスクショ生成に使っているが、`expect(locator).toHaveScreenshot()` 等へ拡張すれば回帰検出に発展できる（[詳細・Phase 別差分](./docs/screenshots/README.md)）。
+
 ## Directory Structure
 
 ```
