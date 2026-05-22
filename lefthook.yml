@@ -9,6 +9,11 @@ pre-commit:
   commands:
     theme-check:
       run: shopify theme check
+    # 検証シート（docs/test-cases/）の鮮度チェック。
+    # テーマ挙動コードを変更したのにシートが未更新なら注意喚起する（既定は非ブロック）。
+    # 厳格化: TEST_SHEET_STRICT=1 / 回避: git commit --no-verify
+    test-sheet-freshness:
+      run: node scripts/check-test-sheet.mjs
 
 pre-push:
   commands:

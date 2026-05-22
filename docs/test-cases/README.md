@@ -52,6 +52,22 @@ Issue 単独だと「リッチな表に弱い」「履歴スナップショッ�
 `.github/ISSUE_TEMPLATE/test-checklist.yml`（Issue Forms）から起票する。
 ラベル `test` と該当 `phase-N` を付け、Milestone を Phase に対応させる。
 
+## コミット前の鮮度チェック（pre-commit）
+
+検証シートがコードから取り残されないよう、`lefthook` の pre-commit に
+**鮮度チェック**を組み込んでいる（`scripts/check-test-sheet.mjs`）。
+
+- **動作**: テーマの挙動コード（`sections/` `snippets/` `assets/` `templates/` `layout/` の
+  `.liquid`/`.js`/`.json`）がステージされているのに `docs/test-cases/` が一緒に更新されて
+  いない場合、注意喚起する
+- **既定は非ブロック**（リマインダー）。「最新かどうか」の厳密判定は機械化できないため、
+  挙動コード変更 × シート未更新を実用的なプロキシとして警告するに留める
+- **厳格化**: `TEST_SHEET_STRICT=1` を付けて commit すると、その場合に `exit 1` でブロックする
+- **回避**: 検証シート更新が不要なコミットは `git commit --no-verify` でスキップ可
+
+> 真の「最新化」は人/AI の判断。警告が出たら「項目の追加・修正が要るか」を確認し、
+> 必要なら phase-N.md を更新してから commit する運用。
+
 ## 監査コマンド例（AI / 人どちらでも）
 
 ```bash
