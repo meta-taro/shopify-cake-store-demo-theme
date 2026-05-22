@@ -286,9 +286,9 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
   - [ ] 15a 在庫切れ PDP に「再入荷したらメールでお知らせ」フォーム設置（テーマ実装。Contact Form 流用 or customer メタフィールド経由）
   - [ ] 15b Shopify Flow で在庫復活トリガー → 通知メール自動送信を組む手順を `docs/admin-setup.md` に追記
 - [ ] **Phase 16** — スプレッドシートでの商品一括登録（CSV import/export 実務体験）
-  - [ ] 16a Shopify 標準 CSV エクスポート（既存 5 商品）→ Google Sheets で編集 → 再 import の往復を実践
-  - [ ] 16b 落とし穴の検証と回避策（variants/images/metafields の列順、SJIS エンコーディング、画像 URL 重複、価格と税表記、import 中断時の挙動など）を `docs/spreadsheet-product-ops.md` に整理
-  - [ ] 16c サンプル CSV（本リポの商品 5 件分）を `docs/samples/` 同梱
+  - [ ] 16a Shopify 標準 CSV エクスポート（既存 5 商品）→ Google Sheets で編集 → 再 import の往復を実践（管理画面での手作業。手順は `docs/spreadsheet-product-ops.md §2`）
+  - [x] 16b 落とし穴の検証と回避策（旧/新ヘッダー対応、variants 複数行、UTF-8/SJIS エンコーディング、カンマのクォート、画像の公開 URL、単一ロケーション在庫、価格と税表記、Status と公開の別、コレクション非対応、メタフィールド列、import 中断）を [`docs/spreadsheet-product-ops.md`](./docs/spreadsheet-product-ops.md) に整理
+  - [x] 16c サンプル CSV（本リポの商品 5 件・12 バリアント）を [`docs/samples/products-sample.csv`](./docs/samples/products-sample.csv) に同梱
   - [ ] ※ 受注案件 5d（クライアント固有運用・非公開）とは目的が独立。本 Phase は公開可能な汎用知識
 
 各フェーズのスクリーンショット差分は [`docs/screenshots/`](./docs/screenshots/) で `baseline → phase-1 → phase-2 → phase-3 → phase-4 → …` の順に確認できます。
