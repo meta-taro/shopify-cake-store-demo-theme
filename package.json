@@ -10,6 +10,7 @@
     "prepare": "lefthook install",
     "screenshot:baseline": "node scripts/capture-screenshots.mjs",
     "screenshot:phase7": "node scripts/capture-phase-7.mjs",
+    "screenshot:phase9": "node scripts/capture-phase-9.mjs",
     "lighthouse:capture": "node scripts/lighthouse-capture.mjs"
   },
   "devDependencies": {
