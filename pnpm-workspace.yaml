@@ -1,0 +1,11 @@
+# pnpm 11 はビルドスクリプト許可・セキュリティ設定を pnpm-workspace.yaml で管理する。
+# （package.json の "pnpm" フィールドは 11.x では読まれない）
+
+# install-script の実行を許可するパッケージのみ true にする（サプライチェーン対策）。
+# lefthook は git フックバイナリの配置に postinstall を使うため許可。
+# playwright は install-script を持たないため列挙不要。
+allowBuilds:
+  lefthook: true
+
+# リリース直後のパッケージを隔離（公開から 1440 分＝24 時間未満は採用しない）。
+minimumReleaseAge: 1440

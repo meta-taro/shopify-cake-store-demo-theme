@@ -121,9 +121,24 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
 | `shopify theme push` | ローカル → ストアへ反映 |
 | `shopify theme pull` | ストア → ローカルへ取得 |
 | `shopify theme list` | ストアにあるテーマ一覧 |
-| `shopify theme check` | テーマのリンター実行 |
-| `npm run screenshot:baseline` | ローカル dev サーバーから Phase 比較用スクリーンショット取得（[詳細](./docs/screenshots/README.md)） |
-| `npm run lighthouse:capture -- --label phase-N` | ローカル dev サーバーに対し Lighthouse 計測（[ベースライン](./docs/lighthouse-baseline.md)） |
+| `shopify theme check` / `pnpm lint` | テーマのリンター（Theme Check）実行 |
+| `pnpm run screenshot:baseline` | ローカル dev サーバーから Phase 比較用スクリーンショット取得（[詳細](./docs/screenshots/README.md)） |
+| `pnpm run lighthouse:capture -- --label phase-N` | ローカル dev サーバーに対し Lighthouse 計測（[ベースライン](./docs/lighthouse-baseline.md)） |
+
+> Node ツールチェーンは **pnpm**（npm 禁止）。初回は `corepack enable` 後に `pnpm install` を実行する（`prepare` スクリプトで git フックも自動セットアップ）。
+
+## Lint / Git Hooks
+
+[Theme Check](https://shopify.dev/docs/storefronts/themes/tools/theme-check)（Shopify CLI 同梱）でテーマを静的検査し、[lefthook](https://github.com/evilmartians/lefthook) で **pre-commit / pre-push の両方**に組み込んでいる。
+
+- **設定ファイル**
+  - `lefthook.yml` — pre-commit / pre-push で `shopify theme check` を実行（テーマ全体を対象）。
+  - `.theme-check.yml` — `theme-check:recommended` を継承。Rise ベースラインの既知 `ValidSchemaTranslations` エラー（`sections/featured-product.liquid`、全 20 言語のロケール同期コストが見合わないため）のみ対象外。ルール自体は他ファイルで有効なので、新規に追加する section/snippet のスキーマ翻訳漏れは検出できる。
+  - `pnpm-workspace.yaml` — pnpm 11 のビルドスクリプト許可（`allowBuilds`）と `minimumReleaseAge`（リリース直後パッケージの隔離）。
+- **挙動**: ベースラインは error 0 / warning 9 で通過する。**新規に error が出たコミット/プッシュのみブロック**される（warning は通す）。
+- **ベースライン**: Rise 由来の既知 2 errors / 9 warnings は受け入れ済み（`.theme-check.yml` で error を 0 件に調整、warning 9 件は通過）。
+- **フックを一時的にスキップ**したい場合: `git commit --no-verify` / `git push --no-verify`（緊急時のみ）。
+- **フックが効かない**場合（clone 直後など）: `pnpm install` もしくは `pnpm exec lefthook install` で再セットアップ。
 
 ## Directory Structure
 
@@ -269,9 +284,9 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
 - **ThemeForest（Envato）**: 審査のハードルが比較的低く「登録して様子見」がしやすい。マーケットプレイス自体に集客力あり。単価は安め。まず需要を測る入口に向く。
 - **Shopify Theme Store**: 参入障壁は高い（掲載テーマ数は世界で 100〜200 程度、品質・パフォーマンス・サポート体制まで審査、レベニューシェア＋独占販売＋継続メンテ義務）が、入れれば Shopify 本体が集客してくれるので外部マーケ最小で売れる“本命”。ThemeForest で手応えを得てから挑戦するルートが現実的。
 
-### 3. 受託・コンサル（学習リポジトリをそのまま営業資料に）
-- このリポジトリ＋スクリーンショット＋（作るなら）`docs/feature-matrix.md` を「標準テーマカスタマイズでここまでできます」の実物デモとして使う。提案では「テーマカスタマイズで完結すること」と「アプリ追加が前提のこと（レビュー本格運用・サブスク・複雑な在庫連携など）」を切り分けると話が通りやすい。
-- ライブデモは開発ストア（提案時だけパスワード共有 or 一時解除）で見せる。
+### 3. 実装事例・技術ポートフォリオとして
+- このリポジトリ＋スクリーンショット＋（作るなら）`docs/feature-matrix.md` は「標準テーマカスタマイズで実現できる範囲」を示す実装事例になる。技術検討の場では「テーマカスタマイズで完結すること」と「アプリ追加が前提のこと（レビュー本格運用・サブスク・複雑な在庫連携など）」を切り分けて整理できる点が要点。
+- ライブデモは開発ストア（必要時のみパスワード共有 or 一時解除）で確認できる。
 
 ### 4. AEO / LLMO（AI 経由の流入・購入への対応）
 - Shopify はプラットフォーム側で `llms.txt` / `agents.md` / UCP（Universal Commerce Protocol）の入口を**自動配信**しており、Shopify ストアは AI コマースの最低要件を勝手に満たしている（テーマ側の作業は基本不要。`templates/llms.txt.liquid` を置けば中身をカスタマイズ可）。

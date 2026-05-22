@@ -1,0 +1,11 @@
+# Theme Check 設定（Shopify CLI 同梱）
+# 既定の推奨ルールセットを継承する。
+extends: theme-check:recommended
+
+# Rise ベースラインで既知の ValidSchemaTranslations エラー（featured-product の
+# スキーマ翻訳）。全 20 言語のロケール同期コストが学習目的に見合わないため、
+# このファイルに限り対象外とする。ルール自体は他ファイルでは有効なので、
+# 今後新規に追加する section/snippet のスキーマ翻訳漏れは検出できる。
+ValidSchemaTranslations:
+  ignore:
+    - sections/featured-product.liquid

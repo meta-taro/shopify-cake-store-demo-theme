@@ -1,0 +1,16 @@
+# Lefthook — git フック設定
+# pre-commit / pre-push の両方で Shopify Theme Check を実行する。
+# Theme Check は OrphanedSnippet・翻訳キー存在チェック等でテーマ全体の文脈を
+# 必要とするため、変更ファイルだけでなくテーマ全体を対象に走らせる。
+# ベースラインの既知 offense は .theme-check.yml で調整済み（error 0 / warning 9）。
+# 新規に error が出た場合のみ exit 1 となり commit / push がブロックされる。
+
+pre-commit:
+  commands:
+    theme-check:
+      run: shopify theme check
+
+pre-push:
+  commands:
+    theme-check:
+      run: shopify theme check
