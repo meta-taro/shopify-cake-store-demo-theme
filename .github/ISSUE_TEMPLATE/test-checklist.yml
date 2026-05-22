@@ -1,0 +1,53 @@
+name: テスト項目書（手動テスト）
+description: Phase ごとの手動テストを実施・記録するチェックリスト
+title: "[Test] Phase <N>: <概要>"
+labels: ["test"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        正本は `docs/test-cases/phase-<N>.md`。本 Issue はその実行票です。
+        チェックを進め、不合格は `bug` ラベルの子 Issue を起票してリンクしてください。
+        証跡スクショはリポジトリにコミット済みの PNG を raw URL で貼ります。
+  - type: input
+    id: phase
+    attributes:
+      label: 対象 Phase
+      placeholder: "例: Phase 9（回遊・パーソナライズ）"
+    validations:
+      required: true
+  - type: input
+    id: spec
+    attributes:
+      label: 正本（テスト項目書）へのリンク
+      placeholder: "docs/test-cases/phase-9.md"
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: 実施環境
+      value: |
+        - [ ] PC Chrome
+        - [ ] PC Edge
+        - [ ] iPhone Safari
+        - [ ] Android Chrome
+        - 対象 URL:
+        - 実施日 / 実施者:
+  - type: textarea
+    id: checklist
+    attributes:
+      label: チェックリスト
+      description: 正本 phase-N.md から転記。`- [ ]` で実施状況を管理する。
+      placeholder: |
+        - [ ] TC-9A-01 最近見た商品が localStorage に記録される（最大12・最新先頭）
+        - [ ] TC-9A-02 別ページで「最近見た商品」表示（現在商品は除外）
+        - [ ] ...
+    validations:
+      required: true
+  - type: textarea
+    id: improvements
+    attributes:
+      label: 改善ルール候補
+      description: 検証中に気づいた一般化できる知見。`docs/test-cases/improvement-rules.md` に反映する。
+      placeholder: "例: カード上の操作要素はリンクのスタッキングを回避する（R-001 と同種）"
