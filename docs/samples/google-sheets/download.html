@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+    <style>
+      body { font-family: sans-serif; font-size: 13px; color: #333; padding: 12px; }
+      .err { color: #b00020; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <p id="msg">CSV を生成しています…</p>
+    <script>
+      // Apps Script 側の getShopifyCsv() を呼び、結果を Blob にしてブラウザでダウンロード。
+      // UTF-8 BOM を付けて Excel での文字化けを防ぐ（Shopify import は BOM 付きでも通る）。
+      google.script.run
+        .withSuccessHandler(function (csv) {
+          var blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'shopify-products.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          document.getElementById('msg').textContent =
+            'ダウンロードを開始しました。このウィンドウは閉じてください。';
+        })
+        .withFailureHandler(function (e) {
+          var el = document.getElementById('msg');
+          el.className = 'err';
+          el.textContent = 'エラー: ' + e.message;
+        })
+        .getShopifyCsv();
+    </script>
+  </body>
+</html>

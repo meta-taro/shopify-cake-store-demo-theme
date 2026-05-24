@@ -285,10 +285,11 @@ shopify theme push --theme=156264464583  # live (Rise) の theme id
 - [ ] **Phase 15** — 再入荷通知（テーマ + Shopify Flow 連携）
   - [ ] 15a 在庫切れ PDP に「再入荷したらメールでお知らせ」フォーム設置（テーマ実装。Contact Form 流用 or customer メタフィールド経由）
   - [ ] 15b Shopify Flow で在庫復活トリガー → 通知メール自動送信を組む手順を `docs/admin-setup.md` に追記
-- [ ] **Phase 16** — スプレッドシートでの商品一括登録（CSV import/export 実務体験）
+- [ ] **Phase 16** — スプレッドシートでの商品運用（CSV 往復 → Apps Script で直接同期）
   - [ ] 16a Shopify 標準 CSV エクスポート（既存 5 商品）→ Google Sheets で編集 → 再 import の往復を実践（管理画面での手作業。手順は `docs/spreadsheet-product-ops.md §2`）
   - [x] 16b 落とし穴の検証と回避策（旧/新ヘッダー対応、variants 複数行、UTF-8/SJIS エンコーディング、カンマのクォート、画像の公開 URL、単一ロケーション在庫、価格と税表記、Status と公開の別、コレクション非対応、メタフィールド列、import 中断）を [`docs/spreadsheet-product-ops.md`](./docs/spreadsheet-product-ops.md) に整理
   - [x] 16c サンプル CSV（本リポの商品 5 件・12 バリアント）を [`docs/samples/products-sample.csv`](./docs/samples/products-sample.csv) に同梱
+  - [x] 16d スプレッドシートから Shopify Admin GraphQL（`productSet`）に直接 upsert する Google Apps Script を [`docs/samples/google-sheets/`](./docs/samples/google-sheets/) に同梱（handle 基準の冪等同期・行単位エラー記録・CSV フォールバック付き）。解説は [`docs/spreadsheet-product-ops.md §7`](./docs/spreadsheet-product-ops.md#7-csv-往復を自動化する16d--google-apps-script-で直接同期)
   - [ ] ※ 受注案件 5d（クライアント固有運用・非公開）とは目的が独立。本 Phase は公開可能な汎用知識
 
 各フェーズのスクリーンショット差分は [`docs/screenshots/`](./docs/screenshots/) で `baseline → phase-1 → phase-2 → phase-3 → phase-4 → …` の順に確認できます。

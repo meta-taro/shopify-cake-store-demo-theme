@@ -1,6 +1,9 @@
 # docs/samples
 
-Phase 16（CSV 一括登録の実務体験）用のサンプルファイル置き場。
+Phase 16（スプレッドシート起点の商品運用）用のサンプル置き場。
+
+- `products-sample.csv` … Shopify 標準 CSV のサンプル（16a〜c）
+- `google-sheets/` … スプレッドシートから直接同期する Apps Script（16d）
 
 ## `products-sample.csv`
 
@@ -20,3 +23,32 @@ Phase 16（CSV 一括登録の実務体験）用のサンプルファイル置�
 
 > 実ストアを export すると、ここに加えてメタフィールド列（アレルゲン・販売期間など）や
 > Google Shopping 列が並ぶ。`spreadsheet-product-ops.md` の「列の構成」を参照。
+
+## `google-sheets/` （Phase 16d）
+
+CSV のダウンロード → 管理画面でインポート、という往復をやめて、**スプレッドシートのボタン 1 つで
+Shopify Admin GraphQL に直接 upsert する** Apps Script のセット。
+
+- `Code.gs` — Apps Script 本体（メニュー追加・接続設定・`productSet` ミューテーション呼び出し・
+  CSV フォールバック）
+- `download.html` — フォールバックの CSV ダウンロード用ダイアログ
+
+### 思想
+
+- 店舗運用者は **日本語見出しの普通の表**を埋めるだけ。CSV のヘッダー名や handle のルールを
+  意識しなくていい（コード側で吸収）
+- ［ストアに同期］で **handle 基準の冪等 upsert**。何度押しても結果は同じ
+- 結果は **行ごとに「同期結果」列**へ即時記録（`✓ 新規 / ✓ 更新 / ✗ <理由>`）
+- 認証情報は **Apps Script の Script Properties** に置き、シート本体・リポジトリには絶対書かない
+
+### 学習用の置き方
+
+1. 新規 Google スプレッドシートを作成 → 拡張機能 → Apps Script
+2. `Code.gs` の中身をコピー → `コード.gs` に貼り付け
+3. ＋ → HTML → 名前 `download` → `download.html` の中身を貼り付け
+4. シートに戻ってリロード → メニュー［Shopify］が表示される
+5. 詳しい運用手順・セキュリティ・詰まりやすい点は
+   [`docs/spreadsheet-product-ops.md` §7（Phase 16d）](../spreadsheet-product-ops.md#7-csv-往復を自動化する16d--google-apps-script-で直接同期)
+
+> このファイルは **学習・スキル確認用のサンプル**で、受注案件で運用するスクリプトとは別物
+> （受注案件の成果物は本リポジトリにはコミットされない `apps-script/` 側）。

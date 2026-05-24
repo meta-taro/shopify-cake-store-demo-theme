@@ -164,7 +164,97 @@ Google Shopping / ... , <metafield columns>
 - [ ] アレルゲン等メタフィールドが意図どおり（実ストア export 時）
 - [ ] `/products/<handle>` で PDP が正しく表示（テーマ側の機能と整合）
 
+## 7. CSV 往復を自動化する（16d / Google Apps Script で直接同期）
+
+CSV のダウンロード → 管理画面のインポートという手作業は、件数が増えると地味に重い
+（毎回ファイルを取り回す・どれを取り込んだか分からなくなる・上書き有無の取り違え）。
+**スプレッドシートのボタン 1 つで Shopify に同期**できるようにすると、店舗運用者の認知負荷が
+ぐっと下がる。Phase 16d は Google Apps Script (GAS) からそれを実装するレシピ。
+
+実装一式: [`docs/samples/google-sheets/`](./samples/google-sheets/) （`Code.gs` / `download.html`）。
+
+### 7.1 仕組み（CSV import との対比）
+
+| | CSV 往復（16a） | Apps Script 同期（16d） |
+|---|---|---|
+| API | なし（管理画面の import） | Shopify Admin **GraphQL** `productSet` |
+| 上書きキー | `URL handle` | `handle`（findProductByHandle → 既存 ID を input.id に詰めて upsert） |
+| 操作 | ファイル DL → アップロード | シートのメニューから［ストアに同期］ |
+| 認証 | 管理画面ログイン | カスタムアプリの **Admin API トークン**（`shpat_…`） |
+| 在庫 | 単一ロケーション分のみ | 同上（`inventoryQuantities` で先頭ロケーションに書く） |
+| 画像 | 列で複数行に分けて指定 | 新規作成時のみ `productCreateMedia` で 1 枚添付（再同期での重複防止） |
+| 結果のフィードバック | import 完了メール | 行ごとに「同期結果」列へ `✓ 新規 / ✓ 更新 / ✗ ...` を即時記録 |
+| 失敗時 | エラーレポート CSV | userErrors を行単位で表示。フォールバックで CSV DL も残す |
+
+CSV import の知識（16a〜c）はそのまま下敷きになる。GraphQL に乗り換えても**handle が上書きの鍵**、
+**バリアントは行で複製**、**在庫は単一ロケーション前提**といった商品データモデルは同じ。
+
+### 7.2 セットアップ手順
+
+1. **Shopify 管理画面** → 設定 → アプリと販売チャネル → アプリ開発 → カスタムアプリを作成
+   （初回はストアレベルで「カスタムアプリの開発を許可」が必要）
+2. Admin API スコープに **`write_products`**（在庫を書くなら **`write_inventory`** も）を付与 → インストール
+3. Admin API アクセストークン（`shpat_…`）をコピー。**1 度しか表示されない**ので保管に注意
+4. 新しい Google スプレッドシートを作成 → 拡張機能 → Apps Script
+5. `docs/samples/google-sheets/Code.gs` の内容を `コード.gs` に貼り付け
+6. ファイル → ＋ → HTML を作成 → 名前 `download` → `download.html` の内容を貼り付け
+7. シートに戻ってリロード → メニューに **［Shopify］** が現れる
+8. ［Shopify］→ ［接続設定］でストアドメインとトークンを保存（Script Properties に保管され、シート本体・リポジトリには残らない）
+9. ［接続テスト］でストア名が返ればOK
+10. シート 1 行目に見出しを置く：`商品名 / ハンドル / 説明 / ベンダー / カテゴリー / 商品タイプ / タグ / サイズ / SKU / 価格 / 在庫 / 重量(g) / 画像URL / 画像ALT / SEOタイトル / SEO説明 / 公開状態`
+11. 2 行目以降に商品を入力。**サイズ違いは行を分けて同じハンドルを並べる**（ハンドル列空欄でも直前行を継承）
+12. ［ストアに同期］→ 確認ダイアログ → 実行。各行に `✓ 新規 / ✓ 更新` または `✗ <理由>` が記録される
+
+### 7.3 セキュリティの勘所
+
+- **トークンはシートに書かない**。`PropertiesService.getScriptProperties()` に保存し、
+  リポジトリ・履歴にも残さない（`Code.gs` には Script Property のキー名しか登場しない）
+- スコープは**必要最小**（`write_products` / `write_inventory` だけ。`read_customers` などは付けない）
+- 配布する場合は **Apps Script プロジェクトを共有しない**（共有すると Script Properties も見える）。
+  各運用者が自分の GAS プロジェクトを作り、自分のトークンを ［接続設定］で入力する設計
+- Admin API トークンが漏れた疑いがあれば、管理画面のカスタムアプリ画面で**即ローテーション**
+
+### 7.4 詰まりやすい点
+
+- **API バージョン依存のフィールド差**: `productSet` の `ProductVariantSetInput` は API バージョンで
+  形が変わる。例: 2024-10 以降 `sku` は `variant.sku` ではなく `variant.inventoryItem.sku` に移動。
+  本サンプルは `API_VERSION = '2025-01'` を前提。上げるときは **Shopify Dev MCP の
+  `introspect_admin_schema`** か GraphiQL 探索で必ず形を確認する。userErrors のメッセージが
+  「同期結果」列に出るので、それで気づけるよう設計してある。
+- **画像の重複アップロード**: `productSet` は media を冪等に扱わない（同じ URL を毎回作る）。
+  本サンプルは「既存商品で media が 0 件のときだけ `productCreateMedia` を呼ぶ」ルールで
+  2 回目以降の同期で画像が増殖しないようにしている。複数画像や差し替えが必要になったら、
+  `productDeleteMedia` を組み合わせた**画像同期モード**を別途実装するのが筋。
+- **Product category（タクソノミー）**: CSV と違い GraphQL では **タクソノミー GID** を渡す
+  必要があり、文字列パスでは送れない。本サンプルでは送っておらず、カテゴリーは管理画面か
+  CSV 側で付ける運用にしている。
+- **在庫は単一ロケーション**: 先頭ロケーションに対して `inventoryQuantities` を書くだけ。
+  多拠点は対象外（CSV 側と同じ制約）。
+- **下書き(`Draft`)で同期した商品は店頭に出ない**: `公開状態` 列で `下書き` を入れた行は
+  `status: DRAFT` で作成され、`Published on online store` は FALSE 扱い。表に出したいときは
+  `公開` または空欄に。
+- **タグ・カテゴリーの分割**: タグは半角カンマ／全角読点／全角カンマ 3 種で区切れるよう
+  `normalizeTags()` で吸収済み。スプレッドシート上で見やすい区切りで書ける。
+
+### 7.5 フォールバック（オフライン／API 不通時）
+
+［取込用 CSV をダウンロード（フォールバック）］を残してある。同じ入力テーブルから
+**Shopify 標準ヘッダーの CSV（UTF-8 + BOM）** を生成してブラウザでダウンロードし、
+管理画面の import に流せる。**API トークンが用意できない環境のレビュー用**にも有効。
+
+### 7.6 16d の動作確認チェックリスト
+
+- [ ] ［接続テスト］でストア名が返る
+- [ ] 初回 ［ストアに同期］で商品が**新規作成**され、「✓ 新規 …」と記録される
+- [ ] 同じハンドルで再同期すると **更新**になり、画像が増殖しない（既存 media 数が 1 のまま）
+- [ ] 価格・在庫・SKU の変更が反映される
+- [ ] `公開状態=下書き` の行は管理画面で Draft、`Published on online store` が FALSE
+- [ ] わざと不正値（`価格 = "高め"` 等）を入れた行は `✗ <理由>` が記録される
+- [ ] トークン無効化後の同期で `認証エラー (401)` メッセージが「同期結果」に出る
+
 ## 参考
 
 - Shopify Help Center「Using CSV files to import and export products」
 - 標準テンプレート CSV（ヘッダー確認用の公式サンプル）: `help.shopify.com/csv/product_template.csv`
+- Shopify Admin GraphQL API: `productSet` ミューテーション / `ProductSetInput` / `ProductVariantSetInput`
+- Google Apps Script: `UrlFetchApp` / `PropertiesService` / `SpreadsheetApp.Ui`
