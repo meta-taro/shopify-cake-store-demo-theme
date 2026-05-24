@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Sweet Atelier">
+  <rect width="32" height="32" rx="6" fill="#f5e8e5"/>
+  <text x="16" y="23"
+        font-family="'Shippori Mincho B1', 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif"
+        font-size="22" font-weight="500" font-style="italic"
+        text-anchor="middle" fill="#3d2b1f"
+        letter-spacing="0">S</text>
+</svg>
