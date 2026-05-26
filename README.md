@@ -5,7 +5,7 @@
 [![Liquid](https://img.shields.io/badge/Liquid-template-2196F3?logo=shopify&logoColor=white)](https://shopify.dev/docs/api/liquid)
 [![Node.js](https://img.shields.io/badge/Node.js-22_LTS-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Shopify CLI](https://img.shields.io/badge/Shopify_CLI-3.x-5E8E3E?logo=shopify&logoColor=white)](https://shopify.dev/docs/themes/tools/cli)
-[![Status](https://img.shields.io/badge/status-Phase_4_complete-brightgreen.svg)](#roadmap)
+[![Status](https://img.shields.io/badge/status-Phase_9_complete_(Phase_16d_done)-brightgreen.svg)](#roadmap)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 Shopify Online Store 2.0 のテーマ開発を学ぶためのデモプロジェクト。架空のケーキ・スイーツEC「**Sweet Atelier**」向けに、Shopify 公式テーマ **Rise** をベースとしてカスタマイズしていく学習用テーマです。
