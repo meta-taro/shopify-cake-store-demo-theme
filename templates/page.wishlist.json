@@ -30,7 +30,7 @@
     "wishlist_main": {
       "type": "wishlist-products",
       "settings": {
-        "heading": "お気に入り",
+        "heading": "",
         "heading_size": "h1",
         "columns_desktop": 4,
         "columns_mobile": "2",

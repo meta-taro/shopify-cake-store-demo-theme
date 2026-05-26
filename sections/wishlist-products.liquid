@@ -51,9 +51,11 @@
     data-section-id="{{ section.id }}"
     data-root-url="{{ routes.root_url }}"
   >
-    <h2 class="wishlist__heading inline-richtext {{ section.settings.heading_size }}">
-      {{ section.settings.heading }}
-    </h2>
+    {%- if section.settings.heading != blank -%}
+      <h2 class="wishlist__heading inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
 
     <ul
       data-wishlist-grid

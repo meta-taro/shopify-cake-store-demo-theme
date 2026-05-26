@@ -91,6 +91,13 @@
   display: none;
 }
 
+/* カスタム要素 <wishlist-products> は既定で display:inline 扱いになり、
+   page-width / section-padding / grid が機能しなくなる（画面端まで広がる・余白ゼロ）。
+   ブロック化して内側のレイアウトを正常に効かせる。 */
+wishlist-products {
+  display: block;
+}
+
 /* お気に入り一覧の空状態 */
 .wishlist-empty {
   text-align: center;
